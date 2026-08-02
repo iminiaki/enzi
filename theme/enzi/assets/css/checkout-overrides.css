@@ -1,0 +1,445 @@
+/**
+ * Checkout overrides — loaded after plugin styles (wp_enqueue_scripts @ 999).
+ */
+
+body.diako-checkout-page {
+	overflow-x: clip;
+}
+
+body.diako-checkout-page .diako-checkout,
+body.diako-checkout-page .diako-checkout-layout,
+body.diako-checkout-page .diako-checkout__main,
+body.diako-checkout-page .diako-checkout__sidebar,
+body.diako-checkout-page .diako-checkout__sidebar-coupon,
+body.diako-checkout-page .diako-checkout-review {
+	max-width: 100%;
+	min-width: 0;
+}
+
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table .product-name {
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 639px) {
+	body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tbody .product-total,
+	body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tfoot .cart-subtotal td,
+	body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tfoot .order-total td {
+		white-space: normal;
+	}
+
+	body.diako-checkout-page .diako-checkout-review .diako-shipping-method__content--split {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	body.diako-checkout-page .diako-checkout-review .diako-shipping-method__price {
+		white-space: normal;
+	}
+
+	body.diako-checkout-page .diako-coupon-totals__row {
+		flex-wrap: wrap;
+		row-gap: 0.5rem;
+	}
+}
+
+body.diako-checkout-page .woocommerce form .form-row,
+body.diako-edit-address-page .diako-account-address-form .form-row {
+	float: none;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+body.diako-checkout-page .woocommerce form .form-row-first,
+body.diako-checkout-page .woocommerce form .form-row-last,
+body.diako-edit-address-page .diako-account-address-form .form-row-first,
+body.diako-edit-address-page .diako-account-address-form .form-row-last {
+	float: none;
+	width: 100%;
+}
+
+body.diako-checkout-page .woocommerce form .form-row input.input-text,
+body.diako-checkout-page .woocommerce form .form-row select,
+body.diako-checkout-page .woocommerce-checkout .form-row select,
+body.diako-checkout-page #billing_state,
+body.diako-checkout-page #shipping_state,
+body.diako-checkout-page #billing_city,
+body.diako-checkout-page #shipping_city,
+body.diako-checkout-page #billing_district,
+body.diako-checkout-page #shipping_district,
+body.diako-edit-address-page .diako-account-address-form .form-row input.input-text,
+body.diako-edit-address-page .diako-account-address-form .form-row select,
+body.diako-edit-address-page #billing_state,
+body.diako-edit-address-page #shipping_state,
+body.diako-edit-address-page #billing_city,
+body.diako-edit-address-page #shipping_city,
+body.diako-edit-address-page #billing_district,
+body.diako-edit-address-page #shipping_district {
+	box-sizing: border-box;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 0;
+	min-height: 2.75rem;
+	margin: 0;
+	border-radius: 0.75rem;
+	border: 1px solid hsl(var(--input));
+	background-color: hsl(var(--background));
+	color: hsl(var(--foreground));
+	font: inherit;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+body.diako-checkout-page .woocommerce form .form-row select,
+body.diako-checkout-page .woocommerce-checkout .form-row select,
+body.diako-checkout-page .diako-checkout-field__select,
+body.diako-edit-address-page .diako-account-address-form .form-row select,
+body.diako-edit-address-page .diako-account-address-form .diako-checkout-field__select {
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	appearance: none !important;
+	padding-inline: 0.875rem 2.5rem !important;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+	background-repeat: no-repeat !important;
+	background-position: left 0.875rem center !important;
+	background-size: 1rem !important;
+	cursor: pointer;
+}
+
+body.diako-checkout-page .woocommerce form .form-row input.input-text:focus,
+body.diako-checkout-page .woocommerce form .form-row textarea:focus,
+body.diako-checkout-page .woocommerce form .form-row select:focus,
+body.diako-edit-address-page .diako-account-address-form .form-row input.input-text:focus,
+body.diako-edit-address-page .diako-account-address-form .form-row textarea:focus,
+body.diako-edit-address-page .diako-account-address-form .form-row select:focus {
+	outline: none;
+	border-color: hsl(var(--primary) / 0.4);
+	box-shadow: 0 0 0 2px hsl(var(--primary) / 0.15);
+}
+
+body.diako-checkout-page form.checkout_coupon {
+	display: block !important;
+	margin: 0;
+	padding: 0;
+}
+
+body.diako-checkout-page form.checkout_coupon .diako-checkout-coupon__row {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+	body.diako-checkout-page form.checkout_coupon .diako-checkout-coupon__row {
+		flex-direction: row;
+		align-items: flex-start;
+	}
+}
+
+body.diako-checkout-page form.checkout_coupon .diako-checkout-coupon__input-wrap {
+	flex: 1 1 0%;
+	min-width: 0;
+}
+
+body.diako-checkout-page form.checkout_coupon .diako-checkout-coupon__input {
+	box-sizing: border-box;
+	display: flex;
+	width: 100% !important;
+	max-width: none !important;
+	height: 2.75rem;
+	margin: 0;
+	border-radius: 0.75rem;
+	border: 1px solid hsl(var(--input));
+	background-color: hsl(var(--background));
+	color: hsl(var(--foreground));
+	font: inherit;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	float: none !important;
+}
+
+body.diako-checkout-page form.checkout_coupon .diako-checkout-coupon__button.button {
+	float: none !important;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 2.75rem;
+	min-height: 2.75rem;
+	margin: 0;
+	padding-inline: 1.25rem;
+	border-radius: 0.75rem;
+	border: 1px solid hsl(var(--primary));
+	background: hsl(var(--primary)) !important;
+	color: hsl(var(--primary-foreground)) !important;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+@media (min-width: 640px) {
+	body.diako-checkout-page form.checkout_coupon .diako-checkout-coupon__button.button {
+		width: auto;
+		flex-shrink: 0;
+	}
+}
+
+body.diako-checkout-page form.checkout_coupon .diako-checkout-coupon__button.button:hover {
+	background: hsl(var(--primary) / 0.9) !important;
+	color: hsl(var(--primary-foreground)) !important;
+}
+
+body.diako-checkout-page form.checkout_coupon .coupon-error-notice {
+	display: block;
+	width: 100%;
+	margin-top: 0.5rem;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	text-align: right;
+	color: hsl(var(--destructive));
+}
+
+body.diako-checkout-page .woocommerce-shipping-fields #ship-to-different-address {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+
+body.diako-checkout-page .woocommerce-shipping-fields #ship-to-different-address-checkbox {
+	margin: 0;
+}
+
+body.diako-checkout-page .woocommerce-billing-fields__field-wrapper::before,
+body.diako-checkout-page .woocommerce-billing-fields__field-wrapper::after,
+body.diako-checkout-page .woocommerce-shipping-fields__field-wrapper::before,
+body.diako-checkout-page .woocommerce-shipping-fields__field-wrapper::after {
+	display: none;
+}
+
+/*
+ * Persian WooCommerce state/city/district selects are upgraded to SelectWoo,
+ * which keeps the original <select> as a clipped, position:absolute accessibility
+ * node (.select2-hidden-accessible, normally width:1px). Our width:100% overrides
+ * on #billing_state / .form-row select also hit that hidden node, blowing it up to
+ * full width; because it is absolutely positioned it escapes the grid column and
+ * pushes the RTL layout, causing horizontal scroll on mobile. Keep it clipped.
+ */
+body.diako-checkout-page select.select2-hidden-accessible,
+body.diako-checkout-page #billing_state.select2-hidden-accessible,
+body.diako-checkout-page #billing_city.select2-hidden-accessible,
+body.diako-checkout-page #billing_district.select2-hidden-accessible,
+body.diako-checkout-page #shipping_state.select2-hidden-accessible,
+body.diako-checkout-page #shipping_city.select2-hidden-accessible,
+body.diako-checkout-page #shipping_district.select2-hidden-accessible,
+body.diako-edit-address-page select.select2-hidden-accessible,
+body.diako-edit-address-page #billing_state.select2-hidden-accessible,
+body.diako-edit-address-page #billing_city.select2-hidden-accessible,
+body.diako-edit-address-page #billing_district.select2-hidden-accessible,
+body.diako-edit-address-page #shipping_state.select2-hidden-accessible,
+body.diako-edit-address-page #shipping_city.select2-hidden-accessible,
+body.diako-edit-address-page #shipping_district.select2-hidden-accessible {
+	position: absolute !important;
+	width: 1px !important;
+	min-width: 0 !important;
+	max-width: 1px !important;
+	height: 1px !important;
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	overflow: hidden !important;
+	clip: rect(0 0 0 0) !important;
+}
+
+/* SelectWoo (province / city from persian-woocommerce-shipping) */
+body.diako-checkout-page .form-row .select2-container,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container {
+	display: block;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 0;
+	margin: 0;
+}
+
+body.diako-checkout-page .form-row .select2-container .select2-selection--single,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container .select2-selection--single {
+	box-sizing: border-box;
+	height: 2.75rem !important;
+	min-height: 2.75rem;
+	max-width: 100%;
+	margin: 0;
+	border: 1px solid hsl(var(--input));
+	border-radius: 0.75rem;
+	background-color: hsl(var(--background));
+	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+body.diako-checkout-page .form-row .select2-container--default .select2-selection--single .select2-selection__rendered,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--default .select2-selection--single .select2-selection__rendered {
+	padding-inline: 0.875rem 2.5rem !important;
+	color: hsl(var(--foreground));
+	font-size: 0.875rem;
+	line-height: 2.75rem !important;
+}
+
+body.diako-checkout-page .form-row .select2-container--default .select2-selection--single .select2-selection__placeholder,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--default .select2-selection--single .select2-selection__placeholder {
+	color: hsl(var(--muted-foreground));
+}
+
+body.diako-checkout-page .form-row .select2-container--default .select2-selection--single .select2-selection__arrow,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--default .select2-selection--single .select2-selection__arrow {
+	top: 0;
+	width: 2.5rem;
+	height: 2.75rem;
+}
+
+body.diako-checkout-page .form-row .select2-container--default .select2-selection--single .select2-selection__arrow b,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--default .select2-selection--single .select2-selection__arrow b {
+	display: none;
+}
+
+body.diako-checkout-page .form-row .select2-container--default .select2-selection--single .select2-selection__arrow::after,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--default .select2-selection--single .select2-selection__arrow::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 1rem;
+	height: 1rem;
+	transform: translate(-50%, -50%);
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+body.diako-checkout-page .form-row .select2-container--default[dir='rtl'] .select2-selection--single .select2-selection__arrow,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--default[dir='rtl'] .select2-selection--single .select2-selection__arrow {
+	left: 0.375rem;
+	right: auto;
+}
+
+body.diako-checkout-page .form-row .select2-container--default:not([dir='rtl']) .select2-selection--single .select2-selection__arrow,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--default:not([dir='rtl']) .select2-selection--single .select2-selection__arrow {
+	right: 0.375rem;
+	left: auto;
+}
+
+body.diako-checkout-page .form-row .select2-container--open .select2-selection--single,
+body.diako-checkout-page .form-row .select2-container--focus .select2-selection--single,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--open .select2-selection--single,
+body.diako-edit-address-page .diako-account-address-form .form-row .select2-container--focus .select2-selection--single {
+	border-color: hsl(var(--primary) / 0.4) !important;
+	box-shadow: 0 0 0 2px hsl(var(--primary) / 0.15);
+	outline: none;
+}
+
+body.diako-checkout-page .select2-dropdown,
+body.diako-edit-address-page .select2-dropdown {
+	border: 1px solid hsl(var(--border));
+	border-radius: 0.75rem;
+	background-color: hsl(var(--background));
+	color: hsl(var(--foreground));
+	box-shadow: 0 10px 25px -10px rgb(0 0 0 / 0.15);
+	overflow: hidden;
+}
+
+body.diako-checkout-page .select2-container--default .select2-results__option,
+body.diako-edit-address-page .select2-container--default .select2-results__option {
+	padding: 0.5rem 0.875rem;
+	font-size: 0.875rem;
+}
+
+body.diako-checkout-page .select2-container--default .select2-results__option--highlighted[aria-selected],
+body.diako-checkout-page .select2-container--default .select2-results__option--highlighted[data-selected],
+body.diako-edit-address-page .select2-container--default .select2-results__option--highlighted[aria-selected],
+body.diako-edit-address-page .select2-container--default .select2-results__option--highlighted[data-selected] {
+	background-color: hsl(var(--primary));
+	color: hsl(var(--primary-foreground));
+}
+
+body.diako-checkout-page .select2-container--default .select2-search--dropdown .select2-search__field,
+body.diako-edit-address-page .select2-container--default .select2-search--dropdown .select2-search__field {
+	border: 1px solid hsl(var(--input));
+	border-radius: 0.5rem;
+	padding: 0.375rem 0.625rem;
+	font-size: 0.875rem;
+}
+
+body.diako-checkout-page .select2-container--default.select2-container--open.select2-container--below .select2-selection--single,
+body.diako-checkout-page .form-row .select2-container--default.select2-container--open.select2-container--below .select2-selection--single {
+	border-bottom-left-radius: 0.75rem;
+	border-bottom-right-radius: 0.75rem;
+}
+
+body.diako-checkout-page .select2-container--default.select2-container--open.select2-container--above .select2-selection--single,
+body.diako-checkout-page .form-row .select2-container--default.select2-container--open.select2-container--above .select2-selection--single {
+	border-top-left-radius: 0.75rem;
+	border-top-right-radius: 0.75rem;
+}
+
+/* Shipping totals: keep label + methods as two columns (override WC shop_table_responsive). */
+.woocommerce table.shop_table_responsive tr.woocommerce-shipping-totals,
+.woocommerce-page table.shop_table_responsive tr.woocommerce-shipping-totals,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals {
+	display: table-row !important;
+}
+
+.woocommerce table.shop_table_responsive tr.woocommerce-shipping-totals td.diako-shipping-totals-cell,
+.woocommerce-page table.shop_table_responsive tr.woocommerce-shipping-totals td.diako-shipping-totals-cell,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals td,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals .diako-shipping-totals-cell {
+	display: table-cell !important;
+	text-align: right !important;
+	border: 0 !important;
+	border-top: 0 !important;
+	border-bottom: 0 !important;
+	box-shadow: none !important;
+}
+
+.woocommerce table.shop_table_responsive tr.woocommerce-shipping-totals td.diako-shipping-totals-cell::before,
+.woocommerce-page table.shop_table_responsive tr.woocommerce-shipping-totals td.diako-shipping-totals-cell::before,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals td::before,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals .diako-shipping-totals-cell::before {
+	display: none !important;
+	content: none !important;
+}
+
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table thead,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tbody,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tfoot,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table tr,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table th,
+body.diako-checkout-page .diako-checkout-review .woocommerce-checkout-review-order-table td {
+	border: 0 !important;
+}
+
+.woocommerce table.shop_table_responsive tr.cart-discount,
+.woocommerce-page table.shop_table_responsive tr.cart-discount {
+	display: table-row !important;
+}
+
+.woocommerce table.shop_table_responsive tr.cart-discount td.diako-coupon-totals-cell,
+.woocommerce-page table.shop_table_responsive tr.cart-discount td.diako-coupon-totals-cell {
+	display: table-cell !important;
+	text-align: start !important;
+}
+
+.woocommerce table.shop_table_responsive tr.cart-discount td.diako-coupon-totals-cell::before,
+.woocommerce-page table.shop_table_responsive tr.cart-discount td.diako-coupon-totals-cell::before {
+	display: none !important;
+	content: none !important;
+}

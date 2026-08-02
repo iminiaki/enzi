@@ -1,0 +1,18 @@
+{
+  "name": "lastify-theme",
+  "version": "1.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "tailwindcss -i ./src/globals.css -o ./assets/css/main.css --watch",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "tailwindcss -i ./src/globals.css -o ./assets/css/main.css --minify",
+    "build:js": "terser assets/js/main.js -o assets/js/main.min.js -c -m && terser assets/js/carousel.js -o assets/js/carousel.min.js -c -m && terser assets/js/stock-notify.js -o assets/js/stock-notify.min.js -c -m"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tailwindcss-animate": "^1.0.7",
+    "terser": "^5.48.0"
+  }
+}

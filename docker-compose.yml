@@ -1,0 +1,75 @@
+services:
+  db:
+    image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: ./docker/wordpress
+    ports:
+      - "${WP_PORT:-8081}:80"
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      ENZI_RECAPTCHA_SITE_KEY: ${ENZI_RECAPTCHA_SITE_KEY:-}
+      ENZI_RECAPTCHA_SECRET_KEY: ${ENZI_RECAPTCHA_SECRET_KEY:-}
+      WORDPRESS_CONFIG_EXTRA: |
+        if ( file_exists( '/var/www/html/enzi-config/wp-config-security.php' ) ) {
+          require '/var/www/html/enzi-config/wp-config-security.php';
+        } else {
+          if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) { define( 'DISALLOW_FILE_EDIT', true ); }
+          if ( ! defined( 'WP_DEBUG' ) ) { define( 'WP_DEBUG', false ); }
+          if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) { define( 'WP_DEBUG_DISPLAY', false ); }
+          if ( ! defined( 'WP_POST_REVISIONS' ) ) { define( 'WP_POST_REVISIONS', 5 ); }
+          if ( ! defined( 'EMPTY_TRASH_DAYS' ) ) { define( 'EMPTY_TRASH_DAYS', 7 ); }
+        }
+    volumes:
+      - wp_data:/var/www/html
+      - ./theme/enzi:/var/www/html/wp-content/themes/enzi
+      - ./theme/enzi-child:/var/www/html/wp-content/themes/enzi-child
+      - ./scripts:/scripts
+      - ./config:/var/www/html/enzi-config
+
+  wpcli:
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    image: wordpress:cli
+    user: "33:33"
+    volumes:
+      - wp_data:/var/www/html
+      - ./theme/enzi:/var/www/html/wp-content/themes/enzi
+      - ./theme/enzi-child:/var/www/html/wp-content/themes/enzi-child
+      - ./scripts:/scripts
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+    entrypoint: wp
+    profiles:
+      - tools
+
+volumes:
+  db_data:
+  wp_data:

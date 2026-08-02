@@ -1,0 +1,83 @@
+#adminmenu .toplevel_page_lastify .wp-menu-image img {
+	height: 20px;
+	margin-top: 6px;
+	object-fit: contain;
+	padding: 0;
+	width: 20px;
+}
+
+.lastify-settings__form {
+	margin-top: 1rem;
+	max-width: 960px;
+}
+
+.lastify-settings__card {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	margin: 1rem 0 1.5rem;
+	padding: 0.5rem 1rem 1rem;
+}
+
+.lastify-settings__card h3 {
+	margin-top: 0.75rem;
+}
+
+.lastify-hero-slide-row__header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.lastify-hero-slide-row__delete {
+	font-size: 13px;
+}
+
+.lastify-hero-slide-row__preview img {
+	max-height: 120px;
+	max-width: 240px;
+}
+
+.lastify-image-field__preview {
+	margin-top: 0.75rem;
+}
+
+.lastify-color-field {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.lastify-color-field input[type='color'] {
+	background: transparent;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	cursor: pointer;
+	height: 40px;
+	padding: 2px;
+	width: 56px;
+}
+
+.lastify-color-field__alpha {
+	align-items: center;
+	display: inline-flex;
+	gap: 0.5rem;
+}
+
+.lastify-color-field__alpha input[type='range'] {
+	width: 120px;
+}
+
+.lastify-color-field__value {
+	min-width: 220px;
+}
+
+.lastify-image-field__preview img {
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	display: block;
+	max-height: 160px;
+	max-width: 320px;
+	object-fit: cover;
+}

@@ -1,0 +1,5754 @@
+@font-face {
+  font-family: 'Vazirmatn';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/vazirmatn.woff2') format('woff2');
+}
+
+/* Theme tokens must live outside @tailwind layers so Tailwind doesn't strip them. */
+:root {
+  /* Enzi brand: #641F8C → #F5ED77 → #FBEAFE (background unchanged) */
+  --background: 0 0% 100%;
+  --foreground: 222 22% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 22% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 22% 12%;
+  --primary: 278 64% 34%;
+  --primary-foreground: 0 0% 100%;
+  --brand-orange: 56 86% 71%;
+  --secondary: 291 91% 96%;
+  --secondary-foreground: 222 22% 12%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  --accent: 291 91% 96%;
+  --accent-foreground: 222 22% 12%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 278 64% 34%;
+  --steel: 220 8% 30%;
+  --radius: 0.75rem;
+  color-scheme: light;
+}
+
+html.dark {
+  --background: 222 22% 6%;
+  --foreground: 210 20% 96%;
+  --card: 222 18% 10%;
+  --card-foreground: 210 20% 96%;
+  --popover: 222 18% 10%;
+  --popover-foreground: 210 20% 96%;
+  --primary: 278 70% 52%;
+  --primary-foreground: 0 0% 100%;
+  --brand-orange: 56 86% 65%;
+  --secondary: 220 14% 16%;
+  --secondary-foreground: 210 20% 96%;
+  --muted: 220 14% 16%;
+  --muted-foreground: 215 14% 62%;
+  --accent: 278 28% 18%;
+  --accent-foreground: 210 20% 96%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 14% 18%;
+  --input: 220 14% 18%;
+  --ring: 278 70% 52%;
+  --steel: 0 0% 75%;
+  color-scheme: dark;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth overflow-x-clip;
+  }
+
+  body {
+    @apply min-h-screen overflow-x-clip bg-background font-sans text-foreground antialiased;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+  }
+
+  .diako-phone-ltr,
+  input[type='tel'],
+  input[name='phone'],
+  #billing_phone,
+  #shipping_phone {
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: left;
+  }
+
+  main {
+    @apply min-w-0 overflow-x-clip;
+  }
+
+  #sidebar,
+  .widget-area,
+  aside.sidebar {
+    @apply hidden !important;
+  }
+
+  .menu,
+  .menu ul {
+    @apply m-0 list-none p-0;
+  }
+
+  img {
+    @apply h-auto max-w-full;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+
+  .screen-reader-text {
+    @apply sr-only;
+  }
+}
+
+@layer components {
+  .site-header--overlay {
+    @apply border-b border-border/20 bg-background/80 backdrop-blur-sm supports-[backdrop-filter]:bg-background/70;
+  }
+
+  .site-header--overlay:not(.is-scrolled) .menu a,
+  .site-header--overlay:not(.is-scrolled) .diako-logo {
+    @apply text-foreground;
+  }
+
+  .site-header--overlay:not(.is-scrolled) .diako-button:not(.bg-primary) {
+    @apply text-foreground;
+  }
+
+  .diako-button.bg-primary,
+  .diako-button.bg-primary:hover,
+  .diako-button.bg-primary:focus-visible {
+    color: hsl(0 0% 100%);
+  }
+
+  .site-header--overlay.is-scrolled {
+    @apply border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60;
+  }
+
+  .site-header .menu {
+    @apply flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-1;
+  }
+
+  .site-header .menu > li {
+    @apply list-none;
+  }
+
+  .site-header {
+    --diako-header-height: 4rem;
+    @apply relative;
+  }
+
+  .site-header > .container {
+    @apply relative;
+  }
+
+  .site-header [data-nav-toggle] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    @apply relative z-[2];
+  }
+
+  .diako-header-search-overlay {
+    @apply fixed inset-0 z-[100];
+  }
+
+  .diako-header-search-overlay[hidden] {
+    @apply hidden;
+  }
+
+  .diako-header-search__backdrop {
+    @apply absolute inset-0 bg-black/45 backdrop-blur-[3px];
+  }
+
+  html.dark .diako-header-search__backdrop {
+    @apply bg-black/65 backdrop-blur-sm;
+  }
+
+  .diako-header-search__panel {
+    @apply absolute inset-x-0 max-h-[calc(100dvh-var(--diako-header-height))] overflow-y-auto overscroll-contain border-b border-border/80 bg-background px-0 py-3 shadow-[0_20px_50px_-16px_rgba(0,0,0,0.35)] sm:py-4;
+    top: var(--diako-header-height);
+    z-index: 1;
+  }
+
+  .diako-header-search__inner {
+    @apply flex min-w-0 flex-col gap-2.5 sm:gap-3;
+  }
+
+  .diako-header-search__form {
+    @apply sticky top-0 z-[1] m-0 min-w-0 border-b border-transparent bg-background/95 py-0 backdrop-blur-md supports-[backdrop-filter]:bg-background/90;
+  }
+
+  .diako-header-search__panel:has(.diako-header-search__results:not([hidden])) .diako-header-search__form {
+    @apply border-border/60;
+  }
+
+  .diako-header-search__bar {
+    @apply flex min-w-0 flex-row items-center gap-2;
+  }
+
+  .diako-header-search__field {
+    @apply relative flex h-11 min-w-0 flex-1 items-center gap-2 rounded-xl border border-border/80 bg-card px-2 shadow-sm transition-[border-color,box-shadow] duration-200 focus-within:border-primary/35 focus-within:shadow-md focus-within:ring-2 focus-within:ring-primary/15 sm:h-[3.25rem] sm:gap-3 sm:rounded-2xl sm:px-3;
+  }
+
+  .diako-header-search__field-icon {
+    @apply inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary sm:size-10 sm:rounded-xl;
+  }
+
+  .diako-header-search__field-icon svg {
+    @apply h-4 w-4 stroke-[2.25] sm:h-5 sm:w-5;
+  }
+
+  .diako-header-search__input {
+    @apply m-0 h-9 min-w-0 flex-1 border-0 bg-transparent py-0 text-sm text-foreground shadow-none outline-none ring-0 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 sm:h-11 sm:text-base;
+  }
+
+  .diako-header-search__actions {
+    @apply flex shrink-0 items-center gap-1.5 sm:gap-2;
+  }
+
+  .diako-header-search__submit.diako-button {
+    @apply h-11 w-11 min-w-0 shrink-0 gap-0 rounded-xl px-0 shadow-md sm:h-[3.25rem] sm:w-auto sm:min-w-[7.5rem] sm:gap-2 sm:rounded-2xl sm:px-5;
+  }
+
+  .diako-header-search__submit-label {
+    @apply hidden sm:inline;
+  }
+
+  .diako-header-search__close {
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-card text-muted-foreground shadow-sm transition-colors hover:border-border hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 sm:h-[3.25rem] sm:w-[3.25rem] sm:rounded-2xl;
+  }
+
+  .diako-header-search__close svg {
+    @apply stroke-[2.25];
+  }
+
+  .diako-header-search__results {
+    @apply overflow-hidden overflow-y-auto rounded-2xl border border-border/80 bg-card shadow-lg;
+    max-height: min(24rem, calc(100dvh - var(--diako-header-height) - 7rem));
+  }
+
+  .diako-header-search__results:not([hidden]) {
+    @apply block;
+  }
+
+  .diako-header-search__status {
+    @apply px-5 py-4 text-center text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .diako-header-search__list {
+    @apply m-0 list-none divide-y divide-border/70 p-0;
+  }
+
+  .diako-header-search__item-link {
+    @apply flex items-center gap-4 px-4 py-3.5 no-underline transition-colors hover:bg-muted/50;
+  }
+
+  .diako-header-search__thumb {
+    @apply size-14 shrink-0 overflow-hidden rounded-xl border border-border/60 bg-muted/60 object-cover;
+  }
+
+  .diako-header-search__thumb:not(img) {
+    @apply bg-gradient-to-br from-muted to-muted/30;
+  }
+
+  .diako-header-search__meta {
+    @apply min-w-0 flex-1;
+  }
+
+  .diako-header-search__name {
+    @apply line-clamp-2 text-sm font-semibold leading-snug text-foreground;
+  }
+
+  .diako-header-search__price {
+    @apply mt-1.5 text-sm font-bold text-primary;
+  }
+
+  .diako-header-search__price .woocommerce-Price-amount {
+    @apply text-primary;
+  }
+
+  .woocommerce-Price-amount {
+    direction: rtl;
+    unicode-bidi: plaintext;
+    white-space: nowrap;
+  }
+
+  .woocommerce-Price-amount .woocommerce-Price-currencySymbol {
+    @apply ms-1;
+  }
+
+  .diako-header-search__footer {
+    @apply sticky bottom-0 border-t border-border/80 bg-card/95 px-4 py-3 backdrop-blur-sm;
+  }
+
+  .diako-header-search__view-all {
+    @apply inline-flex w-full items-center justify-center rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground no-underline shadow-sm transition-[transform,background-color,box-shadow] hover:-translate-y-px hover:bg-primary/90 hover:shadow-md;
+  }
+
+  body.diako-header-search-open {
+    @apply overflow-hidden;
+  }
+
+  .site-footer .menu li a,
+  .site-footer .menu > li > a {
+    @apply text-sm text-muted-foreground hover:text-foreground;
+  }
+
+  .nav-link {
+    @apply inline-flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground;
+  }
+
+  .nav-link-active,
+  .current-menu-item > .nav-link,
+  .current-menu-item > a {
+    @apply bg-accent text-foreground;
+  }
+
+  .diako-mobile-nav-backdrop {
+    @apply pointer-events-none fixed inset-0 z-[60] bg-black/50 opacity-0 transition-opacity duration-300 lg:hidden;
+  }
+
+  .diako-mobile-nav-backdrop.is-open {
+    @apply pointer-events-auto opacity-100;
+  }
+
+  .diako-mobile-nav {
+    @apply invisible fixed inset-y-0 left-0 z-[70] w-[min(100%,20rem)] -translate-x-full transition-[transform,visibility] duration-300 ease-out pointer-events-none lg:hidden;
+  }
+
+  .diako-mobile-nav.is-open {
+    @apply visible translate-x-0 pointer-events-auto;
+  }
+
+  .diako-mobile-nav__panel {
+    @apply flex h-full flex-col border-r border-border bg-background shadow-2xl;
+  }
+
+  .diako-mobile-nav__header {
+    @apply flex h-16 shrink-0 items-center justify-between border-b border-border px-4;
+  }
+
+  .diako-mobile-nav__content {
+    @apply flex flex-1 flex-col gap-4 overflow-y-auto p-4;
+  }
+
+  .diako-mobile-nav .menu {
+    @apply flex flex-col gap-1;
+  }
+
+  .diako-mobile-nav .menu .sub-menu {
+    @apply m-0 mt-1 flex list-none flex-col gap-1 border-s border-border/60 ps-4;
+  }
+
+  .diako-submenu-indicator {
+    @apply inline-flex shrink-0 items-center text-muted-foreground transition-transform duration-200;
+  }
+
+  .diako-submenu-indicator svg {
+    @apply h-3.5 w-3.5;
+  }
+
+  .diako-menu-item-label {
+    @apply min-w-0 flex-1 text-start;
+  }
+
+  .site-header .menu-item-has-children > .nav-link,
+  .site-header .menu-item-has-children > a {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .site-header .menu .sub-menu > li {
+    @apply w-full;
+  }
+
+  .site-header .menu .sub-menu > li > .nav-link,
+  .site-header .menu .sub-menu > li > a {
+    @apply flex w-full items-center gap-3 rounded-md px-3 py-2;
+  }
+
+  .site-header .menu .sub-menu .menu-item-has-children > .nav-link,
+  .site-header .menu .sub-menu .menu-item-has-children > a {
+    @apply justify-between;
+  }
+
+  .site-header .sub-menu .diako-submenu-indicator--nested {
+    @apply shrink-0;
+  }
+
+  .diako-mobile-nav .sub-menu .menu-item-has-children > .nav-link,
+  .diako-mobile-nav .sub-menu .menu-item-has-children > a {
+    @apply flex w-full items-center justify-between gap-3;
+  }
+
+  .diako-mobile-nav .sub-menu .diako-submenu-indicator--nested {
+    @apply shrink-0;
+  }
+
+  .diako-mobile-nav .menu-item-has-children > .nav-link,
+  .diako-mobile-nav .menu-item-has-children > a {
+    @apply flex w-full items-center justify-between gap-2;
+  }
+
+  .diako-mobile-nav .menu-item-has-children.is-open > .nav-link .diako-submenu-indicator,
+  .diako-mobile-nav .menu-item-has-children.is-open > a .diako-submenu-indicator {
+    @apply rotate-180;
+  }
+
+  .diako-mobile-nav .menu-item-has-children:not(.is-open) > .sub-menu {
+    @apply hidden;
+  }
+
+  .diako-mobile-nav .sub-menu .nav-link,
+  .diako-mobile-nav .sub-menu > li > a {
+    @apply px-3 py-2 text-sm;
+  }
+
+  .site-header .menu .sub-menu {
+    @apply absolute start-0 top-full z-50 mt-2 hidden min-w-56 list-none rounded-lg border border-border bg-popover p-2 shadow-lg;
+  }
+
+  .site-header .menu > .menu-item-has-children > .sub-menu::before {
+    content: '';
+    @apply absolute -top-2 start-0 h-2 w-full;
+  }
+
+  .site-header .menu-item-has-children {
+    @apply relative;
+  }
+
+  .site-header .menu-item-has-children:hover > .sub-menu,
+  .site-header .menu-item-has-children:focus-within > .sub-menu {
+    @apply block;
+  }
+
+  .site-header .menu .sub-menu .sub-menu {
+    @apply start-full top-0 ms-2 mt-0;
+  }
+
+  .site-header .menu .sub-menu .menu-item-has-children > .sub-menu::before {
+    content: '';
+    @apply absolute -start-2 top-0 h-full w-2;
+  }
+
+  .diako-mobile-nav .nav-link,
+  .diako-mobile-nav .menu > li > a {
+    @apply w-full px-4 py-3 text-base;
+  }
+
+  .diako-mobile-nav__actions {
+    @apply mt-auto flex items-center gap-2 border-t border-border pt-4;
+  }
+
+  .diako-mobile-nav__actions--tools {
+    @apply justify-start;
+  }
+
+  .diako-mobile-nav__theme-toggle {
+    @apply h-11 w-full justify-start gap-3 rounded-xl px-4 text-sm font-medium text-foreground;
+  }
+
+  body.diako-mobile-nav-open {
+    @apply overflow-hidden;
+  }
+
+  .diako-coming-soon {
+    @apply min-h-screen;
+  }
+
+  .diako-coming-soon__backdrop {
+    @apply pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top_right,hsl(var(--primary)/0.18),transparent_42%),linear-gradient(180deg,hsl(var(--muted)/0.45),transparent_35%)];
+  }
+
+  .diako-coming-soon__page {
+    @apply relative flex min-h-screen items-center justify-center px-4 py-10;
+  }
+
+  .diako-coming-soon__theme {
+    @apply absolute end-4 top-4;
+  }
+
+  .diako-coming-soon__card {
+    @apply relative w-full max-w-xl rounded-3xl border bg-card/95 p-8 text-center shadow-xl backdrop-blur md:p-10;
+  }
+
+  .diako-coming-soon__logo {
+    @apply mx-auto mb-8 inline-flex;
+  }
+
+  .diako-coming-soon__logo-image {
+    @apply h-10 md:h-11;
+  }
+
+  .diako-coming-soon__content {
+    @apply mx-auto mb-8 max-w-lg space-y-4;
+  }
+
+  .diako-coming-soon__title {
+    @apply text-2xl font-bold leading-tight tracking-tight md:text-3xl;
+  }
+
+  .diako-coming-soon__desc {
+    @apply text-sm leading-8 text-muted-foreground md:text-base;
+  }
+
+  .diako-coming-soon__form {
+    @apply mx-auto mb-2 flex max-w-md flex-col gap-3 sm:flex-row sm:items-stretch;
+  }
+
+  .diako-coming-soon__input {
+    @apply w-full sm:flex-1;
+  }
+
+  .diako-coming-soon__submit {
+    @apply w-full sm:w-auto;
+  }
+
+  .diako-coming-soon__card::before {
+    content: '';
+    @apply pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent;
+  }
+
+  .diako-coming-soon__card::before {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-primary;
+  }
+
+  .diako-coming-soon__countdown {
+    @apply mx-auto mb-8 grid max-w-md grid-cols-2 gap-3 sm:grid-cols-4;
+  }
+
+  .diako-coming-soon__countdown-item {
+    @apply rounded-2xl border border-border/80 bg-muted/30 px-3 py-4 text-center shadow-sm;
+  }
+
+  .diako-coming-soon__countdown-value {
+    @apply block text-2xl font-bold tabular-nums tracking-tight md:text-3xl;
+  }
+
+  .diako-coming-soon__countdown-label {
+    @apply mt-1 block text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-coming-soon__notice {
+    @apply mx-auto mt-3 max-w-md text-sm font-medium text-primary;
+  }
+
+  .diako-coming-soon__notice.is-error {
+    @apply text-destructive;
+  }
+
+  .diako-coming-soon__contact {
+    @apply mx-auto mb-6 mt-8 flex flex-wrap items-center justify-center gap-3;
+  }
+
+  .diako-coming-soon__contact-link {
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground no-underline transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary;
+  }
+
+  .diako-coming-soon__footer {
+    @apply border-t border-border/60 pt-6 text-xs leading-7 text-muted-foreground;
+  }
+
+  .diako-error-page {
+    @apply relative flex flex-1 flex-col overflow-hidden;
+  }
+
+  .diako-error-page__backdrop {
+    @apply pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,hsl(var(--primary)/0.2),transparent_46%),radial-gradient(circle_at_bottom_left,hsl(var(--secondary)/0.12),transparent_42%),linear-gradient(180deg,hsl(var(--muted)/0.45),transparent_38%)];
+  }
+
+  .diako-error-page__inner {
+    @apply relative flex flex-1 items-center justify-center px-4 py-16 md:py-24;
+  }
+
+  .diako-error-page__card {
+    @apply relative mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border bg-card/95 p-8 text-center shadow-xl backdrop-blur md:p-12;
+  }
+
+  .diako-error-page__card::before {
+    content: '';
+    @apply pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent;
+  }
+
+  .diako-error-page__badge {
+    @apply mx-auto mb-6 inline-flex size-14 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary shadow-sm;
+  }
+
+  .diako-error-page__code {
+    @apply mb-4 bg-gradient-to-b from-primary to-primary/55 bg-clip-text text-7xl font-black leading-none tracking-tight text-transparent md:text-8xl;
+  }
+
+  .diako-error-page__content {
+    @apply mx-auto mb-8 max-w-lg space-y-3;
+  }
+
+  .diako-error-page__title {
+    @apply text-2xl font-bold leading-tight tracking-tight md:text-3xl;
+  }
+
+  .diako-error-page__desc {
+    @apply text-sm leading-8 text-muted-foreground md:text-base;
+  }
+
+  .diako-error-page__search {
+    @apply mx-auto mb-8 flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:items-stretch;
+  }
+
+  .diako-error-page__search-field {
+    @apply relative flex min-w-0 flex-1 items-center;
+  }
+
+  .diako-error-page__search-icon {
+    @apply pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-muted-foreground;
+  }
+
+  .diako-error-page__search-input {
+    @apply h-[46px] w-full rounded-2xl border border-input bg-background py-2 ps-12 pe-4 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+  }
+
+  .diako-error-page__actions {
+    @apply mb-8 flex flex-wrap items-center justify-center gap-3;
+  }
+
+  .diako-error-page__links {
+    @apply flex flex-wrap items-center justify-center gap-2 border-t border-border pt-6;
+  }
+
+  .diako-error-page__link {
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground no-underline transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary;
+  }
+
+  .diako-legal-page {
+    @apply max-w-6xl;
+  }
+
+  .diako-legal-page__hero {
+    @apply mb-8 flex flex-col items-start gap-5 rounded-3xl border border-border bg-card/80 p-6 shadow-sm backdrop-blur sm:flex-row sm:items-center md:p-8;
+  }
+
+  .diako-legal-page__hero-icon {
+    @apply inline-flex size-14 shrink-0 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary;
+  }
+
+  .diako-legal-page__hero-content {
+    @apply min-w-0 space-y-2;
+  }
+
+  .diako-legal-page__updated {
+    @apply text-xs text-muted-foreground;
+  }
+
+  .diako-legal-page__notice {
+    @apply mb-8 flex items-start gap-3 rounded-2xl border border-destructive/25 bg-destructive/5 px-5 py-4 text-sm leading-7 text-destructive;
+  }
+
+  .diako-legal-page__layout {
+    @apply grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)];
+  }
+
+  .diako-legal-page__toc {
+    @apply lg:sticky lg:top-24 lg:self-start;
+  }
+
+  .diako-legal-page__toc-title {
+    @apply mb-3 text-sm font-semibold text-foreground;
+  }
+
+  .diako-legal-page__toc-list {
+    @apply space-y-2 text-sm leading-7;
+  }
+
+  .diako-legal-page__toc-list a {
+    @apply text-muted-foreground no-underline transition-colors hover:text-primary;
+  }
+
+  .diako-legal-page__sections {
+    @apply space-y-4;
+  }
+
+  .diako-legal-section {
+    @apply scroll-mt-28 p-6 md:p-7;
+  }
+
+  .diako-legal-section--highlight {
+    @apply border-destructive/30 bg-destructive/[0.03];
+  }
+
+  .diako-legal-section__title {
+    @apply mb-4 text-lg font-bold tracking-tight md:text-xl;
+  }
+
+  .diako-legal-section__content {
+    @apply text-sm leading-8 text-muted-foreground md:text-[0.9375rem];
+  }
+
+  .diako-legal-list {
+    @apply my-0 list-disc space-y-2 ps-5;
+  }
+
+  .diako-legal-emphasis {
+    @apply mb-4 rounded-xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm font-semibold leading-7 text-destructive;
+  }
+
+  .diako-legal-page__footer {
+    @apply mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-border bg-muted/30 p-6 md:flex-row md:items-center;
+  }
+
+  .diako-legal-page__footer-actions {
+    @apply flex flex-wrap gap-3;
+  }
+
+  .diako-track-order-page {
+    @apply max-w-6xl;
+  }
+
+  .diako-track-order-page__hero {
+    @apply flex flex-col items-start gap-6 rounded-2xl border border-border bg-card/80 px-6 py-8 shadow-sm backdrop-blur sm:flex-row sm:items-center md:px-8 md:py-10;
+  }
+
+  .diako-track-order-page__hero-icon {
+    @apply inline-flex size-14 shrink-0 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary;
+  }
+
+  .diako-track-order-page__hero-content {
+    @apply min-w-0 space-y-3;
+  }
+
+  .diako-track-order-page__layout {
+    @apply grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_300px];
+  }
+
+  .diako-track-order-page__main {
+    @apply flex flex-col gap-6;
+  }
+
+  .diako-track-order-page__aside {
+    @apply flex flex-col gap-6;
+  }
+
+  .diako-track-order-page__panel,
+  .diako-track-order-page .diako-track-order-help {
+    @apply rounded-2xl;
+  }
+
+  .diako-track-order-page__panel {
+    @apply p-6 md:p-8 lg:p-10;
+  }
+
+  .diako-track-order-form__intro {
+    @apply mb-8 text-sm leading-8 text-muted-foreground md:text-[0.9375rem];
+  }
+
+  .diako-track-order-form__fields {
+    @apply grid gap-6 md:grid-cols-2;
+  }
+
+  .diako-track-order-form .form-row {
+    @apply m-0 float-none clear-none flex w-full min-w-0 flex-col gap-2.5 p-0;
+  }
+
+  .diako-track-order-form label {
+    @apply mb-0 block text-sm font-medium leading-6 text-foreground;
+  }
+
+  .diako-track-order-form .required {
+    @apply text-destructive;
+  }
+
+  .diako-track-order-form .input-text {
+    @apply w-full;
+  }
+
+  .diako-track-order-form .form-row.diako-track-order-form__submit {
+    @apply mt-4 flex w-auto items-start;
+  }
+
+  .diako-track-order-form .form-row.diako-track-order-form__submit button {
+    @apply w-auto;
+  }
+
+  .diako-track-order-help {
+    @apply space-y-5 p-6 md:p-7;
+  }
+
+  .diako-track-order-help__title {
+    @apply text-base font-semibold leading-7;
+  }
+
+  .diako-track-order-help__list {
+    @apply list-disc space-y-4 ps-5 text-sm leading-8 text-muted-foreground;
+  }
+
+  .diako-track-order-help__contact {
+    @apply space-y-4 text-sm leading-7;
+  }
+
+  .diako-track-order-help__contact li {
+    @apply flex items-center gap-2.5;
+  }
+
+  .diako-track-order-help__actions {
+    @apply pt-4;
+  }
+
+  .diako-track-order-result {
+    @apply space-y-6;
+  }
+
+  .diako-track-order-result__summary {
+    @apply rounded-2xl border border-border bg-muted/30 p-5 md:p-6;
+  }
+
+  .diako-track-order-result__summary-head {
+    @apply mb-5 flex flex-wrap items-start justify-between gap-4;
+  }
+
+  .diako-track-order-result__eyebrow {
+    @apply mb-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-track-order-result__title {
+    @apply text-xl font-bold tracking-tight md:text-2xl;
+  }
+
+  .diako-track-order-result__status {
+    @apply shrink-0;
+  }
+
+  .diako-track-order-result__meta {
+    @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .diako-track-order-result__meta li {
+    @apply space-y-1 rounded-2xl border border-border bg-background px-4 py-3 text-sm;
+  }
+
+  .diako-track-order-result__meta span {
+    @apply block text-muted-foreground;
+  }
+
+  .diako-track-order-timeline {
+    @apply flex flex-col gap-6;
+  }
+
+  .diako-track-order-timeline__alert {
+    @apply rounded-2xl border px-4 py-3 text-sm font-medium;
+  }
+
+  .diako-track-order-timeline__alert--cancelled,
+  .diako-track-order-timeline__alert--failed,
+  .diako-track-order-timeline__alert--refunded {
+    @apply border-destructive/25 bg-destructive/5 text-destructive;
+  }
+
+  .diako-track-order-timeline__list {
+    @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+  .diako-track-order-timeline__step {
+    @apply flex items-center gap-3 rounded-2xl border border-border bg-background px-4 py-3 text-sm;
+  }
+
+  .diako-track-order-timeline__step--done {
+    @apply border-primary/25 bg-primary/5 text-foreground;
+  }
+
+  .diako-track-order-timeline__step--current {
+    @apply border-primary bg-primary/10 font-medium text-primary shadow-sm;
+  }
+
+  .diako-track-order-timeline__step--upcoming,
+  .diako-track-order-timeline__step--cancelled {
+    @apply text-muted-foreground;
+  }
+
+  .diako-track-order-timeline__marker {
+    @apply inline-flex size-7 shrink-0 items-center justify-center;
+  }
+
+  .diako-track-order-timeline__step--done .diako-track-order-timeline__marker {
+    @apply text-primary;
+  }
+
+  .diako-track-order-timeline__dot {
+    @apply block size-2.5 rounded-full bg-muted-foreground/35;
+  }
+
+  .diako-track-order-timeline__step--current .diako-track-order-timeline__dot {
+    @apply bg-primary;
+  }
+
+  .diako-track-order-notes__title {
+    @apply mb-4 text-lg font-semibold;
+  }
+
+  .diako-track-order-notes__list {
+    @apply space-y-6;
+  }
+
+  .diako-track-order-notes__item {
+    @apply rounded-2xl border border-border bg-background p-4;
+  }
+
+  .diako-track-order-notes__item time {
+    @apply mb-2 block text-xs text-muted-foreground;
+  }
+
+  .diako-track-order-notes__content {
+    @apply text-sm leading-7 text-foreground;
+  }
+
+  .diako-track-order-result__details {
+    @apply space-y-6;
+  }
+
+  .diako-track-order-result__details .woocommerce-order-details__title,
+  .diako-track-order-result__details .woocommerce-column__title {
+    @apply mb-4 text-lg font-semibold;
+  }
+
+  .diako-track-order-result__details .shop_table {
+    @apply w-full overflow-hidden rounded-2xl border border-border text-sm;
+  }
+
+  .diako-track-order-result__details .shop_table th,
+  .diako-track-order-result__details .shop_table td {
+    @apply border-b border-border px-4 py-3 text-start align-top;
+  }
+
+  .diako-track-order-result__details .shop_table thead th {
+    @apply bg-muted/40 font-semibold;
+  }
+
+  .diako-track-order-result__details .shop_table tfoot th {
+    @apply bg-muted/20 font-medium;
+  }
+
+  .diako-track-order-result__details .woocommerce-customer-details {
+    @apply mt-6 grid gap-6 md:grid-cols-2;
+  }
+
+  .diako-track-order-result__details address {
+    @apply not-italic leading-7 text-muted-foreground;
+  }
+
+  .diako-track-order-result__actions {
+    @apply flex flex-wrap gap-3 border-t border-border pt-6;
+  }
+
+  .diako-track-order-page .woocommerce-message,
+  .diako-track-order-page .woocommerce-info,
+  .diako-track-order-page .woocommerce-error {
+    @apply mb-6 rounded-2xl border px-4 py-3 text-sm;
+  }
+
+  .diako-contact-page {
+    @apply max-w-6xl;
+  }
+
+  .diako-contact-page__hero {
+    @apply mb-8 flex flex-col gap-5 rounded-3xl border border-border bg-card/80 p-6 shadow-sm backdrop-blur md:p-8 lg:flex-row lg:items-center lg:justify-between;
+  }
+
+  .diako-contact-page__hero-icon {
+    @apply inline-flex size-14 shrink-0 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary;
+  }
+
+  .diako-contact-page__hero-content {
+    @apply min-w-0 flex-1 space-y-2;
+  }
+
+  .diako-contact-page__response {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .diako-contact-page__hero-actions {
+    @apply flex w-full flex-wrap gap-3 lg:w-auto lg:shrink-0;
+  }
+
+  .diako-contact-page__layout {
+    @apply grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px];
+  }
+
+  .diako-contact-page__main,
+  .diako-contact-page__aside {
+    @apply min-w-0 space-y-6;
+  }
+
+  .diako-contact-form-card,
+  .diako-contact-info,
+  .diako-contact-social,
+  .diako-contact-map {
+    @apply p-6 md:p-7;
+  }
+
+  .diako-contact-form-card__head {
+    @apply mb-6 space-y-2;
+  }
+
+  .diako-contact-form-card__title {
+    @apply text-xl font-semibold tracking-tight md:text-2xl;
+  }
+
+  .diako-contact-form-card__desc {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-contact-form__grid {
+    @apply grid gap-4 sm:grid-cols-2;
+  }
+
+  .diako-contact-form__field {
+    @apply space-y-2;
+  }
+
+  .diako-contact-form__field--full {
+    @apply sm:col-span-2;
+  }
+
+  .diako-contact-form__actions {
+    @apply mt-6 space-y-3;
+  }
+
+  .diako-contact-form__submit {
+    @apply w-full sm:w-auto;
+  }
+
+  .diako-contact-form__notice {
+    @apply text-sm font-medium text-primary;
+  }
+
+  .diako-contact-form__notice.is-error {
+    @apply text-destructive;
+  }
+
+  .diako-contact-form__notice.is-success {
+    @apply text-primary;
+  }
+
+  .diako-contact-info__title,
+  .diako-contact-social__title,
+  .diako-contact-map__title {
+    @apply mb-4 text-base font-semibold text-foreground;
+  }
+
+  .diako-contact-info__list {
+    @apply m-0 space-y-4 p-0;
+  }
+
+  .diako-contact-info__item {
+    @apply flex items-start gap-3;
+  }
+
+  .diako-contact-info__icon {
+    @apply inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary;
+  }
+
+  .diako-contact-info__label {
+    @apply mb-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-contact-info__value {
+    @apply text-sm font-medium leading-7 text-foreground no-underline transition-colors hover:text-primary;
+  }
+
+  .diako-contact-map__address {
+    @apply mb-4 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-contact-page__faq {
+    @apply mt-10 border-t border-border pt-10;
+  }
+
+  .diako-contact-page__faq-title {
+    @apply mb-6 text-2xl font-bold tracking-tight;
+  }
+
+  .diako-contact-faq-grid {
+    @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-4;
+  }
+
+  .diako-contact-faq-card {
+    @apply block h-full p-5 no-underline transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md;
+  }
+
+  .diako-contact-faq-card__icon {
+    @apply mb-4 inline-flex size-10 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary;
+  }
+
+  .diako-contact-faq-card__title {
+    @apply mb-2 text-base font-semibold text-foreground;
+  }
+
+  .diako-contact-faq-card__desc {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-about-page {
+    @apply max-w-6xl;
+  }
+
+  .diako-about-page__hero {
+    @apply mb-8 flex flex-col gap-6 rounded-3xl border border-border bg-gradient-to-br from-card via-card to-primary/5 p-6 shadow-sm backdrop-blur md:p-8 lg:flex-row lg:items-end lg:justify-between;
+  }
+
+  .diako-about-page__hero-main {
+    @apply flex min-w-0 flex-col gap-5 sm:flex-row sm:items-start;
+  }
+
+  .diako-about-page__hero-badge {
+    @apply inline-flex size-16 shrink-0 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary shadow-sm;
+  }
+
+  .diako-about-page__hero-content {
+    @apply min-w-0 space-y-3;
+  }
+
+  .diako-about-page__eyebrow {
+    @apply text-sm font-semibold text-primary;
+  }
+
+  .diako-about-page__intro {
+    @apply max-w-3xl text-base leading-8;
+  }
+
+  .diako-about-page__hero-actions {
+    @apply flex w-full flex-wrap gap-3 lg:w-auto lg:shrink-0;
+  }
+
+  .diako-about-page__stats {
+    @apply mb-10;
+  }
+
+  .diako-about-stats-grid {
+    @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-4;
+  }
+
+  .diako-about-stat {
+    @apply p-5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md;
+  }
+
+  .diako-about-stat__value {
+    @apply mb-2 bg-gradient-to-l from-primary to-primary/70 bg-clip-text text-3xl font-bold tracking-tight text-transparent md:text-4xl;
+  }
+
+  .diako-about-stat__label {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-about-page__story,
+  .diako-about-page__pillars,
+  .diako-about-page__highlights,
+  .diako-about-page__categories,
+  .diako-about-page__timeline,
+  .diako-about-page__cta {
+    @apply mb-10 border-t border-border pt-10;
+  }
+
+  .diako-about-story-grid {
+    @apply grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px];
+  }
+
+  .diako-about-section-title {
+    @apply mb-4 text-2xl font-bold tracking-tight md:text-3xl;
+  }
+
+  .diako-about-section-desc {
+    @apply max-w-3xl text-sm leading-7 text-muted-foreground md:text-base;
+  }
+
+  .diako-about-page__section-head {
+    @apply mb-6 space-y-2;
+  }
+
+  .diako-about-story__text {
+    @apply space-y-4 text-sm leading-8 text-muted-foreground md:text-[15px];
+  }
+
+  .diako-about-story__points {
+    @apply mt-6 space-y-3 p-0;
+  }
+
+  .diako-about-story__points li {
+    @apply flex items-start gap-3 text-sm leading-7 text-foreground;
+  }
+
+  .diako-about-story__point-icon {
+    @apply mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary;
+  }
+
+  .diako-about-story__card {
+    @apply h-fit p-6 md:p-7;
+  }
+
+  .diako-about-story__card-head {
+    @apply mb-4 flex items-center gap-3;
+  }
+
+  .diako-about-story__card-icon {
+    @apply inline-flex size-10 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary;
+  }
+
+  .diako-about-story__card-title {
+    @apply text-lg font-semibold text-foreground;
+  }
+
+  .diako-about-story__card-text {
+    @apply mb-5 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-about-story__card-meta {
+    @apply grid gap-4 border-t border-border pt-4;
+  }
+
+  .diako-about-story__card-label {
+    @apply mb-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-about-story__card-value {
+    @apply text-sm font-medium text-foreground no-underline transition-colors hover:text-primary;
+  }
+
+  .diako-about-pillars-grid {
+    @apply grid gap-4 lg:grid-cols-3;
+  }
+
+  .diako-about-pillar {
+    @apply p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md;
+  }
+
+  .diako-about-pillar__icon {
+    @apply mb-4 inline-flex size-11 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary;
+  }
+
+  .diako-about-pillar__title {
+    @apply mb-3 text-lg font-semibold text-foreground;
+  }
+
+  .diako-about-pillar__text {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-about-highlights-grid {
+    @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-3;
+  }
+
+  .diako-about-highlight {
+    @apply p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md;
+  }
+
+  .diako-about-highlight__icon {
+    @apply mb-4 inline-flex size-10 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary;
+  }
+
+  .diako-about-highlight__title {
+    @apply mb-2 text-base font-semibold text-foreground;
+  }
+
+  .diako-about-highlight__text {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-about-categories-grid {
+    @apply grid gap-4 lg:grid-cols-3;
+  }
+
+  .diako-about-category {
+    @apply block h-full p-6 no-underline transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md;
+  }
+
+  .diako-about-category__icon {
+    @apply mb-4 inline-flex size-12 items-center justify-center rounded-2xl border border-primary/15 bg-primary/10 text-primary;
+  }
+
+  .diako-about-category__title {
+    @apply mb-2 text-lg font-semibold text-foreground;
+  }
+
+  .diako-about-category__text {
+    @apply mb-4 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-about-category__link {
+    @apply inline-flex items-center gap-1 text-sm font-semibold text-primary;
+  }
+
+  .diako-about-timeline {
+    @apply relative m-0 grid gap-5 p-0 lg:grid-cols-2;
+  }
+
+  .diako-about-timeline__item {
+    @apply relative list-none ps-0;
+  }
+
+  .diako-about-timeline__marker {
+    @apply absolute -start-3 top-6 hidden size-3 rounded-full border-4 border-background bg-primary lg:block;
+  }
+
+  .diako-about-timeline__card {
+    @apply p-5 md:p-6;
+  }
+
+  .diako-about-timeline__year {
+    @apply mb-2 text-sm font-bold text-primary;
+  }
+
+  .diako-about-timeline__title {
+    @apply mb-2 text-base font-semibold text-foreground;
+  }
+
+  .diako-about-timeline__text {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-about-page__cta {
+    @apply mb-0;
+  }
+
+  .diako-about-cta {
+    @apply flex flex-col gap-6 rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-card p-6 shadow-sm md:p-8 lg:flex-row lg:items-center lg:justify-between;
+  }
+
+  .diako-about-cta__content {
+    @apply min-w-0 space-y-2;
+  }
+
+  .diako-about-cta__title {
+    @apply text-2xl font-bold tracking-tight md:text-3xl;
+  }
+
+  .diako-about-cta__desc {
+    @apply max-w-2xl text-sm leading-7 text-muted-foreground md:text-base;
+  }
+
+  .diako-about-cta__actions {
+    @apply flex w-full flex-wrap gap-3 lg:w-auto lg:shrink-0;
+  }
+
+  .diako-page {
+    @apply container py-10 md:py-14;
+  }
+
+  .diako-page-header {
+    @apply mb-8 space-y-2;
+  }
+
+  .diako-page-title {
+    @apply text-3xl font-bold tracking-tight md:text-4xl;
+  }
+
+  .diako-page-desc {
+    @apply text-muted-foreground;
+  }
+
+  .diako-page-header--has-media {
+    @apply flex flex-col gap-6 sm:flex-row sm:items-center;
+  }
+
+  .diako-page-header__media {
+    @apply shrink-0 overflow-hidden rounded-2xl border border-border bg-card;
+  }
+
+  .diako-page-header__image {
+    @apply block h-28 w-28 object-cover sm:h-32 sm:w-32;
+  }
+
+  .diako-page-header__content {
+    @apply min-w-0 flex-1;
+  }
+
+  .diako-shop-main .woocommerce-products-header,
+  .diako-shop-main > .term-description {
+    @apply hidden;
+  }
+  
+  .diako-category-seo {
+    @apply mt-12 rounded-2xl border border-border bg-card p-6 md:mt-16 md:p-8;
+  }
+
+  .diako-category-seo__inner {
+    @apply max-w-none text-[15px] leading-8 text-muted-foreground;
+  }
+
+  .diako-category-seo__inner h2 {
+    @apply mb-4 mt-8 text-2xl font-bold tracking-tight text-foreground first:mt-0 md:text-[1.75rem];
+  }
+
+  .diako-category-seo__inner h3 {
+    @apply mb-3 mt-6 text-lg font-semibold text-foreground md:text-xl;
+  }
+
+  .diako-category-seo__inner p {
+    @apply mb-4 text-justify;
+  }
+
+  .diako-category-seo__inner ul {
+    @apply mb-4 space-y-2 ps-5;
+    list-style: disc;
+  }
+
+  .diako-category-seo__inner ul li {
+    @apply marker:text-primary;
+  }
+
+  .diako-category-seo__inner strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .diako-category-seo__inner a {
+    @apply font-medium text-primary underline-offset-4 hover:underline;
+  }
+
+  .diako-category-seo__inner h4 {
+    @apply mb-2 mt-5 text-base font-semibold text-foreground md:text-lg;
+  }
+
+  .diako-category-seo__inner ol {
+    @apply mb-4 space-y-2 ps-5;
+    list-style: decimal;
+  }
+
+  .diako-category-seo__inner ol li {
+    @apply marker:text-primary;
+  }
+
+  .diako-category-seo__inner blockquote {
+    @apply my-4 border-s-4 border-primary/60 bg-muted/50 px-4 py-3 text-foreground;
+  }
+
+  .diako-category-seo__inner img {
+    @apply my-4 h-auto max-w-full rounded-xl border border-border;
+  }
+
+  .diako-category-seo__inner figure {
+    @apply my-6;
+  }
+
+  .diako-category-seo__inner figure img {
+    @apply my-0;
+  }
+
+  .diako-category-seo__inner figcaption {
+    @apply mt-2 text-center text-sm text-muted-foreground;
+  }
+
+  .diako-category-seo__inner .diako-table-wrap {
+    @apply my-6 w-full overflow-x-auto rounded-xl border border-border;
+  }
+
+  .diako-category-seo__inner table {
+    @apply w-full border-collapse text-right text-sm;
+  }
+
+  .diako-category-seo__inner .diako-table-wrap table {
+    @apply min-w-[32rem];
+  }
+
+  .diako-category-seo__inner thead th {
+    @apply bg-muted/70 font-semibold text-foreground;
+  }
+
+  .diako-category-seo__inner th,
+  .diako-category-seo__inner td {
+    @apply border border-border px-4 py-3 align-top;
+  }
+
+  .diako-category-seo__inner tbody tr:nth-child(even) {
+    @apply bg-muted/30;
+  }
+
+  .diako-shop-main .woocommerce-notices-wrapper,
+  .woocommerce-notices-wrapper {
+    @apply m-0 hidden p-0 empty:hidden;
+  }
+
+  .diako-toast-stack {
+    @apply pointer-events-none fixed bottom-5 z-[200] flex w-[min(28rem,calc(100vw-2rem))] flex-col gap-3;
+    inset-inline-end: 1.25rem;
+  }
+
+  .diako-toast-stack .diako-toast {
+    @apply pointer-events-auto relative grid grid-cols-[auto_minmax(0,1fr)] items-start gap-3 overflow-hidden rounded-2xl border border-border/80 bg-card p-4 pb-5 text-foreground shadow-xl;
+    padding-inline-end: 2.75rem;
+    animation: diako-toast-in 0.35s ease-out;
+    will-change: transform, opacity;
+  }
+
+  .diako-toast-stack .diako-toast.is-leaving {
+    animation: diako-toast-out 0.25s ease-in forwards;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-message {
+    @apply border-emerald-500;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-info {
+    @apply border-primary/35;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-error {
+    @apply border-destructive/40;
+  }
+
+  .diako-toast__icon {
+    @apply mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full;
+  }
+
+  .diako-toast__icon svg {
+    @apply h-[18px] w-[18px];
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-message .diako-toast__icon {
+    @apply bg-emerald-500/15 text-emerald-600 dark:text-emerald-400;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-info .diako-toast__icon {
+    @apply bg-primary/15 text-primary;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-error .diako-toast__icon {
+    @apply bg-destructive/15 text-destructive;
+  }
+
+  .diako-toast__inner {
+    @apply flex min-w-0 flex-col gap-3;
+  }
+
+  .diako-toast__message {
+    @apply text-sm leading-relaxed text-foreground;
+  }
+
+  .diako-toast__message p {
+    @apply m-0;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-error .diako-toast__message,
+  .diako-toast-stack .diako-toast.woocommerce-error .diako-toast__message a {
+    @apply text-destructive;
+  }
+
+  .diako-toast__actions {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .diako-toast-stack .diako-toast .diako-toast__actions .button,
+  .diako-toast-stack .diako-toast .diako-toast__actions a.button,
+  .diako-toast-stack .diako-toast .diako-toast__actions .woocommerce-Button,
+  .diako-toast-stack .diako-toast .diako-toast__actions a.wc-forward {
+    @apply m-0 inline-flex h-9 items-center justify-center rounded-xl border-0 bg-primary px-4 text-xs font-semibold !text-white no-underline shadow-sm transition-colors hover:bg-primary/90;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-message .diako-toast__actions .button,
+  .diako-toast-stack .diako-toast.woocommerce-message .diako-toast__actions a.button,
+  .diako-toast-stack .diako-toast.woocommerce-message .diako-toast__actions .woocommerce-Button,
+  .diako-toast-stack .diako-toast.woocommerce-message .diako-toast__actions a.wc-forward {
+    @apply border border-emerald-500/50 bg-emerald-600 !text-white hover:bg-emerald-500;
+  }
+
+  .diako-toast__progress {
+    @apply absolute inset-x-0 bottom-0 h-1 overflow-hidden bg-emerald-500/15;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-info .diako-toast__progress {
+    @apply bg-primary/15;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-error .diako-toast__progress {
+    @apply bg-destructive/15;
+  }
+
+  .diako-toast__progress-bar {
+    @apply block h-full w-full origin-[inline-end] bg-emerald-500;
+    transform: translateZ(0) scaleX(1);
+    will-change: transform;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-info .diako-toast__progress-bar {
+    @apply bg-primary;
+  }
+
+  .diako-toast-stack .diako-toast.woocommerce-error .diako-toast__progress-bar {
+    @apply bg-destructive;
+  }
+
+  .diako-toast__close {
+    @apply absolute top-3.5 flex h-7 w-7 items-center justify-center rounded-lg border-0 bg-transparent text-muted-foreground transition-colors hover:bg-accent hover:text-foreground;
+    inset-inline-end: 0.5rem;
+  }
+
+  .diako-toast__close svg {
+    @apply h-4 w-4;
+  }
+
+  @keyframes diako-toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem) scale(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes diako-toast-out {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.96);
+    }
+  }
+
+  .woocommerce-no-products-found .woocommerce-info,
+  .woocommerce-no-products-found .woocommerce-message {
+    @apply hidden;
+  }
+
+  .diako-contact-form .diako-field {
+    @apply rounded-2xl;
+  }
+
+  .diako-inline-form .diako-liquid-button {
+    @apply shrink-0;
+  }
+
+  .diako-social-links {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .diako-social-links__link {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-xl border border-input bg-background text-muted-foreground transition-colors hover:border-primary/40 hover:bg-accent hover:text-foreground;
+  }
+
+  .diako-trust-badges {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .diako-trust-badges__item {
+    @apply inline-flex min-h-[72px] min-w-[72px] items-center justify-center rounded-xl border border-border bg-background p-2;
+  }
+
+  .diako-trust-badges__item--enamad img {
+    @apply block h-[72px] w-[72px] max-w-none cursor-pointer object-contain;
+  }
+
+  .diako-trust-badges__zibal-link {
+    @apply inline-flex items-center justify-center;
+  }
+
+  .diako-trust-badges__zibal-logo {
+    @apply block h-[72px] w-auto max-w-none;
+  }
+
+  .diako-hero-image {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+
+  .diako-logo {
+    @apply inline-flex shrink-0 items-center text-[#4b525d];
+  }
+
+  .diako-logo__image {
+    @apply block h-16 w-auto;
+  }
+
+  html.dark svg.diako-logo__image:not(.diako-logo__image--branded),
+  html.dark .diako-coming-soon__logo-image,
+  html.dark .custom-logo-link img {
+    filter: invert(1);
+  }
+
+  .diako-logo__image--footer {
+    @apply h-7 md:h-8;
+  }
+
+  .diako-logo__image [fill]:not([fill='none']) {
+    fill: currentColor;
+  }
+
+  .diako-form-notice {
+    @apply mb-6 rounded-2xl border px-4 py-3 text-sm;
+  }
+
+  .diako-form-notice--success {
+    @apply border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300;
+  }
+
+  .diako-form-notice--error {
+    @apply border-destructive/30 bg-destructive/10 text-destructive;
+  }
+
+  .diako-form-notice ul {
+    @apply m-0 list-none p-0;
+  }
+
+  .diako-card-grid {
+    @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .diako-blog-grid {
+    @apply m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .diako-shop-shell .diako-blog-grid {
+    @apply lg:grid-cols-2 xl:grid-cols-3;
+  }
+
+  .diako-blog-grid > .diako-post-card {
+    @apply h-full min-w-0;
+  }
+
+  .diako-blog-page .diako-page-header {
+    @apply mb-8;
+  }
+
+  .diako-post-card {
+    @apply flex h-full flex-col overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg;
+  }
+
+  .diako-post-card__media {
+    @apply relative block aspect-[16/10] overflow-hidden;
+  }
+
+  .diako-post-card__image {
+    @apply h-full w-full object-cover transition-transform duration-500 group-hover:scale-105;
+  }
+
+  .diako-post-card__placeholder {
+    @apply flex h-full w-full items-center justify-center bg-gradient-to-br from-muted via-muted/80 to-primary/10 text-muted-foreground/35;
+  }
+
+  .diako-post-card__overlay {
+    @apply pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-90;
+  }
+
+  .diako-post-card__badge {
+    @apply absolute bottom-3 end-3 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/45 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm;
+  }
+
+  .diako-post-card__body {
+    @apply flex flex-1 flex-col gap-3 p-5 md:p-6;
+  }
+
+  .diako-post-card__date {
+    @apply text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-post-card__title {
+    @apply text-lg font-semibold leading-7;
+  }
+
+  .diako-post-card__title a {
+    @apply text-foreground no-underline transition-colors hover:text-primary;
+  }
+
+  .diako-post-card__excerpt {
+    @apply flex-1 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-post-card__author {
+    @apply mt-auto border-t border-border pt-4;
+  }
+
+  .diako-post-card__author-link {
+    @apply inline-flex min-w-0 max-w-full items-center gap-3 text-sm font-medium text-foreground no-underline transition-colors hover:text-primary;
+  }
+
+  .diako-post-card__avatar {
+    @apply size-9 shrink-0 rounded-full ring-2 ring-background;
+  }
+
+  .diako-post-card__author-name {
+    @apply truncate;
+  }
+
+  .diako-post-card__link {
+    @apply mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80;
+  }
+
+  .diako-post-single__media {
+    @apply aspect-[16/9] w-full overflow-hidden border-b border-border;
+  }
+
+  .diako-post-single__image {
+    @apply h-full w-full object-cover;
+  }
+
+  .diako-post-single {
+    @apply overflow-hidden rounded-3xl border bg-card shadow-sm;
+  }
+
+  .diako-post-single__body {
+    @apply space-y-0;
+  }
+
+  .diako-post-single__header {
+    @apply space-y-5 border-b border-border px-6 py-6 md:px-8 md:py-8;
+  }
+
+  .diako-post-single__title {
+    @apply text-2xl font-bold leading-tight tracking-tight md:text-4xl;
+  }
+
+  .diako-post-single__meta {
+    @apply flex flex-wrap items-center gap-x-4 gap-y-3;
+  }
+
+  .diako-post-single__meta-item {
+    @apply inline-flex items-center gap-2 text-sm text-muted-foreground no-underline;
+  }
+
+  .diako-post-single__author {
+    @apply font-medium text-foreground transition-colors hover:text-primary;
+  }
+
+  .diako-post-single__avatar {
+    @apply size-8 shrink-0 rounded-full ring-2 ring-background;
+  }
+
+  .diako-post-single__categories {
+    @apply flex w-full flex-wrap gap-2;
+  }
+
+  .diako-post-single__category {
+    @apply inline-flex rounded-full border border-brand-orange/25 bg-brand-orange/10 px-3 py-1 text-xs font-semibold text-brand-orange no-underline transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-white;
+  }
+
+  .diako-post-share {
+    @apply ms-auto flex w-full flex-wrap items-center gap-3 sm:w-auto;
+  }
+
+  .diako-post-share__label {
+    @apply text-xs font-semibold text-muted-foreground;
+  }
+
+  .diako-post-share__actions {
+    @apply inline-flex items-center gap-2;
+  }
+
+  .diako-post-share__button {
+    @apply inline-flex size-10 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary;
+  }
+
+  .diako-post-share__button.is-copied {
+    @apply border-primary/30 bg-primary/10 text-primary;
+  }
+
+  .diako-post-single__content {
+    @apply px-6 py-8 md:px-8 md:py-10;
+  }
+
+  .diako-post-single__pages {
+    @apply mt-8 border-t border-border pt-6;
+  }
+
+  .diako-post-single__pages-label {
+    @apply mb-3 text-sm font-semibold text-foreground;
+  }
+
+  .diako-post-single-page .diako-breadcrumb {
+    @apply mb-6;
+  }
+
+  .diako-post-sidebar__panel {
+    @apply rounded-2xl border bg-card p-5 shadow-sm;
+  }
+
+  .diako-post-sidebar__panel-head {
+    @apply mb-4 flex items-center gap-2;
+  }
+
+  .diako-post-sidebar__panel-icon {
+    @apply inline-flex size-8 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary;
+  }
+
+  .diako-post-sidebar__panel-title {
+    @apply text-sm font-semibold text-foreground;
+  }
+
+  .diako-post-toc__list {
+    @apply m-0 list-none space-y-1 p-0;
+  }
+
+  .diako-post-toc__item--level-3 {
+    @apply ps-4;
+  }
+
+  .diako-post-toc__link {
+    @apply block rounded-xl px-3 py-2 text-sm leading-7 text-muted-foreground no-underline transition-colors hover:bg-muted hover:text-foreground;
+  }
+
+  .diako-post-toc__link.is-active {
+    @apply bg-primary/10 font-medium text-primary;
+  }
+
+  .diako-post-toc:not(.is-expanded) .diako-post-toc__item--collapsed {
+    @apply hidden;
+  }
+
+  .diako-post-toc__toggle {
+    @apply mt-2 inline-flex w-full items-center justify-center rounded-xl border border-border bg-background px-3 py-2 text-xs font-semibold text-primary transition-colors hover:border-primary/30 hover:bg-primary/5;
+  }
+
+  .diako-post-related__list {
+    @apply space-y-3;
+  }
+
+  .diako-post-related__item {
+    @apply flex items-center gap-3 rounded-2xl border border-transparent p-2 no-underline transition-colors hover:border-border hover:bg-muted/40;
+  }
+
+  .diako-post-related__media {
+    @apply relative block size-16 shrink-0 overflow-hidden rounded-xl bg-muted;
+  }
+
+  .diako-post-related__image {
+    @apply h-full w-full object-cover;
+  }
+
+  .diako-post-related__placeholder {
+    @apply flex h-full w-full items-center justify-center text-muted-foreground/40;
+  }
+
+  .diako-post-related__title {
+    @apply line-clamp-2 text-sm font-semibold leading-6 text-foreground;
+  }
+
+  .diako-post-subscribe__desc {
+    @apply mb-4 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-post-subscribe__form {
+    @apply space-y-3;
+  }
+
+  .diako-post-subscribe__notice {
+    @apply mt-3 text-sm font-medium text-primary;
+  }
+
+  .diako-post-subscribe__notice.is-error {
+    @apply text-destructive;
+  }
+
+  .diako-post-single__meta-separator {
+    @apply text-muted-foreground/60;
+  }
+
+  .diako-category-icon {
+    @apply block h-full w-full object-contain;
+  }
+
+  .diako-category-icon--light,
+  .diako-category-icon--dark {
+    @apply h-full w-full;
+  }
+
+  .diako-shop-shell {
+    @apply min-w-0 overflow-x-clip lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8;
+  }
+
+  .diako-shop-main {
+    @apply min-w-0;
+  }
+
+  .diako-shop-main.is-loading {
+    @apply pointer-events-none opacity-60 transition-opacity;
+  }
+
+  .diako-shop-drawer-backdrop {
+    @apply pointer-events-none fixed inset-0 z-[60] bg-black/50 opacity-0 transition-opacity duration-300 lg:hidden;
+  }
+
+  .diako-shop-drawer-backdrop.is-open {
+    @apply pointer-events-auto opacity-100;
+  }
+
+  .diako-shop-sidebar-wrap {
+    @apply hidden min-w-0 max-w-full overflow-hidden lg:flex lg:static lg:z-auto lg:w-full lg:max-w-[280px] lg:flex-col;
+  }
+
+  .diako-shop-sidebar-wrap.is-open {
+    @apply fixed inset-y-0 end-0 z-[70] flex w-[min(100vw,24rem)] max-w-full flex-col;
+  }
+
+  .diako-shop-sidebar-wrap__panel {
+    @apply flex h-full min-h-0 min-w-0 max-w-full translate-x-full flex-col overflow-hidden border-s border-border bg-background shadow-2xl transition-transform duration-300 ease-out lg:translate-x-0 lg:border-0 lg:bg-transparent lg:shadow-none;
+  }
+
+  .diako-shop-sidebar-wrap.is-open .diako-shop-sidebar-wrap__panel {
+    @apply translate-x-0;
+  }
+
+  .diako-shop-sidebar-wrap__header {
+    @apply flex shrink-0 items-center justify-between border-b border-border px-4 py-4;
+  }
+
+  .diako-shop-sidebar {
+    @apply flex min-h-0 min-w-0 max-w-full flex-1 flex-col gap-6 overflow-x-hidden overflow-y-auto p-4 lg:sticky lg:top-24 lg:overflow-x-hidden lg:overflow-y-visible lg:p-0 lg:self-start;
+  }
+
+  .diako-shop-sidebar__banner {
+    @apply hidden shrink-0 overflow-hidden rounded-xl lg:block;
+  }
+
+  .diako-shop-sidebar__banner-image {
+    @apply block h-auto w-full object-cover;
+  }
+
+  body.diako-shop-drawer-open {
+    @apply overflow-hidden lg:overflow-auto;
+  }
+
+  .diako-shop-search input[type='search'] {
+    @apply w-full;
+  }
+
+  .diako-shop-sidebar__list,
+  .diako-shop-sidebar__sublist {
+    @apply m-0 list-none space-y-1.5 p-0;
+  }
+
+  .diako-shop-sidebar__sublist {
+    @apply mt-1.5 space-y-1 border-r-2 border-primary/20 pr-3 mr-2;
+  }
+
+  .diako-shop-sidebar__link,
+  .diako-shop-sidebar__sublink {
+    @apply flex min-w-0 max-w-full items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted-foreground no-underline transition-all hover:border-border hover:bg-accent/40 hover:text-foreground;
+  }
+
+  .diako-shop-sidebar__sublink {
+    @apply block py-2 pr-5;
+  }
+
+  .diako-shop-sidebar__icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted text-primary;
+  }
+
+  .diako-shop-sidebar__item.is-active > .diako-shop-sidebar__link,
+  .diako-shop-sidebar__subitem.is-active > .diako-shop-sidebar__sublink {
+    @apply border-primary/25 bg-primary/10 font-medium text-primary;
+  }
+
+  .diako-shop-sidebar__panel--support {
+    @apply border-primary/15 bg-gradient-to-b from-primary/5 to-card;
+  }
+
+  .diako-shop-subcategories {
+    @apply mb-10;
+  }
+
+  .diako-shop-subcategories__box {
+    @apply rounded-2xl border border-border/80 bg-gradient-to-b from-card to-card/60 p-5 shadow-sm md:p-6;
+  }
+
+  .diako-shop-subcategories__header {
+    @apply mb-6 flex items-start gap-4 border-b border-border/60 pb-5;
+  }
+
+  .diako-shop-subcategories__header-icon {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary;
+  }
+
+  .diako-shop-subcategories__title {
+    @apply text-lg font-bold tracking-tight md:text-xl;
+  }
+
+  .diako-shop-subcategories__desc {
+    @apply text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .diako-shop-subcategories__carousel {
+    --carousel-min-slide-width: 11.5rem;
+  }
+
+  .diako-shop-subcategories__track {
+    @apply m-0 flex list-none gap-4 overflow-x-auto scroll-smooth p-0 pb-1 scroll-ps-0 snap-x snap-mandatory;
+    overflow-anchor: none;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .diako-shop-subcategories__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .diako-shop-subcategories__carousel .diako-carousel__nav--track {
+    @apply px-1 sm:-mx-1;
+  }
+
+  .diako-shop-subcategories__carousel .diako-carousel__dots {
+    @apply mt-4 justify-center;
+  }
+
+  .diako-shop-subcategories__item {
+    @apply min-w-0;
+  }
+
+  .diako-shop-subcategories__card {
+    @apply flex h-full flex-col overflow-hidden rounded-xl border border-border/80 bg-card text-card-foreground shadow-sm no-underline transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md;
+  }
+
+  .diako-shop-subcategories__media {
+    @apply relative aspect-[5/4] overflow-hidden bg-muted;
+  }
+
+  .diako-shop-subcategories__media--placeholder {
+    @apply bg-gradient-to-br from-primary/15 via-muted to-accent/30;
+  }
+
+  .diako-shop-subcategories__image {
+    @apply h-full w-full object-cover transition-transform duration-500 group-hover:scale-105;
+  }
+
+  .diako-shop-subcategories__fallback-icon {
+    @apply absolute inset-0 flex items-center justify-center text-primary;
+  }
+
+  .diako-shop-subcategories__fallback-icon .diako-category-icon,
+  .diako-shop-subcategories__fallback-icon svg {
+    @apply h-12 w-12 opacity-90;
+  }
+
+  .diako-shop-subcategories__media-overlay {
+    @apply pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90;
+  }
+
+  .diako-shop-subcategories__media--placeholder .diako-shop-subcategories__media-overlay {
+    @apply from-primary/25 via-transparent to-transparent opacity-100;
+  }
+
+  .diako-shop-subcategories__body {
+    @apply flex flex-1 flex-col gap-2 p-4;
+  }
+
+  .diako-shop-subcategories__name {
+    @apply line-clamp-2 text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-primary;
+  }
+
+  .diako-shop-subcategories__excerpt {
+    @apply line-clamp-2 text-xs leading-relaxed text-muted-foreground;
+  }
+
+  .diako-shop-subcategories__footer {
+    @apply mt-auto flex items-center justify-between gap-2 pt-1;
+  }
+
+  .diako-shop-subcategories__badge {
+    @apply inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-shop-subcategories__arrow {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-all duration-300 group-hover:border-primary/30 group-hover:bg-primary group-hover:text-primary-foreground;
+  }
+
+  .diako-shop-sidebar__panel {
+    @apply min-w-0 max-w-full overflow-hidden rounded-xl border bg-card p-5 text-card-foreground shadow-sm;
+  }
+
+  .diako-shop-sidebar__panel[aria-label='دسته‌بندی محصولات'] {
+    @apply overflow-visible;
+  }
+
+  .diako-shop-sidebar__panel[aria-label='دسته‌بندی محصولات'] .diako-shop-sidebar__list {
+    @apply block overflow-visible;
+  }
+
+  .diako-shop-sidebar__panel-head {
+    @apply mb-4 flex min-w-0 items-start gap-3;
+  }
+
+  .diako-shop-sidebar__panel-icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary;
+  }
+
+  .diako-shop-sidebar__panel-title {
+    @apply min-w-0 flex-1 whitespace-normal break-words text-base font-semibold leading-snug;
+  }
+
+  .diako-shop-sidebar__search-field {
+    @apply relative;
+  }
+
+  .diako-shop-sidebar__search-icon {
+    @apply pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted-foreground;
+  }
+
+  .diako-shop-sidebar__search-field input[type='search'] {
+    @apply w-full ps-10;
+  }
+
+  .diako-shop-sidebar__empty {
+    @apply rounded-lg border border-dashed border-border bg-muted/30 px-4 py-5 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-shop-filters {
+    @apply flex min-w-0 max-w-full flex-col gap-5;
+  }
+
+  .diako-shop-filter__list {
+    @apply m-0 min-w-0 max-w-full list-none space-y-2 p-0;
+  }
+
+  .diako-shop-filter__link {
+    @apply flex min-w-0 max-w-full items-start justify-between gap-2 rounded-lg border border-transparent px-3 py-2.5 text-sm text-muted-foreground no-underline transition-colors hover:border-border hover:bg-accent/40 hover:text-foreground;
+  }
+
+  .diako-shop-filter__item.is-active .diako-shop-filter__link {
+    @apply border-primary/30 bg-primary/10 font-medium text-primary;
+  }
+
+  .diako-shop-filter__actions {
+    @apply mt-4 border-t border-border/60 pt-4;
+  }
+
+  .diako-shop-filter__list--collapsible:not(.is-expanded) > .diako-shop-filter__item--extra {
+    @apply hidden;
+  }
+
+  .diako-shop-filter__toggle {
+    @apply mt-2 flex w-full items-center justify-center rounded-lg border border-transparent px-3 py-2 text-xs font-medium text-primary transition-colors hover:border-border hover:bg-accent/40;
+  }
+
+  .diako-shop-filters .widget {
+    @apply m-0;
+  }
+
+  .diako-shop-filters .widget ul {
+    @apply m-0 min-w-0 max-w-full list-none p-0;
+  }
+
+  .diako-shop-filters .widget_layered_nav ul,
+  .diako-shop-filters .woocommerce-widget-layered-nav-list {
+    @apply space-y-2;
+  }
+
+  .diako-shop-filters .widget li,
+  .diako-shop-filters .woocommerce-widget-layered-nav-list__item {
+    @apply m-0 min-w-0 max-w-full list-none;
+  }
+
+  .diako-shop-filters a.diako-shop-filter__term,
+  .diako-shop-filters .woocommerce-widget-layered-nav-list__item > a {
+    @apply flex w-full min-w-0 max-w-full items-start justify-between gap-2 rounded-lg border border-transparent px-3 py-2.5 text-sm text-muted-foreground no-underline transition-colors hover:border-border hover:bg-accent/40 hover:text-foreground;
+  }
+
+  .diako-shop-filters .woocommerce-widget-layered-nav-list__item.chosen > a,
+  .diako-shop-filters .woocommerce-widget-layered-nav-list__item--chosen > a {
+    @apply border-primary/30 bg-primary/10 font-medium text-primary hover:text-primary;
+  }
+
+  .diako-shop-filters .diako-shop-filter__term-label {
+    @apply min-w-0 flex-1 break-words [overflow-wrap:anywhere];
+  }
+
+  .diako-shop-filter__link > span,
+  .diako-shop-sidebar__link > span:not(.diako-shop-sidebar__icon) {
+    @apply min-w-0 break-words [overflow-wrap:anywhere];
+  }
+
+  .diako-shop-filters a.diako-shop-filter__term .count,
+  .diako-shop-filters .woocommerce-widget-layered-nav-list__item > a .count {
+    @apply inline-flex shrink-0 min-w-[1.75rem] justify-center rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-shop-filters .woocommerce-widget-layered-nav-list__item.chosen > a .count,
+  .diako-shop-filters .woocommerce-widget-layered-nav-list__item--chosen > a .count {
+    @apply bg-primary/15 text-primary;
+  }
+
+  .diako-shop-filters .widget_price_filter .price_slider_wrapper {
+    @apply mt-2 px-1;
+  }
+
+  .diako-shop-filters .widget_price_filter .price_slider {
+    @apply mb-4 mt-2;
+  }
+
+  .diako-shop-filters .widget_price_filter .price_slider_amount {
+    @apply flex flex-col gap-3;
+  }
+
+  .diako-shop-filters .widget_price_filter .price_label {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .diako-shop-filters .widget_price_filter button,
+  .diako-shop-filters .widget_price_filter .button {
+    @apply w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90;
+  }
+
+  .diako-shop-filters .widget_layered_nav ul li a::before,
+  .diako-shop-filters .widget_layered_nav_filters ul li a::before,
+  .diako-shop-filters .woocommerce-widget-layered-nav-list li a::before {
+    @apply hidden;
+  }
+
+  .diako-shop-filters .widget_layered_nav_filters ul li {
+    @apply m-0 inline-flex max-w-full;
+  }
+
+  .diako-shop-filters .widget_layered_nav_filters ul {
+    @apply m-0 flex flex-wrap items-center gap-2 p-0;
+  }
+
+  .diako-shop-filters .widget_layered_nav_filters ul > li + li {
+    margin-top: 0;
+  }
+
+  .diako-shop-filters .widget_layered_nav_filters ul li a {
+    @apply inline-flex h-8 max-w-full items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3 text-xs leading-none no-underline transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-primary;
+  }
+
+  .diako-shop-filters .widget_layered_nav_filters ul li.chosen a .diako-shop-filter__chosen-label {
+    @apply min-w-0 truncate leading-none;
+  }
+
+  .diako-shop-filters .widget_layered_nav_filters ul li.chosen a .diako-shop-filter__remove {
+    @apply inline-flex size-4 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors;
+  }
+
+  .diako-shop-filters .widget_layered_nav_filters ul li.chosen a:hover .diako-shop-filter__remove {
+    @apply text-primary;
+  }
+
+  .diako-shop-filters .widget_rating_filter .star-rating {
+    @apply float-none mt-0.5;
+  }
+
+  .diako-shop-filters .ui-slider {
+    @apply relative h-1.5 rounded-full border-0 bg-muted;
+  }
+
+  .diako-shop-filters .ui-slider-range {
+    @apply absolute h-full rounded-full bg-primary;
+  }
+
+  .diako-shop-filters .ui-slider-handle {
+    @apply absolute top-1/2 z-10 -mt-2 size-4 cursor-pointer rounded-full border-2 border-primary bg-background shadow-md outline-none;
+  }
+
+  .diako-shop-filters .ui-slider-handle.diako-price-slider-handle--max {
+    margin-left: -1rem !important;
+  }
+
+  .diako-shop-filters .widget_price_filter .price_slider .ui-slider-handle[style*='left: 100%'],
+  .diako-shop-filters .widget_price_filter .price_slider .ui-slider-handle[style*='left:100%'] {
+    margin-left: -1rem !important;
+  }
+
+  .diako-shop-toolbar {
+    @apply mb-8 flex flex-col gap-4 rounded-xl border bg-card p-4 md:flex-row md:items-center md:justify-between;
+  }
+
+  .diako-breadcrumb {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .diako-breadcrumb__list {
+    @apply m-0 flex list-none flex-wrap items-center gap-x-2 gap-y-1 p-0;
+  }
+
+  .diako-breadcrumb__item {
+    @apply inline-flex items-center gap-2;
+  }
+
+  .diako-breadcrumb__item a {
+    @apply text-muted-foreground transition-colors hover:text-foreground;
+  }
+
+  .diako-breadcrumb__item--current span {
+    @apply text-foreground;
+  }
+
+  .diako-breadcrumb__separator {
+    @apply text-muted-foreground/70;
+  }
+
+  .woocommerce .woocommerce-products-header__title,
+  .woocommerce .product_title {
+    @apply text-3xl font-bold tracking-tight;
+  }
+
+  .woocommerce .woocommerce-result-count {
+    @apply m-0 text-sm text-muted-foreground;
+  }
+
+  .woocommerce .woocommerce-ordering select.orderby {
+    @apply h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground;
+  }
+
+  .woocommerce ul.products {
+    @apply m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+
+  .diako-shop-layout .woocommerce ul.products,
+  .diako-shop-shell .woocommerce ul.products,
+  .diako-shop-shell ul.products {
+    @apply lg:grid-cols-2 xl:grid-cols-3;
+  }
+
+  .woocommerce ul.products::before,
+  .woocommerce ul.products::after {
+    @apply hidden;
+  }
+
+  .woocommerce ul.products li.product,
+  .product-track > li.product,
+  .diako-shop-shell ul.products li.product {
+    @apply float-none m-0 w-full min-w-0 border-0 bg-transparent p-0 shadow-none;
+  }
+
+  .woocommerce ul.products li.product > article,
+  .product-track > li.product > article,
+  .diako-shop-shell ul.products li.product > article {
+    @apply h-full w-full;
+  }
+
+  .woocommerce ul.products li.product a {
+    @apply no-underline;
+  }
+
+  .woocommerce ul.products li.product .woocommerce-loop-product__title {
+    @apply m-0 p-0 text-base font-semibold text-foreground;
+  }
+
+  .woocommerce ul.products li.product .price,
+  .woocommerce .price-on-request {
+    @apply text-sm font-medium text-primary;
+  }
+
+  .woocommerce-page-wrap {
+    @apply min-w-0 overflow-x-clip;
+  }
+
+  .woocommerce div.product {
+    @apply grid w-full min-w-0 max-w-full gap-8 lg:grid-cols-2;
+  }
+
+  .woocommerce div.product > * {
+    @apply min-w-0 max-w-full;
+  }
+
+  .diako-product-media {
+    @apply flex min-w-0 max-w-full flex-col gap-4;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery,
+  .woocommerce div.product .summary {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery .flex-control-thumbs {
+    @apply hidden;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery {
+    @apply relative flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card p-0;
+  }
+
+  .diako-favorite-button {
+    @apply inline-flex items-center justify-center rounded-[12px] border text-muted-foreground shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-destructive/10 hover:text-destructive hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive/20 disabled:pointer-events-none disabled:opacity-60;
+    border-color: hsl(220 13% 91% / 0.8);
+  }
+
+  .diako-favorite-button svg {
+    @apply transition-transform duration-300;
+  }
+
+  .diako-favorite-button.is-active {
+    @apply border-destructive/25 bg-destructive/10 text-destructive;
+  }
+
+  .diako-favorite-button:hover {
+    border-color: currentColor;
+  }
+
+  .diako-favorite-button.is-active svg {
+    fill: currentColor;
+  }
+
+  .diako-favorite-button:hover svg {
+    @apply scale-110;
+  }
+
+  .diako-compare-button {
+    @apply inline-flex items-center justify-center rounded-[12px] border border-border/80 bg-card/90 text-muted-foreground shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/10 hover:text-primary hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .diako-compare-button.is-active {
+    @apply border-primary/30 bg-primary/10 text-primary;
+  }
+
+  .diako-favorite-button--single {
+    @apply h-[46px] w-[46px] shrink-0 bg-background;
+  }
+
+  html.dark .diako-favorite-button--single:not(:hover):not(.is-active) {
+    @apply border border-border/80;
+  }
+
+  .diako-compare-button--single {
+    @apply h-[46px] w-[46px] shrink-0 bg-background;
+  }
+
+  .woocommerce div.product > .onsale {
+    @apply hidden;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery .sale-badge,
+  .woocommerce div.product .woocommerce-product-gallery .onsale {
+    @apply pointer-events-none absolute start-3 top-3 z-30 inline-flex rounded-full bg-brand-orange px-2.5 py-1.5 text-xs font-semibold leading-none text-white shadow-sm;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery .woocommerce-product-gallery__wrapper {
+    @apply w-full;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery .woocommerce-product-gallery__image {
+    @apply hidden w-full;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery .woocommerce-product-gallery__image.is-active {
+    @apply flex min-h-[280px] w-full items-center justify-center;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery .woocommerce-product-gallery__image a {
+    @apply flex w-full items-center justify-center;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery .woocommerce-product-gallery__image img,
+  .woocommerce div.product .woocommerce-product-gallery .diako-product-gallery__img {
+    @apply mx-auto block h-auto max-h-[420px] w-full max-w-full object-contain;
+  }
+
+  .woocommerce div.product.outofstock .woocommerce-product-gallery .woocommerce-product-gallery__image img,
+  .woocommerce div.product.outofstock .woocommerce-product-gallery .diako-product-gallery__img,
+  .woocommerce div.product.outofstock .diako-gallery-thumbs__image {
+    filter: grayscale(100%);
+  }
+
+  .diako-gallery-thumbs {
+    @apply flex w-full min-w-0 max-w-full items-center gap-2 rounded-xl border border-border bg-card p-3;
+  }
+
+  .diako-gallery-thumbs__viewport {
+    @apply min-w-0 flex-1 overflow-hidden;
+  }
+
+  .diako-gallery-thumbs__track {
+    @apply flex gap-3 overflow-x-auto scroll-smooth pb-1;
+    scrollbar-width: none;
+  }
+
+  .diako-gallery-thumbs__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .diako-gallery-thumbs__item {
+    @apply h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 border-transparent bg-background p-0 opacity-70 transition-all hover:opacity-100;
+  }
+
+  .diako-gallery-thumbs__item.is-active {
+    @apply border-primary opacity-100 ring-2 ring-primary/20;
+  }
+
+  .diako-gallery-thumbs__image {
+    @apply h-full w-full object-cover;
+  }
+
+  .diako-gallery-thumbs__nav {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:border-primary/40 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .diako-gallery-thumbs__nav svg {
+    @apply h-5 w-5;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery__trigger {
+    @apply absolute end-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-background/90 text-foreground shadow-sm backdrop-blur transition-colors hover:border-primary/40 hover:text-primary;
+    background-image: none !important;
+    text-indent: 0 !important;
+  }
+
+  .woocommerce div.product .woocommerce-product-gallery__trigger img {
+    @apply hidden;
+  }
+
+  .diako-gallery-trigger__icon {
+    @apply inline-flex items-center justify-center;
+  }
+
+  .woocommerce div.product .summary {
+    @apply space-y-5 overflow-hidden rounded-xl border bg-card p-4 md:p-6;
+  }
+
+  .woocommerce div.product .summary .product_title {
+    @apply text-2xl font-bold tracking-tight md:text-3xl;
+  }
+
+  .woocommerce div.product .summary p.price,
+  .woocommerce div.product .diako-add-to-cart-form__price .price {
+    @apply text-2xl font-bold text-primary;
+  }
+
+  .woocommerce div.product .summary p.price del,
+  .woocommerce div.product .diako-add-to-cart-form__price .price del {
+    @apply text-base font-normal text-muted-foreground;
+  }
+
+  .woocommerce div.product .summary p.price ins,
+  .woocommerce div.product .diako-add-to-cart-form__price .price ins {
+    @apply no-underline;
+  }
+
+  .diako-product-tags {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .diako-product-tag {
+    @apply inline-flex max-w-full items-center truncate rounded-full border border-brand-orange/25 bg-brand-orange/10 px-2.5 py-1 text-xs font-semibold leading-none text-brand-orange no-underline shadow-sm backdrop-blur-[16px] transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-white;
+  }
+
+  .diako-single-product-actions {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .woocommerce div.product form.cart,
+  .woocommerce div.product .diako-add-to-cart-form {
+    @apply flex flex-col items-stretch gap-4 border-t border-border pt-5;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form__price {
+    @apply w-full;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form--variable:has(.woocommerce-variation-price .price) .diako-add-to-cart-form__price--range,
+  .woocommerce div.product .diako-add-to-cart-form--variable:has(.woocommerce-variation-price:not(:empty)) .diako-add-to-cart-form__price--range {
+    @apply hidden;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form__actions,
+  .woocommerce div.product .woocommerce-variation-add-to-cart.diako-add-to-cart-form__actions {
+    @apply flex flex-row flex-wrap items-center gap-3;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form .woocommerce-variation {
+    @apply w-full;
+  }
+
+  .woocommerce div.product form.cart .quantity,
+  .woocommerce div.product .diako-add-to-cart-form .quantity,
+  .woocommerce div.product .diako-add-to-cart-form__actions .quantity {
+    @apply flex shrink-0 items-center;
+  }
+
+  .woocommerce div.product form.cart .quantity .qty,
+  .woocommerce div.product .diako-add-to-cart-form .quantity .qty,
+  .woocommerce div.product .diako-add-to-cart-form__actions .quantity .qty {
+    @apply flex h-[46px] w-20 rounded-2xl border border-input bg-background px-3 text-center text-sm text-foreground;
+  }
+
+  .woocommerce div.product form.cart .single_add_to_cart_button,
+  .woocommerce div.product form.cart button[type='submit'],
+  .woocommerce div.product .variations_button .single_add_to_cart_button {
+    @apply inline-flex min-h-[46px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .woocommerce div.product form.variations_form .diako-variations {
+    @apply mb-4 flex w-full flex-col gap-4;
+  }
+
+  .woocommerce div.product form.variations_form .diako-variation-row {
+    @apply flex w-full flex-col items-stretch gap-2;
+  }
+
+  .woocommerce div.product form.variations_form .diako-variation-row__label,
+  .woocommerce div.product form.variations_form .diako-variation-row__value {
+    @apply block w-full p-0;
+  }
+
+  .woocommerce div.product form.variations_form .diako-variation-row__label label {
+    @apply text-sm font-medium text-foreground;
+  }
+
+  .woocommerce div.product form.variations_form .variations {
+    @apply mb-4 w-full;
+  }
+
+  .woocommerce div.product form.variations_form .variations td,
+  .woocommerce div.product form.variations_form .variations th {
+    @apply border-0 py-2 align-middle;
+  }
+
+  .woocommerce div.product form.variations_form .variations .label label {
+    @apply text-sm font-medium text-foreground;
+  }
+
+  .woocommerce div.product form.variations_form .variations select {
+    @apply h-10 w-full min-w-[12rem] rounded-2xl border border-input bg-background px-3 text-sm text-foreground;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-field {
+    @apply w-full;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-options {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-option {
+    @apply m-0 inline-flex cursor-pointer;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-option__input {
+    @apply sr-only;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-option__label {
+    @apply inline-flex items-center gap-1.5 rounded-2xl border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-[border-color,background-color,color,box-shadow];
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-option__check {
+    @apply hidden h-4 w-4 shrink-0;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-option.is-selected .diako-variation-option__check,
+  .woocommerce div.product form.variations_form .variations .diako-variation-option:has(.diako-variation-option__input:checked) .diako-variation-option__check {
+    @apply inline-flex;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-option.is-selected .diako-variation-option__label,
+  .woocommerce div.product form.variations_form .variations .diako-variation-option:has(.diako-variation-option__input:checked) .diako-variation-option__label {
+    @apply border-primary/40 bg-primary/5 text-primary;
+  }
+
+  .woocommerce div.product form.variations_form .variations .diako-variation-option:has(.diako-variation-option__input:focus-visible) .diako-variation-option__label {
+    @apply ring-2 ring-primary/15;
+  }
+
+  .woocommerce div.product form.variations_form .single_variation_wrap.diako-variation-wrap--visible {
+    display: block;
+  }
+
+  .woocommerce div.product form.variations_form .reset_variations {
+    @apply hidden;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form--variable .woocommerce-variation-price {
+    @apply hidden;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form .woocommerce-variation-price {
+    @apply mb-0 w-full text-2xl font-bold text-primary;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form .woocommerce-variation-price .price {
+    @apply text-2xl font-bold text-primary;
+  }
+
+  .woocommerce div.product .stock {
+    @apply text-sm font-medium;
+  }
+
+  .woocommerce div.product .stock.in-stock {
+    @apply text-emerald-600 dark:text-emerald-400;
+  }
+
+  .woocommerce div.product .stock.out-of-stock {
+    @apply text-destructive;
+  }
+
+  .diako-stock-notify {
+    @apply rounded-2xl border border-border bg-muted/30 p-4 md:p-5;
+  }
+
+  .diako-stock-notify--inline {
+    @apply mt-4;
+  }
+
+  .diako-stock-notify__title {
+    @apply text-base font-bold text-foreground;
+  }
+
+  .diako-stock-notify__title--inline {
+    @apply mb-1;
+  }
+
+  .diako-stock-notify__product {
+    @apply mt-1 text-sm font-medium text-primary;
+  }
+
+  .diako-stock-notify__desc {
+    @apply mt-2 text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .diako-stock-notify__label {
+    @apply mt-4 block text-sm font-medium text-foreground;
+  }
+
+  .diako-stock-notify__input {
+    @apply mt-1.5 h-11 w-full rounded-2xl border border-input bg-background px-4 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15;
+  }
+
+  .diako-stock-notify__input--locked,
+  .diako-stock-notify__input[readonly] {
+    @apply cursor-not-allowed border-border/80 bg-muted/60 text-muted-foreground focus-visible:border-border/80 focus-visible:ring-0;
+  }
+
+  .diako-stock-notify__feedback {
+    @apply mt-3 text-sm leading-relaxed;
+  }
+
+  .diako-stock-notify__feedback.is-success {
+    @apply text-emerald-600 dark:text-emerald-400;
+  }
+
+  .diako-stock-notify__feedback.is-error {
+    @apply text-destructive;
+  }
+
+  .diako-stock-notify__submit {
+    @apply mt-4;
+  }
+
+  .diako-stock-notify-variation-wrap {
+    @apply mt-4 w-full;
+  }
+
+  .diako-variation-modal {
+    @apply fixed inset-0 z-[85] flex items-end justify-center p-4 sm:items-center;
+  }
+
+  .diako-variation-modal[hidden] {
+    display: none !important;
+  }
+
+  .diako-variation-modal__backdrop {
+    @apply absolute inset-0 bg-black/50 backdrop-blur-sm;
+  }
+
+  .diako-variation-modal__dialog {
+    @apply relative z-[1] w-full max-w-md overflow-hidden rounded-3xl border border-border bg-card shadow-2xl;
+  }
+
+  .diako-variation-modal__close {
+    @apply absolute end-4 top-4 z-[2] inline-flex size-9 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground;
+  }
+
+  .diako-variation-modal__body {
+    @apply max-h-[88vh] overflow-auto p-5 sm:p-6;
+  }
+
+  .diako-variation-modal__form {
+    @apply flex flex-col gap-5;
+  }
+
+  .diako-variation-modal__product {
+    @apply flex items-start gap-4 pe-8;
+  }
+
+  .diako-variation-modal__media {
+    @apply size-20 shrink-0 overflow-hidden rounded-2xl bg-muted;
+  }
+
+  .diako-variation-modal__image {
+    @apply h-full w-full object-cover;
+  }
+
+  .diako-variation-modal__meta {
+    @apply min-w-0 flex-1;
+  }
+
+  .diako-variation-modal__title {
+    @apply m-0 text-lg font-bold leading-snug text-foreground;
+  }
+
+  .diako-variation-modal__price {
+    @apply mt-2 text-base font-semibold text-primary;
+  }
+
+  .diako-variation-modal__price .price,
+  .diako-variation-modal__price del,
+  .diako-variation-modal__price ins {
+    @apply text-base;
+  }
+
+  .diako-variation-modal .diako-variations {
+    @apply flex w-full flex-col gap-4;
+  }
+
+  .diako-variation-modal .diako-variation-row {
+    @apply flex w-full flex-col items-stretch gap-2;
+  }
+
+  .diako-variation-modal .diako-variation-row__label label {
+    @apply text-sm font-medium text-foreground;
+  }
+
+  .diako-variation-modal .diako-variation-options {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .diako-variation-modal .diako-variation-option {
+    @apply m-0 inline-flex cursor-pointer;
+  }
+
+  .diako-variation-modal .diako-variation-option__input {
+    @apply sr-only;
+  }
+
+  .diako-variation-modal .diako-variation-option__label {
+    @apply inline-flex items-center gap-1.5 rounded-2xl border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-[border-color,background-color,color,box-shadow];
+  }
+
+  .diako-variation-modal .diako-variation-option__check {
+    @apply hidden h-4 w-4 shrink-0;
+  }
+
+  .diako-variation-modal .diako-variation-option.is-selected .diako-variation-option__check,
+  .diako-variation-modal .diako-variation-option:has(.diako-variation-option__input:checked) .diako-variation-option__check {
+    @apply inline-flex;
+  }
+
+  .diako-variation-modal .diako-variation-option.is-selected .diako-variation-option__label,
+  .diako-variation-modal .diako-variation-option:has(.diako-variation-option__input:checked) .diako-variation-option__label {
+    @apply border-primary/40 bg-primary/5 text-primary;
+  }
+
+  .diako-variation-modal__feedback {
+    @apply m-0 rounded-2xl border border-border bg-muted/30 px-3 py-2 text-sm text-muted-foreground;
+  }
+
+  .diako-variation-modal__feedback.is-error {
+    @apply border-destructive/20 bg-destructive/5 text-destructive;
+  }
+
+  .diako-variation-modal__status {
+    @apply rounded-2xl border border-border bg-muted/30 p-5 text-center text-sm text-muted-foreground;
+  }
+
+  .diako-variation-modal__status.is-error {
+    @apply border-destructive/20 bg-destructive/5 text-destructive;
+  }
+
+  .diako-variation-modal__submit.is-loading,
+  .diako-product-card__cta.is-loading {
+    @apply pointer-events-none opacity-70;
+  }
+
+  .diako-cart-count[hidden] {
+    display: none !important;
+  }
+
+  body.diako-variation-modal-open {
+    @apply overflow-hidden;
+  }
+
+  .diako-stock-notify-modal {
+    @apply fixed inset-0 z-[80] flex items-end justify-center p-4 sm:items-center;
+  }
+
+  .diako-stock-notify-modal[hidden] {
+    display: none !important;
+  }
+
+  .diako-stock-notify-modal__backdrop {
+    @apply absolute inset-0 bg-black/50 backdrop-blur-sm;
+  }
+
+  .diako-stock-notify-modal__dialog {
+    @apply relative z-[1] w-full max-w-md rounded-3xl border border-border bg-card p-5 shadow-2xl sm:p-6;
+  }
+
+  .diako-stock-notify-modal__close {
+    @apply absolute end-4 top-4 inline-flex size-9 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground;
+  }
+
+  .diako-stock-notify-modal__body .diako-stock-notify {
+    @apply border-0 bg-transparent p-0;
+  }
+
+  body.diako-stock-notify-open {
+    @apply overflow-hidden;
+  }
+
+  .diako-product-card--out-of-stock .diako-product-card__cta--notify,
+  .diako-product-card--out-of-stock .group:hover .diako-product-card__cta--notify {
+    @apply translate-y-0 opacity-100;
+  }
+
+  .woocommerce div.product .summary .diako-liquid-button {
+    @apply block w-full max-w-full sm:inline-flex sm:w-auto;
+  }
+
+  .woocommerce div.product .product_meta {
+    @apply flex flex-col gap-2 border-t border-border pt-4 text-sm text-muted-foreground;
+  }
+
+  .woocommerce div.product .product_meta > span {
+    @apply block;
+  }
+
+  .woocommerce div.product .product_meta a {
+    @apply text-primary hover:underline;
+  }
+
+  .diako-product-tabs {
+    @apply col-span-full mt-10 rounded-xl border bg-card p-4 md:p-6;
+  }
+
+  .diako-related-products {
+    @apply col-span-full mt-10 w-full min-w-0;
+  }
+
+  .diako-related-products__title {
+    @apply mb-4 text-base font-semibold text-foreground;
+  }
+
+  .diako-related-products__carousel {
+    --carousel-min-slide-width: 11.5rem;
+  }
+
+  .diako-related-products__carousel [data-carousel-track].products {
+    display: flex;
+    grid-template-columns: none;
+  }
+
+  .diako-related-products__carousel [data-carousel-track] > li.product {
+    @apply float-none m-0 border-0 bg-transparent p-0 shadow-none;
+  }
+
+  .diako-product-tabs__list {
+    @apply flex flex-wrap gap-2 border-b border-border pb-4;
+  }
+
+  .diako-product-tabs__item.active .diako-product-tabs__trigger {
+    @apply border-primary bg-primary text-primary-foreground;
+  }
+
+  .diako-product-tabs__trigger {
+    @apply inline-flex items-center rounded-2xl border border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:border-border hover:bg-accent hover:text-foreground;
+  }
+
+  .diako-product-tabs__panel {
+    @apply hidden pt-6 text-muted-foreground;
+  }
+
+  .diako-product-tabs__panel.is-active {
+    @apply block;
+  }
+
+  .diako-product-tabs__panel[hidden] {
+    @apply hidden;
+  }
+
+  .diako-product-tabs__panel .woocommerce-Tabs-panel > h2:first-child {
+    @apply sr-only;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description {
+    @apply text-sm leading-7 text-muted-foreground;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description :is(h1, h2, h3, h4, h5, h6),
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description :is(h1, h2, h3, h4, h5, h6) {
+    @apply font-semibold tracking-tight text-foreground;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description h1,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description h1 {
+    @apply mb-4 mt-0 text-2xl font-bold md:text-3xl;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description h2,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description h2 {
+    @apply mb-3 mt-8 text-xl font-bold first:mt-0 md:text-2xl;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description h3,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description h3 {
+    @apply mb-3 mt-6 text-lg font-semibold first:mt-0;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description h4,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description h4 {
+    @apply mb-2 mt-5 text-base font-semibold first:mt-0;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description :is(h5, h6),
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description :is(h5, h6) {
+    @apply mb-2 mt-4 text-sm font-semibold first:mt-0;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description p,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description p {
+    @apply mb-4 last:mb-0;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description :is(ul, ol),
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description :is(ul, ol) {
+    @apply mb-4 ms-5 space-y-2 last:mb-0;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description ul,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description ul {
+    @apply list-disc;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description ol,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description ol {
+    @apply list-decimal;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description li,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description li {
+    @apply leading-7;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description li > :is(ul, ol),
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description li > :is(ul, ol) {
+    @apply mb-0 mt-2;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description :is(a, a:visited),
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description :is(a, a:visited) {
+    @apply font-medium text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:text-primary/80;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description :is(strong, b),
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description :is(strong, b) {
+    @apply font-semibold text-foreground;
+  }
+
+  .woocommerce div.product .summary .woocommerce-product-details__short-description blockquote,
+  .diako-product-tabs__panel.woocommerce-Tabs-panel--description blockquote {
+    @apply my-5 border-s-4 border-primary/30 bg-muted/30 px-4 py-3 text-foreground;
+  }
+
+  .diako-product-specs .shop_attributes,
+  .woocommerce table.shop_attributes {
+    @apply m-0 w-full overflow-hidden rounded-xl border border-border text-sm;
+  }
+
+  .diako-product-specs .shop_attributes tr,
+  .woocommerce table.shop_attributes tr {
+    @apply border-b border-border last:border-b-0;
+  }
+
+  .diako-product-specs .shop_attributes th,
+  .diako-product-specs .shop_attributes td,
+  .woocommerce table.shop_attributes th,
+  .woocommerce table.shop_attributes td {
+    @apply px-4 py-3 align-top;
+  }
+
+  .diako-product-specs .shop_attributes th,
+  .woocommerce table.shop_attributes th {
+    @apply w-[38%] bg-muted/40 font-medium text-foreground;
+  }
+
+  .diako-product-specs .shop_attributes td,
+  .woocommerce table.shop_attributes td {
+    @apply text-muted-foreground;
+  }
+
+  .diako-product-specs .shop_attributes td p,
+  .woocommerce table.shop_attributes td p {
+    @apply m-0;
+  }
+
+  .diako-product-specs .shop_attributes a,
+  .woocommerce table.shop_attributes a {
+    @apply text-primary hover:underline;
+  }
+
+  .diako-product-specs__empty {
+    @apply rounded-xl border border-dashed border-border bg-muted/20 px-4 py-8 text-center;
+  }
+
+  .diako-product-reviews__empty {
+    @apply rounded-2xl border border-dashed border-border bg-muted/30 px-4 py-8 text-center text-sm text-muted-foreground;
+  }
+
+  .diako-product-reviews__list {
+    @apply m-0 list-none space-y-4 p-0;
+  }
+
+  .diako-product-reviews__card {
+    @apply rounded-2xl border border-border bg-background p-4 md:p-5;
+  }
+
+  .diako-product-reviews__card-header {
+    @apply mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between;
+  }
+
+  .diako-product-reviews__identity {
+    @apply flex min-w-0 items-center gap-3;
+  }
+
+  .diako-product-reviews__identity img {
+    @apply h-11 w-11 shrink-0 rounded-full border border-border object-cover;
+  }
+
+  .diako-product-reviews__meta {
+    @apply m-0 flex flex-col gap-1 text-sm;
+  }
+
+  .diako-product-reviews__meta .woocommerce-review__author {
+    @apply text-base font-semibold text-foreground;
+  }
+
+  .diako-product-reviews__meta .woocommerce-review__published-date {
+    @apply text-xs text-muted-foreground;
+  }
+
+  .diako-product-reviews__verified {
+    @apply inline-flex w-fit rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary;
+  }
+
+  .diako-product-reviews__rating-wrap {
+    @apply shrink-0;
+  }
+
+  .diako-product-reviews__content .description p {
+    @apply m-0 text-sm leading-7 text-foreground;
+  }
+
+  .diako-product-reviews__form-wrap {
+    @apply mt-6 rounded-2xl border border-border bg-muted/20 p-4 md:p-6;
+  }
+
+  .diako-product-reviews__form-title {
+    @apply mb-5 text-lg font-semibold text-foreground;
+  }
+
+  .diako-product-reviews .comment-notes {
+    @apply mb-4;
+  }
+
+  .diako-product-reviews__field {
+    @apply mb-5 space-y-2;
+  }
+
+  .diako-product-reviews__field-row {
+    @apply mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2;
+  }
+
+  .diako-product-reviews__field-row .diako-product-reviews__field {
+    @apply mb-0;
+  }
+
+  .diako-product-reviews__notice {
+    @apply rounded-2xl border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground;
+  }
+
+  .diako-product-reviews__submit {
+    @apply mt-2 flex justify-end;
+  }
+
+  .diako-stars {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .diako-stars--sm .diako-stars__icon {
+    @apply h-4 w-4;
+  }
+
+  .diako-stars--md .diako-stars__icon {
+    @apply h-4 w-4 md:h-[18px] md:w-[18px];
+  }
+
+  .diako-stars--lg .diako-stars__icon {
+    @apply h-7 w-7;
+  }
+
+  .diako-stars__star {
+    @apply text-muted-foreground/25;
+  }
+
+  .diako-stars__star.is-filled {
+    @apply text-amber-400;
+  }
+
+  .diako-stars--interactive {
+    @apply gap-1.5;
+  }
+
+  .diako-stars__trigger {
+    @apply inline-flex cursor-pointer rounded-md border-0 bg-transparent p-0 text-muted-foreground/25 transition-all duration-150 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  .diako-stars__trigger.is-active,
+  .diako-stars__trigger:hover {
+    @apply text-amber-400;
+  }
+
+  .diako-star-rating-field {
+    @apply space-y-2;
+  }
+
+  .diako-star-rating-field__label {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .diako-star-rating-field__controls {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .diako-star-rating-field__hint {
+    @apply m-0 min-h-7 text-sm font-medium text-muted-foreground;
+  }
+
+  .diako-product-reviews .comment-form-rating p.stars,
+  .diako-product-reviews .star-rating {
+    @apply hidden;
+  }
+
+  .woocommerce .woocommerce-tabs {
+    @apply mt-10 rounded-xl border bg-card p-6;
+  }
+
+  .woocommerce .woocommerce-tabs .panel {
+    @apply w-full overflow-hidden rounded-lg border border-border text-sm;
+  }
+
+  .woocommerce .search-form,
+  .search-form {
+    @apply flex gap-2;
+  }
+
+  .woocommerce .search-form input[type='search'],
+  .search-form .search-field {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 text-sm;
+  }
+
+  .woocommerce .search-form input[type='submit'],
+  .search-form .search-submit {
+    @apply inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground;
+  }
+
+  .pagination,
+  .woocommerce-pagination ul.page-numbers {
+    @apply mt-10 flex list-none flex-wrap items-center justify-center gap-2 p-0;
+  }
+
+  .pagination a,
+  .pagination span,
+  .woocommerce-pagination ul.page-numbers li a,
+  .woocommerce-pagination ul.page-numbers li span {
+    @apply inline-flex h-9 min-w-9 items-center justify-center rounded-md border border-input px-3 text-sm;
+  }
+
+  .pagination .current,
+  .woocommerce-pagination ul.page-numbers li span.current {
+    @apply border-primary bg-primary text-primary-foreground;
+  }
+
+  .pagination .prev.page-numbers,
+  .pagination .next.page-numbers,
+  .woocommerce-pagination ul.page-numbers li a.prev,
+  .woocommerce-pagination ul.page-numbers li a.next {
+    @apply px-2.5;
+  }
+
+  .product-track {
+    @apply flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory;
+    scrollbar-width: thin;
+  }
+
+  .product-track > li.product {
+    @apply w-[280px] min-w-[280px] max-w-[280px] flex-[0_0_280px] snap-start;
+  }
+
+  .diako-card-grid > li.product {
+    @apply min-w-0 max-w-none;
+  }
+
+  .product-track::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .product-track::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border;
+  }
+
+  .diako-home-promo-banner {
+    @apply overflow-x-clip py-8 md:py-10;
+  }
+
+  .diako-home-promo-banner__link,
+  .diako-home-promo-banner__frame {
+    @apply block overflow-hidden rounded-xl border-0 bg-transparent shadow-none;
+  }
+
+  .diako-home-promo-banner__image {
+    @apply block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.02];
+  }
+
+  /* Homepage carousels */
+  .diako-carousel {
+    @apply relative w-full min-w-0;
+  }
+
+  .diako-carousel--track {
+    --carousel-gap: 1rem;
+    --carousel-cols: 1;
+    --carousel-min-slide-width: 17.5rem;
+  }
+
+  .diako-carousel__frame {
+    @apply relative;
+  }
+
+  .diako-hero-section {
+    @apply relative -mt-16 overflow-x-clip overflow-hidden border-b border-border/40;
+  }
+
+  .diako-hero-section__container {
+    @apply container relative px-4 pt-24 pb-10;
+  }
+
+  /* Mobile: 16/9. Desktop banner: 21/8. Do not combine aspect-ratio with min-height — browsers expand width to preserve ratio and break mobile layout. */
+  .diako-hero-carousel__frame {
+    @apply relative w-full min-w-0 max-w-full overflow-hidden rounded-3xl border border-border/50 bg-card shadow-xl;
+    aspect-ratio: 16 / 9;
+  }
+
+  @media (min-width: 768px) {
+    .diako-hero-carousel__frame {
+      aspect-ratio: 21 / 8;
+    }
+  }
+
+  .diako-carousel--fade .diako-hero-carousel__frame .diako-carousel__slide img {
+    @apply h-full w-full max-w-full object-cover;
+  }
+
+  .diako-carousel--fade .diako-carousel__slide {
+    @apply pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-700 ease-out;
+    transform: translate3d(0, 0, 0);
+    will-change: opacity;
+  }
+
+  .diako-carousel--fade .diako-carousel__slide.is-active {
+    @apply pointer-events-auto z-[1] opacity-100;
+  }
+
+  .diako-carousel__nav {
+    @apply flex items-center gap-2;
+  }
+
+  .diako-carousel__nav--overlay {
+    @apply pointer-events-none absolute inset-x-0 top-1/2 z-20 -translate-y-1/2 justify-between px-3 sm:px-5;
+  }
+
+  .diako-carousel__nav--track {
+    @apply pointer-events-none absolute inset-x-0 top-1/2 z-20 -translate-y-1/2 justify-between px-0 sm:px-1;
+  }
+
+  .diako-carousel__arrow {
+    @apply pointer-events-auto inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border/80 bg-card/95 text-foreground shadow-md backdrop-blur-sm transition-[transform,background-color,box-shadow,border-color] hover:scale-105 hover:border-primary/30 hover:bg-card hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  .diako-carousel__arrow.is-disabled {
+    @apply pointer-events-none opacity-40;
+  }
+
+  .diako-carousel__arrow svg {
+    @apply size-5 stroke-[2.25];
+  }
+
+  .diako-carousel__dots {
+    @apply mt-5 flex flex-wrap items-center justify-center gap-2;
+  }
+
+  .diako-carousel--fade .diako-carousel__dots {
+    @apply absolute inset-x-0 bottom-4 z-20 mt-0;
+  }
+
+  .diako-carousel__dot {
+    @apply relative inline-flex min-h-6 min-w-6 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30;
+  }
+
+  .diako-carousel__dot::before {
+    content: '';
+    @apply block size-2 rounded-full bg-foreground/20 transition-all duration-300;
+  }
+
+  .diako-carousel__dot:hover::before {
+    @apply bg-foreground/35;
+  }
+
+  .diako-carousel__dot.is-active::before {
+    @apply h-2 w-6 bg-primary;
+  }
+
+  .diako-carousel--fade .diako-carousel__dot::before {
+    @apply bg-primary/30;
+  }
+
+  .diako-carousel--fade .diako-carousel__dot:hover::before {
+    @apply bg-primary/50;
+  }
+
+  .diako-carousel--fade .diako-carousel__dot.is-active::before {
+    @apply bg-primary;
+  }
+
+  .diako-carousel__track-wrap {
+    @apply relative min-w-0 max-w-full overflow-hidden;
+  }
+
+  .diako-carousel--track .diako-carousel__viewport {
+    @apply w-full min-w-0 overflow-hidden;
+    overflow-anchor: none;
+  }
+
+  .diako-carousel--track [data-carousel-track] {
+    @apply flex w-full list-none overflow-x-auto scroll-smooth pb-1 scroll-ps-0 snap-x snap-mandatory;
+    gap: var(--carousel-gap);
+    overflow-anchor: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-y pinch-zoom;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .diako-carousel--track [data-carousel-track]::-webkit-scrollbar {
+    display: none;
+  }
+
+  .diako-carousel--track [data-carousel-track] > li {
+    @apply flex-shrink-0;
+    flex: 0 0
+      calc((100% - ((var(--carousel-cols) - 1) * var(--carousel-gap))) / var(--carousel-cols));
+    width: calc((100% - ((var(--carousel-cols) - 1) * var(--carousel-gap))) / var(--carousel-cols));
+    min-width: calc((100% - ((var(--carousel-cols) - 1) * var(--carousel-gap))) / var(--carousel-cols));
+    max-width: calc((100% - ((var(--carousel-cols) - 1) * var(--carousel-gap))) / var(--carousel-cols));
+    scroll-snap-align: none;
+  }
+
+  .diako-carousel--track [data-carousel-track] > li.diako-carousel__slide-start {
+    @apply snap-start scroll-ms-0;
+    scroll-snap-align: start;
+  }
+
+  .diako-carousel--track.diako-carousel--static .diako-carousel__viewport {
+    @apply overflow-hidden;
+  }
+
+  .diako-carousel--track.diako-carousel--static [data-carousel-track] {
+    @apply snap-none overflow-x-hidden;
+  }
+
+  .diako-carousel--static .diako-carousel__nav,
+  .diako-carousel--static .diako-carousel__dots {
+    @apply hidden;
+  }
+
+  .diako-blog-track {
+    @apply flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory;
+  }
+
+  .diako-blog-track > li {
+    @apply min-w-[min(100%,280px)] max-w-[320px] flex-shrink-0 snap-start;
+  }
+
+  .diako-product-card {
+    @apply w-full !rounded-3xl;
+  }
+
+  .diako-product-card__media {
+    @apply relative aspect-square overflow-hidden rounded-2xl border border-border/10 bg-white p-2;
+  }
+
+  .diako-product-card__media-link {
+    @apply relative block h-full w-full overflow-hidden rounded-xl;
+  }
+
+  .diako-product-card__image {
+    @apply h-full w-full object-cover transition-[transform,opacity] duration-500;
+  }
+
+  .diako-product-card__image--primary {
+    @apply relative z-[1] group-hover:scale-105;
+  }
+
+  .diako-product-card__image--secondary {
+    @apply absolute inset-0 z-[2] object-cover opacity-0 group-hover:scale-105 group-hover:opacity-100;
+  }
+
+  .diako-product-card__badges {
+    @apply pointer-events-none absolute start-3 top-3 z-20 flex max-w-[calc(100%-1.5rem)] flex-col items-start gap-1.5;
+  }
+
+  .diako-product-card__badge {
+    @apply inline-flex max-w-full items-center truncate rounded-full border px-2.5 py-[2px] text-[11px] font-semibold leading-none shadow-sm backdrop-blur-sm;
+  }
+
+  .diako-product-card__badge--sale {
+    @apply border-destructive/25 bg-destructive/15 text-destructive;
+  }
+
+  .diako-product-card__badge--featured {
+    @apply border-primary/25 bg-primary/15 text-primary;
+  }
+
+  .diako-product-card__badge--stock {
+    @apply border-border bg-card/80 text-muted-foreground;
+  }
+
+  .diako-product-card__body {
+    @apply flex flex-1 flex-col gap-2.5 px-1 pb-1 pt-4;
+  }
+
+  .diako-product-card__meta {
+    @apply flex items-center justify-between gap-2;
+  }
+
+  .diako-product-card__meta-start {
+    @apply flex min-w-0 flex-wrap items-center gap-1.5;
+  }
+
+  .diako-product-card__chip {
+    @apply inline-flex max-w-full items-center truncate rounded-lg border px-2 py-1 text-[11px] font-semibold leading-none;
+  }
+
+  .diako-product-card__chip--category {
+    @apply border-border bg-muted/70 text-muted-foreground no-underline transition-colors hover:border-primary/30 hover:text-foreground;
+  }
+
+  .diako-product-card__title {
+    @apply m-0 line-clamp-2 min-h-[2.75rem] text-base font-bold leading-snug;
+  }
+
+  .diako-product-card__title a {
+    @apply text-foreground no-underline transition-colors hover:text-primary;
+  }
+
+  .diako-product-card__media .diako-product-card__tags {
+    @apply pointer-events-none absolute bottom-3 right-3 z-20 max-w-[calc(100%-1.5rem)] justify-end;
+  }
+
+  .diako-product-card__media .diako-product-tag {
+    @apply pointer-events-auto backdrop-blur-[16px] border-brand-orange/25 bg-brand-orange/10 text-brand-orange hover:border-brand-orange hover:bg-brand-orange hover:text-white;
+  }
+
+  .diako-product-card__media .diako-favorite-button--card {
+    @apply absolute left-3 top-3 z-30 size-10 bg-transparent;
+  }
+
+  .diako-product-card__media .diako-compare-button--card {
+    @apply absolute left-3 top-[3.75rem] z-30 size-10 bg-transparent;
+    border-color: hsl(220 13% 91% / 0.8);
+  }
+
+  html.dark .diako-product-card__media .diako-compare-button--card:not(:hover):not(.is-active) {
+    @apply bg-transparent text-muted-foreground shadow-sm;
+    border-color: hsl(220 13% 91% / 0.8);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .diako-product-card__media .diako-favorite-button--card,
+    .diako-product-card__media .diako-compare-button--card {
+      @apply pointer-events-none translate-y-1 opacity-0;
+    }
+
+    .diako-product-card:hover .diako-favorite-button--card,
+    .diako-product-card:focus-within .diako-favorite-button--card,
+    .diako-product-card:hover .diako-compare-button--card,
+    .diako-product-card:focus-within .diako-compare-button--card {
+      @apply pointer-events-auto translate-y-0 opacity-100;
+    }
+  }
+
+  .diako-product-card__media .diako-favorite-button--card:hover,
+  .diako-product-card__media .diako-favorite-button--card.is-active:hover {
+    @apply bg-transparent;
+  }
+
+  .diako-product-card__media .diako-favorite-button--card.is-active {
+    @apply bg-transparent;
+  }
+
+  .diako-product-card__media .diako-compare-button--card:hover,
+  .diako-product-card__media .diako-compare-button--card.is-active:hover {
+    @apply bg-transparent;
+    border-color: hsl(220 13% 91% / 0.8);
+  }
+
+  .diako-product-card__media .diako-compare-button--card.is-active {
+    @apply bg-transparent;
+  }
+
+  .diako-product-card__rating {
+    @apply flex items-center gap-1.5;
+  }
+
+  .diako-product-card__rating-count {
+    @apply text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-product-card__stars .diako-stars__star {
+    @apply text-muted-foreground/35;
+  }
+
+  .diako-product-card__stars .diako-stars__star.is-filled {
+    @apply text-brand-orange;
+  }
+
+  .diako-product-card__footer {
+    @apply mt-auto flex items-center justify-between gap-3 pt-1;
+  }
+
+  .diako-product-card__price-block {
+    @apply min-w-0 shrink-0;
+  }
+
+  .diako-sale-countdown {
+    @apply flex items-center gap-2 rounded-xl border border-brand-orange/25 bg-brand-orange/10 px-2.5 py-1.5 text-brand-orange shadow-sm backdrop-blur-[16px];
+  }
+
+  .diako-sale-countdown--card {
+    @apply mt-2 w-full rounded-2xl px-3 py-2;
+  }
+
+  .diako-sale-countdown--card .diako-sale-countdown__content {
+    @apply flex min-w-0 flex-1 flex-row items-center justify-between gap-2;
+  }
+
+  .diako-sale-countdown--single {
+    @apply mt-3 w-full max-w-md;
+  }
+
+  .diako-sale-countdown__icon {
+    @apply shrink-0 text-brand-orange;
+  }
+
+  .diako-sale-countdown__content {
+    @apply flex min-w-0 flex-col gap-0.5;
+  }
+
+  .diako-sale-countdown__label {
+    @apply text-[10px] font-semibold leading-none text-brand-orange/90;
+  }
+
+  .diako-sale-countdown__time {
+    @apply text-xs font-bold leading-none tracking-wide tabular-nums text-brand-orange;
+  }
+
+  .diako-product-card__price-from-line {
+    @apply inline-flex flex-wrap items-baseline gap-x-1 text-base font-bold leading-tight text-foreground;
+  }
+
+  .diako-product-card__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale),
+  .woocommerce ul.products li.product .diako-product-card__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale),
+  .product-track > li.product .diako-product-card__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale) {
+    @apply flex-row flex-wrap items-baseline gap-x-1 text-base font-bold leading-tight text-foreground;
+  }
+
+  .diako-product-card__price .price.diako-product-card__price--from-sale,
+  .woocommerce ul.products li.product .diako-product-card__price .price.diako-product-card__price--from-sale,
+  .product-track > li.product .diako-product-card__price .price.diako-product-card__price--from-sale {
+    @apply flex-col items-start gap-0.5 text-base font-bold leading-tight text-foreground;
+  }
+
+  .diako-product-card__price,
+  .woocommerce ul.products li.product .diako-product-card__price,
+  .product-track > li.product .diako-product-card__price {
+    @apply flex flex-col items-start gap-0.5 text-base font-bold leading-tight text-foreground;
+  }
+
+  .diako-product-card__price .price,
+  .woocommerce ul.products li.product .diako-product-card__price .price,
+  .product-track > li.product .diako-product-card__price .price {
+    @apply flex flex-col items-start gap-0.5 text-base font-bold leading-tight text-foreground;
+  }
+
+  .diako-product-card__price .price .woocommerce-Price-amount,
+  .woocommerce ul.products li.product .diako-product-card__price .price .woocommerce-Price-amount,
+  .product-track > li.product .diako-product-card__price .price .woocommerce-Price-amount {
+    @apply text-base font-bold text-foreground;
+  }
+
+  .diako-product-card__price .screen-reader-text,
+  .woocommerce ul.products li.product .diako-product-card__price .screen-reader-text,
+  .product-track > li.product .diako-product-card__price .screen-reader-text {
+    @apply sr-only;
+  }
+
+  .diako-product-card__price del,
+  .woocommerce ul.products li.product .diako-product-card__price del,
+  .product-track > li.product .diako-product-card__price del {
+    @apply order-1 text-xs font-medium leading-none text-muted-foreground line-through;
+  }
+
+  .diako-product-card__price ins,
+  .woocommerce ul.products li.product .diako-product-card__price ins,
+  .product-track > li.product .diako-product-card__price ins {
+    @apply order-2 no-underline;
+    text-decoration: none !important;
+  }
+
+  .diako-product-card__cta,
+  .woocommerce ul.products li.product .diako-product-card__cta,
+  .product-track > li.product .diako-product-card__cta {
+    @apply h-11 w-11 shrink-0 rounded-[12px] border border-primary/25 bg-primary/10 p-0 text-primary shadow-none transition-[transform,background-color,color,border-color] duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-white hover:shadow-md active:translate-y-0 active:shadow-sm;
+  }
+
+  .group:hover .diako-product-card__cta,
+  .woocommerce ul.products li.product .group:hover .diako-product-card__cta,
+  .product-track > li.product .group:hover .diako-product-card__cta {
+    @apply -translate-y-0.5 border-primary bg-primary text-white shadow-md;
+  }
+
+  .diako-product-card__cta:not(.diako-product-card__cta--notify) span {
+    @apply sr-only;
+  }
+
+  .diako-product-card__cta--notify,
+  .woocommerce ul.products li.product .diako-product-card__cta--notify,
+  .product-track > li.product .diako-product-card__cta--notify {
+    @apply h-auto min-h-11 w-full shrink gap-1.5 px-3 py-2;
+  }
+
+  .diako-product-card__cta--notify span,
+  .woocommerce ul.products li.product .diako-product-card__cta--notify span,
+  .product-track > li.product .diako-product-card__cta--notify span {
+    @apply static m-0 h-auto w-auto overflow-visible whitespace-normal text-xs font-semibold leading-tight;
+    clip: auto;
+    clip-path: none;
+    position: static;
+  }
+
+  .diako-product-card__media--out-of-stock .diako-product-card__media-link,
+  .diako-product-card--out-of-stock .diako-product-card__media-link,
+  .woocommerce ul.products li.outofstock .diako-product-card__media-link,
+  .product-track > li.outofstock .diako-product-card__media-link,
+  .diako-card-grid > li.outofstock .diako-product-card__media-link {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+  }
+
+  .diako-product-card__media--out-of-stock .diako-product-card__media-link img,
+  .diako-product-card--out-of-stock .diako-product-card__media-link img,
+  .woocommerce ul.products li.outofstock .diako-product-card__media-link img,
+  .product-track > li.outofstock .diako-product-card__media-link img,
+  .diako-card-grid > li.outofstock .diako-product-card__media-link img {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+  }
+
+  .diako-product-card--out-of-stock .diako-product-card__media::after,
+  .diako-product-card__media--out-of-stock::after,
+  .woocommerce ul.products li.outofstock .diako-product-card__media::after,
+  .product-track > li.outofstock .diako-product-card__media::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 z-[3] rounded-2xl bg-background/20;
+  }
+
+  .diako-product-card--out-of-stock .diako-product-card__cta,
+  .woocommerce ul.products li.product .diako-product-card--out-of-stock .diako-product-card__cta,
+  .product-track > li.product .diako-product-card--out-of-stock .diako-product-card__cta {
+    @apply opacity-80;
+  }
+
+  .diako-product-card__sale-badge,
+  .woocommerce ul.products li.product .diako-product-card__sale-badge,
+  .product-track > li.product .diako-product-card__sale-badge {
+    @apply hidden;
+  }
+
+  .diako-product-card__cta .diako-product-card__cta-icon,
+  .woocommerce ul.products li.product .diako-product-card__cta .diako-product-card__cta-icon,
+  .product-track > li.product .diako-product-card__cta .diako-product-card__cta-icon {
+    @apply transition-transform duration-300 group-hover:scale-110;
+  }
+
+  .dark .diako-product-card__cta,
+  .dark .woocommerce ul.products li.product .diako-product-card__cta,
+  .dark .product-track > li.product .diako-product-card__cta {
+    @apply border-primary/40 bg-primary/20 text-primary;
+  }
+
+  .dark .diako-product-card__cta:hover,
+  .dark .woocommerce ul.products li.product .diako-product-card__cta:hover,
+  .dark .product-track > li.product .diako-product-card__cta:hover,
+  .dark .group:hover .diako-product-card__cta,
+  .dark .woocommerce ul.products li.product .group:hover .diako-product-card__cta,
+  .dark .product-track > li.product .group:hover .diako-product-card__cta {
+    @apply border-primary bg-primary text-white shadow-md;
+  }
+
+  .diako-product-card__cta--notify,
+  .woocommerce ul.products li.product .diako-product-card__cta--notify,
+  .product-track > li.product .diako-product-card__cta--notify,
+  .diako-product-card--out-of-stock .diako-product-card__cta--notify,
+  .woocommerce ul.products li.product .diako-product-card--out-of-stock .diako-product-card__cta--notify,
+  .product-track > li.product .diako-product-card--out-of-stock .diako-product-card__cta--notify,
+  .dark .diako-product-card__cta--notify,
+  .dark .woocommerce ul.products li.product .diako-product-card__cta--notify,
+  .dark .product-track > li.product .diako-product-card__cta--notify {
+    @apply border-brand-orange/25 bg-brand-orange/10 text-brand-orange shadow-none;
+  }
+
+  .diako-product-card__cta--notify:hover,
+  .woocommerce ul.products li.product .diako-product-card__cta--notify:hover,
+  .product-track > li.product .diako-product-card__cta--notify:hover,
+  .group:hover .diako-product-card__cta--notify,
+  .woocommerce ul.products li.product .group:hover .diako-product-card__cta--notify,
+  .product-track > li.product .group:hover .diako-product-card__cta--notify,
+  .dark .diako-product-card__cta--notify:hover,
+  .dark .woocommerce ul.products li.product .diako-product-card__cta--notify:hover,
+  .dark .product-track > li.product .diako-product-card__cta--notify:hover,
+  .dark .group:hover .diako-product-card__cta--notify,
+  .dark .woocommerce ul.products li.product .group:hover .diako-product-card__cta--notify,
+  .dark .product-track > li.product .group:hover .diako-product-card__cta--notify {
+    @apply -translate-y-0.5 border-brand-orange bg-brand-orange text-white shadow-md;
+  }
+
+  .woocommerce ul.products li.product .onsale,
+  .product-track > li.product .onsale {
+    @apply m-0 min-h-0 w-auto leading-none;
+  }
+
+  .diako-compare-bar {
+    @apply fixed inset-x-0 bottom-4 z-[70] flex justify-center px-4;
+  }
+
+  .diako-compare-bar__inner {
+    @apply flex w-full max-w-md items-center gap-3 rounded-2xl border border-border/80 bg-card/95 p-3 text-sm shadow-xl backdrop-blur-md;
+  }
+
+  .diako-compare-bar__icon {
+    @apply inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary;
+  }
+
+  .diako-compare-bar__text {
+    @apply min-w-0 flex-1 font-semibold text-foreground;
+  }
+
+  .diako-compare-bar__text span {
+    @apply ms-1 text-primary;
+  }
+
+  .diako-compare-bar__action {
+    @apply h-10 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90;
+  }
+
+  .diako-compare-bar__clear {
+    @apply inline-flex size-10 shrink-0 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground;
+  }
+
+  .diako-compare-modal {
+    @apply fixed inset-0 z-[90] flex items-end justify-center p-4 sm:items-center;
+  }
+
+  .diako-compare-modal[hidden],
+  .diako-compare-bar[hidden] {
+    display: none !important;
+  }
+
+  .diako-compare-modal__backdrop {
+    @apply absolute inset-0 bg-black/55 backdrop-blur-sm;
+  }
+
+  .diako-compare-modal__dialog {
+    @apply relative z-[1] flex max-h-[88vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-2xl;
+  }
+
+  .diako-compare-modal__header {
+    @apply flex shrink-0 items-start justify-between gap-4 border-b border-border p-5 md:p-6;
+  }
+
+  .diako-compare-modal__header h2 {
+    @apply m-0 text-xl font-bold text-foreground;
+  }
+
+  .diako-compare-modal__header p {
+    @apply mt-1 text-sm text-muted-foreground;
+  }
+
+  .diako-compare-modal__close {
+    @apply inline-flex size-10 shrink-0 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground;
+  }
+
+  .diako-compare-modal__body {
+    @apply min-h-0 flex-1 overflow-auto p-5 md:p-6;
+  }
+
+  .diako-compare-modal__status {
+    @apply rounded-2xl border border-border bg-muted/30 p-5 text-center text-sm text-muted-foreground;
+  }
+
+  .diako-compare-modal__status.is-error {
+    @apply border-destructive/20 bg-destructive/5 text-destructive;
+  }
+
+  .diako-compare-table-wrap {
+    @apply min-w-full overflow-x-auto;
+  }
+
+  .diako-compare-table {
+    @apply w-full min-w-[720px] border-collapse text-sm;
+  }
+
+  .diako-compare-table th,
+  .diako-compare-table td {
+    @apply border-b border-border px-4 py-4 text-start align-top;
+  }
+
+  .diako-compare-table tbody th {
+    @apply sticky start-0 z-[1] w-40 bg-card font-semibold text-foreground;
+  }
+
+  .diako-compare-table thead th {
+    @apply border-b border-border bg-muted/30 font-semibold text-foreground;
+  }
+
+  .diako-compare-table thead th:first-child {
+    @apply sticky start-0 z-[2] bg-muted/30;
+  }
+
+  .diako-compare-table td {
+    @apply min-w-44 text-muted-foreground;
+  }
+
+  .diako-compare-table__product {
+    @apply relative min-w-44;
+  }
+
+  .diako-compare-table__product a {
+    @apply flex flex-col items-start gap-3 text-foreground no-underline hover:text-primary;
+  }
+
+  .diako-compare-table__image {
+    @apply aspect-square w-24 rounded-2xl border border-border bg-white object-contain p-2;
+  }
+
+  .diako-compare-table__remove {
+    @apply absolute end-0 top-0 inline-flex size-8 items-center justify-center rounded-lg bg-background/90 text-muted-foreground shadow-sm transition-colors hover:bg-destructive/10 hover:text-destructive;
+  }
+
+  body.diako-compare-open {
+    @apply overflow-hidden;
+  }
+
+  /* My Account */
+  .diako-my-account .entry-header,
+  .diako-my-account .woocommerce-products-header {
+    @apply hidden;
+  }
+
+  body.diako-my-account .woocommerce {
+    @apply w-full;
+  }
+
+  .diako-account-header {
+    @apply mb-8;
+  }
+
+  .diako-account__shell {
+    @apply grid gap-6 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-8;
+  }
+
+  .diako-account-nav {
+    @apply rounded-xl border border-border bg-card p-3 shadow-sm;
+  }
+
+  .diako-account-nav__list {
+    @apply m-0 flex list-none flex-col gap-1 p-0;
+  }
+
+  .diako-account-nav__link {
+    @apply flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground;
+  }
+
+  .diako-account-nav__link--active,
+  .diako-account-nav li.is-active .diako-account-nav__link {
+    @apply bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground;
+  }
+
+  .diako-account-nav__icon {
+    @apply inline-flex shrink-0 items-center justify-center;
+  }
+
+  .diako-account-nav__item--logout {
+    @apply mt-2 border-t border-border pt-2;
+  }
+
+  .diako-account-nav__item--logout .diako-account-nav__link {
+    @apply text-destructive hover:bg-destructive/10 hover:text-destructive;
+  }
+
+  .diako-account-nav__item--logout .diako-account-nav__link--active {
+    @apply bg-destructive/10 text-destructive shadow-none hover:bg-destructive/15;
+  }
+
+  .diako-account__content {
+    @apply min-w-0 rounded-xl border border-border bg-card p-5 shadow-sm md:p-8;
+  }
+
+  .diako-account__content > h2,
+  .diako-account__content > h3 {
+    @apply mb-6 text-xl font-bold tracking-tight text-foreground;
+  }
+
+  .diako-account__content > p {
+    @apply text-muted-foreground;
+  }
+
+  .diako-account-dashboard {
+    @apply space-y-8;
+  }
+
+  .diako-account-welcome {
+    @apply space-y-3 rounded-2xl border border-border/60 bg-muted/30 p-5 md:p-6;
+  }
+
+  .diako-account-welcome__greeting {
+    @apply m-0 text-base text-foreground;
+  }
+
+  .diako-account-welcome__greeting strong {
+    @apply font-semibold;
+  }
+
+  .diako-account-welcome__desc {
+    @apply m-0 text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .diako-account-empty {
+    @apply flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-muted/20 px-6 py-12 text-center md:px-10 md:py-14;
+  }
+
+  .diako-account-empty__icon {
+    @apply mb-5 inline-flex h-20 w-20 items-center justify-center rounded-full bg-muted text-muted-foreground;
+  }
+
+  .diako-account-empty__message {
+    @apply m-0 max-w-md text-base text-muted-foreground;
+  }
+
+  .diako-account-empty__actions {
+    @apply mt-8 w-full sm:w-auto;
+  }
+
+  .diako-account-payment-methods__actions {
+    @apply mt-6;
+  }
+
+  .diako-account__content a:not(.button):not(.woocommerce-button):not(.woocommerce-Button):not(.diako-account-quick-link):not(.diako-button) {
+    @apply font-medium text-foreground underline decoration-primary/50 underline-offset-4 hover:text-primary;
+  }
+
+  .diako-account__content .diako-account-welcome a:not(.button):not(.woocommerce-button):not(.woocommerce-Button):not(.diako-account-quick-link):not(.diako-button) {
+    @apply font-medium text-foreground no-underline decoration-transparent underline-offset-0 hover:text-primary hover:no-underline;
+  }
+
+  .diako-account__content .diako-account-welcome__greeting a:not(.button):not(.woocommerce-button):not(.woocommerce-Button):not(.diako-account-quick-link):not(.diako-button) {
+    @apply text-destructive hover:text-destructive/80;
+  }
+
+  .diako-account-quick-links {
+    @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-3;
+  }
+
+  .diako-account-quick-link {
+    @apply grid w-full grid-cols-[3rem_minmax(0,1fr)] items-center gap-4 rounded-2xl border border-border bg-card p-5 text-start shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md;
+  }
+
+  .diako-account-quick-link__icon {
+    @apply inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm;
+  }
+
+  .diako-account-quick-link__body {
+    @apply min-w-0 space-y-1;
+  }
+
+  .diako-account-quick-link__title {
+    @apply block text-base font-semibold leading-tight text-foreground;
+  }
+
+  .diako-account-quick-link__desc {
+    @apply block text-sm leading-snug text-muted-foreground;
+  }
+
+  .diako-account-section-head {
+    @apply mb-6 space-y-2 border-b border-border pb-5;
+  }
+
+  .diako-account-section-head h2 {
+    @apply m-0 text-xl font-bold tracking-tight text-foreground;
+  }
+
+  .diako-account-section-head p {
+    @apply m-0 text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .diako-account-favorites {
+    @apply min-w-0;
+  }
+
+  .diako-favorites-grid {
+    @apply xl:grid-cols-3;
+  }
+
+  .diako-account__content .woocommerce-orders-table,
+  .diako-account__content .shop_table {
+    @apply w-full border-collapse overflow-hidden rounded-2xl border border-border text-sm;
+  }
+
+  .diako-account__content .woocommerce-orders-table thead,
+  .diako-account__content .shop_table thead {
+    @apply bg-muted/50;
+  }
+
+  .diako-account__content .woocommerce-orders-table th,
+  .diako-account__content .woocommerce-orders-table td,
+  .diako-account__content .shop_table th,
+  .diako-account__content .shop_table td {
+    @apply border-b border-border px-4 py-3 text-start align-middle;
+  }
+
+  .diako-account__content .woocommerce-orders-table tbody tr:last-child td,
+  .diako-account__content .woocommerce-orders-table tbody tr:last-child th {
+    @apply border-b-0;
+  }
+
+  .diako-account__content .woocommerce-orders-table a:not(.woocommerce-button):not(.button) {
+    @apply font-semibold text-primary no-underline hover:underline;
+  }
+
+  .diako-account__content .woocommerce-orders-table__cell-order-actions {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .diako-account__content .woocommerce-orders-table .woocommerce-button,
+  .diako-account__content .woocommerce-orders-table a.button {
+    @apply inline-flex h-9 min-h-0 min-w-[5.5rem] items-center justify-center rounded-xl border border-primary bg-transparent px-3 py-2 text-xs font-semibold text-primary no-underline shadow-none transition-colors hover:bg-primary hover:text-primary-foreground;
+  }
+
+  .diako-account__content .woocommerce-orders-table__cell-order-status {
+    @apply font-medium text-foreground;
+  }
+
+  .diako-account__content .woocommerce-orders-table__row--status-completed .woocommerce-orders-table__cell-order-status,
+  .diako-account__content .woocommerce-orders-table__row--status-processing .woocommerce-orders-table__cell-order-status {
+    @apply text-emerald-600 dark:text-emerald-400;
+  }
+
+  .diako-account__content .woocommerce-orders-table__row--status-cancelled .woocommerce-orders-table__cell-order-status,
+  .diako-account__content .woocommerce-orders-table__row--status-failed .woocommerce-orders-table__cell-order-status {
+    @apply text-destructive;
+  }
+
+  .diako-account__content .woocommerce-orders-table__row--status-on-hold .woocommerce-orders-table__cell-order-status,
+  .diako-account__content .woocommerce-orders-table__row--status-pending .woocommerce-orders-table__cell-order-status {
+    @apply text-amber-600 dark:text-amber-400;
+  }
+
+  .diako-account__content .woocommerce-pagination {
+    @apply mt-6 flex flex-wrap gap-3;
+  }
+
+  .diako-account__content .woocommerce-Address {
+    @apply mb-0 rounded-2xl border border-border bg-background p-5 md:p-6;
+  }
+
+  .diako-account-addresses__desc {
+    @apply mb-8 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-account__content .woocommerce-Addresses--grid {
+    @apply grid gap-6 md:grid-cols-2;
+  }
+
+  .diako-account__content .woocommerce-Addresses:not(.woocommerce-Addresses--grid) {
+    @apply grid gap-6;
+  }
+
+  .diako-account__content .woocommerce-Address-title {
+    @apply mb-4 flex flex-wrap items-center justify-between gap-3;
+  }
+
+  .diako-account__content .woocommerce-Address-title h2,
+  .diako-account__content .woocommerce-Address-title h3 {
+    @apply m-0 text-lg font-semibold;
+  }
+
+  .diako-account__content address {
+    @apply not-italic leading-relaxed text-muted-foreground;
+  }
+
+  .diako-account-address__actions {
+    @apply mt-5 flex w-auto items-start;
+  }
+
+  .diako-account-address__actions .diako-button {
+    @apply no-underline hover:no-underline;
+  }
+
+  .diako-account__content .woocommerce-form-row {
+    @apply mb-4;
+  }
+
+  .diako-account__content .woocommerce-form-row label {
+    @apply mb-2 block text-sm font-medium text-foreground;
+  }
+
+  .diako-account__content .woocommerce-form-row .required {
+    @apply text-destructive;
+  }
+
+  .diako-account__content .woocommerce-Input,
+  .diako-account__content .input-text,
+  .diako-account__content select,
+  .diako-account__content textarea {
+    @apply flex h-[46px] w-full rounded-2xl border border-input bg-background px-4 text-sm text-foreground shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .diako-account__content textarea {
+    @apply min-h-[120px] py-3;
+  }
+
+  .diako-account__content .woocommerce-form__label-for-checkbox {
+    @apply inline-flex items-center gap-2 text-sm text-muted-foreground;
+  }
+
+  .diako-account__content .woocommerce-form__label-for-checkbox input {
+    @apply size-4 rounded border-input;
+  }
+
+  .diako-account__content .woocommerce-Button,
+  .diako-account__content .woocommerce-button.button,
+  .diako-account__content button.button {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-primary bg-primary px-5 text-sm font-semibold text-primary-foreground no-underline shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .diako-account__content .woocommerce-Button--secondary,
+  .diako-account__content a.woocommerce-button.cancel,
+  .diako-account__content .woocommerce-button.button.cancel {
+    @apply border border-input bg-background text-foreground shadow-sm hover:bg-accent hover:text-foreground;
+  }
+
+  .diako-account__content .woocommerce-notices-wrapper .woocommerce-button,
+  .diako-account__content .woocommerce-info .woocommerce-Button,
+  .diako-account__content .woocommerce-message .woocommerce-Button {
+    @apply mt-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+
+  @media (max-width: 767px) {
+    .diako-account__content .woocommerce-orders-table thead {
+      @apply sr-only;
+    }
+
+    .diako-account__content .woocommerce-orders-table tr {
+      @apply mb-4 block rounded-2xl border border-border bg-background p-4;
+    }
+
+    .diako-account__content .woocommerce-orders-table td,
+    .diako-account__content .woocommerce-orders-table th {
+      @apply flex items-center justify-between gap-3 border-0 px-0 py-2 before:font-medium before:text-muted-foreground before:content-[attr(data-title)];
+    }
+
+    .diako-account__content .woocommerce-orders-table__cell-order-actions {
+      @apply justify-end;
+    }
+
+    .diako-account__content .woocommerce-orders-table .woocommerce-button,
+    .diako-account__content .woocommerce-orders-table a.button {
+      @apply min-w-[6.5rem];
+    }
+
+    .diako-account-quick-link {
+      @apply gap-3;
+    }
+  }
+
+  /* Cart */
+  .diako-cart-page .entry-header,
+  .diako-cart-page .woocommerce-products-header {
+    @apply hidden;
+  }
+
+  .diako-cart-header {
+    @apply mb-8;
+  }
+
+  .diako-cart__shell {
+    @apply grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,22rem)] lg:items-start lg:gap-8;
+  }
+
+  .diako-cart__main {
+    @apply min-w-0;
+  }
+
+  .diako-cart-table-wrap {
+    @apply overflow-hidden rounded-2xl border border-border bg-card shadow-sm;
+  }
+
+  .diako-cart-table {
+    @apply m-0 w-full border-collapse border-0 text-sm;
+  }
+
+  .diako-cart-table thead {
+    @apply bg-muted/50;
+  }
+
+  .diako-cart-table th {
+    @apply border-b border-border px-4 py-3 text-start text-xs font-semibold uppercase tracking-wide text-muted-foreground;
+  }
+
+  .diako-cart-table td {
+    @apply border-b border-border px-4 py-4 align-middle;
+  }
+
+  .diako-cart-table tbody tr:last-child td,
+  .diako-cart-table tbody tr:last-child th {
+    @apply border-b-0;
+  }
+
+  .diako-cart-table .product-remove {
+    @apply w-12 text-center;
+  }
+
+  .diako-cart-table .product-thumbnail {
+    @apply w-24;
+  }
+
+  .diako-cart-table .product-thumbnail img,
+  .diako-cart-item__image {
+    @apply h-20 w-20 rounded-xl border border-border bg-muted object-cover;
+  }
+
+  .diako-cart-item__thumb-link {
+    @apply inline-flex overflow-hidden rounded-xl;
+  }
+
+  .diako-cart-remove {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border/70 bg-background text-muted-foreground no-underline transition-colors hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive;
+  }
+
+  .diako-cart-remove svg {
+    @apply h-4 w-4 shrink-0 stroke-current;
+  }
+
+  .diako-coupon-remove {
+    @apply relative ms-2 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-transparent align-middle text-muted-foreground no-underline transition-colors hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive;
+  }
+
+  .diako-coupon-remove::before {
+    content: '';
+    display: block;
+    height: 1rem;
+    width: 1rem;
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  .diako-cart-form.processing,
+  .diako-cart-totals.processing {
+    @apply relative min-h-[4rem];
+  }
+
+  .diako-cart-item__info {
+    @apply space-y-1;
+  }
+
+  .diako-cart-item__title {
+    @apply text-base font-semibold text-foreground no-underline hover:text-primary;
+  }
+
+  .diako-cart-table .variation,
+  .diako-cart-table dl.variation {
+    @apply m-0 mt-2 space-y-1 text-xs text-muted-foreground;
+  }
+
+  .diako-cart-table .product-price,
+  .diako-cart-table .product-subtotal {
+    @apply font-semibold text-foreground;
+  }
+
+  .diako-cart-table .product-quantity .quantity {
+    @apply inline-flex items-center;
+  }
+
+  .diako-cart-table .product-quantity .qty {
+    @apply flex h-10 w-20 rounded-2xl border border-input bg-background px-3 text-center text-sm text-foreground;
+  }
+
+  .diako-cart-actions-row .actions {
+    @apply bg-muted/20 px-4 py-5;
+  }
+
+  .diako-cart-actions {
+    @apply flex flex-col gap-4;
+  }
+
+  .diako-cart-coupon {
+    @apply space-y-2 rounded-2xl border border-border/70 bg-background p-4;
+  }
+
+  .diako-cart-coupon__label {
+    @apply block text-sm font-medium text-foreground;
+  }
+
+  .diako-cart-coupon__fields {
+    @apply flex flex-col gap-2 sm:flex-row;
+  }
+
+  .diako-cart-coupon__fields .input-text {
+    @apply flex h-10 min-w-0 flex-1 rounded-2xl border border-input bg-background px-4 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .diako-cart-coupon .button {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-primary bg-primary px-4 text-sm font-semibold text-primary-foreground no-underline shadow-sm transition-colors hover:bg-primary/90;
+  }
+
+  .diako-cart__sidebar {
+    @apply min-w-0 lg:sticky lg:top-24;
+  }
+
+  .diako-cart-collaterals {
+    @apply w-full;
+  }
+
+  .diako-cart-totals {
+    @apply rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-cart-totals__title {
+    @apply mb-5 mt-0 text-lg font-bold tracking-tight text-foreground;
+  }
+
+  .diako-cart-totals__table {
+    @apply mb-5 w-full border-collapse border-0 text-sm;
+  }
+
+  .diako-cart-totals__table th,
+  .diako-cart-totals__table td {
+    @apply border-0 px-0 py-3 text-start align-middle;
+  }
+
+  .diako-cart-totals__table th {
+    @apply font-medium text-muted-foreground;
+  }
+
+  .diako-cart-totals__table td {
+    @apply text-end font-medium text-foreground;
+  }
+
+  .diako-cart-totals__table tr:last-child th,
+  .diako-cart-totals__table tr:last-child td {
+    @apply border-0;
+  }
+
+  .diako-cart-totals__table .order-total th,
+  .diako-cart-totals__table .order-total td {
+    @apply border-0 pt-4 text-base font-bold text-foreground;
+  }
+
+  .diako-cart-totals__table .order-total td {
+    @apply text-primary;
+  }
+
+  .diako-cart-totals__table tr.woocommerce-shipping-totals .diako-shipping-totals-cell {
+    @apply border-0 px-0 py-3;
+  }
+
+  .diako-cart-totals__table tr.woocommerce-shipping-totals .diako-shipping-totals-cell::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .diako-shipping-totals__row {
+    @apply flex w-full flex-col items-stretch gap-3;
+  }
+
+  .diako-shipping-totals {
+    @apply space-y-3;
+  }
+
+  .diako-shipping-totals__header {
+    @apply text-right text-sm font-semibold text-foreground;
+  }
+
+  .diako-shipping-totals__body {
+    @apply space-y-3;
+  }
+
+  .diako-shipping-totals__notice {
+    @apply m-0 rounded-xl bg-muted/20 px-3.5 py-3 text-sm leading-relaxed text-muted-foreground;
+  }
+
+  .diako-shipping-totals__address {
+    @apply flex items-start gap-3 rounded-xl bg-muted/20 px-3.5 py-3;
+  }
+
+  .diako-shipping-totals__address-icon {
+    @apply mt-0.5 inline-flex shrink-0 text-primary;
+  }
+
+  .diako-shipping-totals__address-content {
+    @apply min-w-0 space-y-1 text-right;
+  }
+
+  .diako-shipping-totals__address-label {
+    @apply block text-xs font-medium text-muted-foreground;
+  }
+
+  .diako-shipping-totals__address-text {
+    @apply m-0 text-sm leading-relaxed text-foreground;
+  }
+
+  .diako-shipping-totals__label {
+    @apply w-full font-medium text-muted-foreground;
+  }
+
+  .diako-shipping-totals__value {
+    @apply w-full min-w-0 text-start font-medium text-foreground;
+  }
+
+  .diako-cart-totals__table tr.cart-discount .diako-coupon-totals-cell {
+    @apply border-0 px-0 py-3;
+  }
+
+  .diako-cart-totals__table tr.cart-discount .diako-coupon-totals-cell::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .diako-coupon-totals__row {
+    @apply flex w-full flex-row items-center justify-between gap-3;
+  }
+
+  .diako-coupon-totals__label {
+    @apply flex min-w-0 flex-wrap items-center gap-2 font-medium text-muted-foreground;
+  }
+
+  .diako-coupon-totals__label-text {
+    @apply shrink-0;
+  }
+
+  .diako-coupon-totals__code {
+    @apply inline-flex rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary;
+  }
+
+  .diako-coupon-totals__value {
+    @apply flex min-w-0 flex-row items-center justify-end gap-2 font-medium text-foreground;
+    direction: rtl;
+  }
+
+  .diako-coupon-amount {
+    direction: rtl;
+    unicode-bidi: plaintext;
+    white-space: nowrap;
+  }
+
+  .diako-coupon-amount .woocommerce-Price-amount {
+    direction: rtl;
+    unicode-bidi: plaintext;
+  }
+
+  .diako-cart-checkout__button {
+    @apply inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground no-underline shadow-sm transition-colors hover:bg-primary/90;
+  }
+
+  .diako-cart-empty {
+    @apply mx-auto flex max-w-lg flex-col items-center rounded-2xl border border-border bg-card px-6 py-12 text-center shadow-sm md:px-10 md:py-16;
+  }
+
+  .diako-cart-empty__icon {
+    @apply mb-5 inline-flex h-20 w-20 items-center justify-center rounded-full bg-muted text-muted-foreground;
+  }
+
+  .diako-cart-empty__content {
+    @apply space-y-3;
+  }
+
+  .diako-cart-empty__content .cart-empty,
+  .diako-cart-empty__content .woocommerce-info {
+    @apply m-0 border-0 bg-transparent p-0 text-base text-muted-foreground shadow-none;
+  }
+
+  .diako-cart-empty__actions {
+    @apply mt-8 w-full sm:w-auto;
+  }
+
+  .diako-cart-cross-sells {
+    @apply mt-12 border-t border-border pt-10;
+  }
+
+  .diako-cart-cross-sells__title {
+    @apply mb-6 text-xl font-bold tracking-tight text-foreground;
+  }
+
+  .diako-cart-cross-sells .products {
+    @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+  @media (max-width: 767px) {
+    .diako-cart-table thead {
+      @apply sr-only;
+    }
+
+    .diako-cart-table tbody tr.woocommerce-cart-form__cart-item {
+      @apply relative mb-4 block rounded-2xl border border-border bg-background p-4;
+    }
+
+    .diako-cart-table tbody tr.woocommerce-cart-form__cart-item td {
+      @apply flex items-center justify-between gap-3 border-0 px-0 py-2 before:shrink-0 before:text-xs before:font-medium before:text-muted-foreground before:content-[attr(data-title)];
+    }
+
+    .diako-cart-table .product-remove {
+      @apply absolute end-3 top-3 w-auto before:hidden;
+    }
+
+    .diako-cart-table .product-thumbnail {
+      @apply w-auto justify-center before:hidden;
+    }
+
+    .diako-cart-table .product-thumbnail img,
+    .diako-cart-item__image {
+      @apply h-24 w-24;
+    }
+
+    .diako-cart-table .product-name {
+      @apply flex-col items-start before:mb-1;
+    }
+
+    .diako-cart-actions-row .actions {
+      @apply rounded-2xl border border-border bg-card p-4;
+    }
+
+    .diako-cart-coupon__fields .button {
+      @apply w-full;
+    }
+  }
+
+  /* Checkout */
+  .diako-checkout-page {
+    @apply overflow-x-clip;
+  }
+
+  .diako-checkout-page .diako-checkout,
+  .diako-checkout-page .diako-checkout-form,
+  .diako-checkout-page .diako-checkout-layout,
+  .diako-checkout-page .diako-checkout__main,
+  .diako-checkout-page .diako-checkout__sidebar,
+  .diako-checkout-page .diako-checkout__sidebar-coupon {
+    @apply min-w-0 max-w-full overflow-x-clip;
+  }
+
+  .diako-checkout-page .entry-header,
+  .diako-checkout-page .woocommerce-products-header {
+    @apply hidden;
+  }
+
+  .diako-checkout-header {
+    @apply mb-8;
+  }
+
+  .diako-checkout-coupon {
+    @apply mb-5 rounded-2xl border border-border bg-card p-4 shadow-sm md:p-5;
+  }
+
+  .diako-checkout-coupon__form {
+    @apply m-0 space-y-3;
+  }
+
+  .diako-checkout-coupon__label {
+    @apply block text-sm font-semibold text-foreground;
+  }
+
+  .diako-checkout-coupon__row {
+    @apply flex flex-col gap-2 sm:flex-row sm:items-start;
+  }
+
+  .diako-checkout-coupon__input-wrap {
+    @apply min-w-0 flex-1;
+  }
+
+  .diako-checkout-coupon__input {
+    @apply m-0 flex h-11 w-full rounded-xl border border-input bg-background px-4 text-sm text-foreground shadow-sm focus-visible:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15;
+  }
+
+  .diako-checkout-coupon__button {
+    @apply m-0 inline-flex h-11 w-full shrink-0 items-center justify-center rounded-xl border border-primary bg-primary px-5 text-sm font-semibold text-primary-foreground no-underline shadow-sm transition-colors hover:bg-primary/90 sm:w-auto;
+  }
+
+  .diako-checkout-coupon .coupon-error-notice {
+    @apply mt-2 block w-full text-right text-sm leading-relaxed text-destructive;
+  }
+
+  .diako-checkout-coupon__input.has-error {
+    @apply border-destructive/60 focus-visible:border-destructive/60 focus-visible:ring-destructive/15;
+  }
+
+  .diako-checkout-coupon + .woocommerce-message,
+  .diako-checkout-coupon + .woocommerce-error,
+  .diako-checkout-coupon + .woocommerce-info {
+    @apply mb-5;
+  }
+
+  .diako-checkout-layout {
+    @apply grid min-w-0 max-w-full gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(19rem,24rem)] lg:items-start lg:gap-8;
+  }
+
+  .diako-checkout-form {
+    @apply contents w-full min-w-0 max-w-full;
+  }
+
+  .diako-checkout__main,
+  .diako-checkout__sidebar,
+  .diako-checkout__sidebar-coupon {
+    @apply min-w-0;
+  }
+
+  .diako-checkout__main {
+    @apply order-1 lg:order-none lg:col-start-1 lg:row-span-2 lg:row-start-1;
+  }
+
+  .diako-checkout__sidebar-coupon {
+    @apply order-2 lg:order-none lg:col-start-2 lg:row-start-1;
+  }
+
+  .diako-checkout__sidebar {
+    @apply order-3 lg:order-none lg:col-start-2 lg:row-start-2;
+  }
+
+  .diako-checkout__sidebar-coupon .diako-checkout-coupon {
+    @apply mb-0;
+  }
+
+  .diako-checkout__sidebar-coupon .diako-checkout-coupon__row {
+    @apply flex-col;
+  }
+
+  .diako-checkout__sidebar-coupon .diako-checkout-coupon__button {
+    @apply w-full sm:w-full;
+  }
+
+  .diako-checkout-section {
+    @apply min-w-0 max-w-full overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-checkout-customer__grid.col2-set::before,
+  .diako-checkout-customer__grid.col2-set::after {
+    @apply hidden;
+  }
+
+  .diako-checkout-customer__grid .col-1,
+  .diako-checkout-customer__grid .col-2 {
+    @apply float-none w-full min-w-0 max-w-full p-0;
+  }
+
+  .diako-checkout-customer__extras {
+    @apply mt-6 pt-6;
+  }
+
+  .diako-checkout-section .woocommerce-billing-fields,
+  .diako-checkout-section .woocommerce-shipping-fields,
+  .diako-checkout-section .woocommerce-additional-fields,
+  .diako-checkout-section .shipping_address,
+  .diako-checkout-page .woocommerce-billing-fields,
+  .diako-checkout-page .woocommerce-shipping-fields,
+  .diako-checkout-page .woocommerce-additional-fields {
+    @apply rounded-none border-0 bg-transparent p-0 shadow-none;
+  }
+
+  .diako-checkout-section .woocommerce-billing-fields h3,
+  .diako-checkout-section .woocommerce-shipping-fields h3,
+  .diako-checkout-section .woocommerce-additional-fields h3,
+  .diako-checkout-page .woocommerce-billing-fields h3,
+  .diako-checkout-page .woocommerce-shipping-fields h3,
+  .diako-checkout-page .woocommerce-additional-fields h3 {
+    @apply mb-4 mt-0 border-b border-border pb-3 text-base font-bold tracking-tight text-foreground;
+  }
+
+  .diako-checkout-page #ship-to-different-address {
+    @apply col-span-1 mb-0 mt-0 border-0 pb-0 text-sm font-medium sm:col-span-2;
+  }
+
+  .diako-checkout-page #ship-to-different-address label {
+    @apply inline-flex cursor-pointer items-center gap-2.5 text-sm font-medium text-foreground;
+  }
+
+  .diako-checkout-page .woocommerce-shipping-fields .shipping_address {
+    @apply mt-4 border-t border-border/70 pt-4;
+  }
+
+  .diako-checkout-page .woocommerce-additional-fields {
+    @apply mt-5 border-t border-border/70 pt-5;
+  }
+
+  .diako-checkout-section .woocommerce-billing-fields__field-wrapper,
+  .diako-checkout-section .woocommerce-shipping-fields__field-wrapper,
+  .diako-checkout-section .woocommerce-additional-fields__field-wrapper,
+  .diako-checkout-page .woocommerce-billing-fields__field-wrapper,
+  .diako-checkout-page .woocommerce-shipping-fields__field-wrapper,
+  .diako-checkout-page .woocommerce-additional-fields__field-wrapper {
+    @apply grid min-w-0 max-w-full grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2;
+  }
+
+  .diako-checkout-section .form-row-wide,
+  .diako-checkout-page .form-row-wide,
+  .diako-checkout-field.form-row-wide {
+    @apply col-span-1 m-0 w-full sm:col-span-2;
+  }
+
+  .diako-checkout-section .form-row-first,
+  .diako-checkout-section .form-row-last,
+  .diako-checkout-page .form-row-first,
+  .diako-checkout-page .form-row-last,
+  .diako-checkout-field.form-row-first,
+  .diako-checkout-field.form-row-last {
+    @apply col-span-1 m-0 w-full min-w-0 max-w-full;
+  }
+
+  .diako-checkout-page .form-row.clear,
+  .diako-checkout-page .clear {
+    @apply hidden;
+  }
+
+  .diako-checkout-page #billing_country_field,
+  .diako-checkout-page #shipping_country_field {
+    @apply hidden;
+  }
+
+  .diako-checkout-page .form-row {
+    @apply m-0 float-none w-full min-w-0 max-w-full p-0;
+  }
+
+  .diako-checkout-field__label,
+  .diako-checkout-page .form-row > label,
+  .diako-checkout-page .woocommerce-form__label {
+    @apply mb-1.5 block text-sm font-medium text-foreground;
+  }
+
+  .diako-checkout-field__input,
+  .diako-checkout-page .form-row .input-text,
+  .diako-checkout-page .woocommerce-checkout .input-text,
+  .diako-checkout-page textarea.input-text {
+    @apply box-border flex h-11 w-full max-w-full rounded-xl border border-input bg-background px-3.5 text-sm leading-normal text-foreground shadow-sm transition-[border-color,box-shadow] placeholder:text-muted-foreground focus-visible:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15;
+  }
+
+  .diako-checkout-field__select,
+  .diako-checkout-page .form-row select,
+  .diako-checkout-page .woocommerce-checkout select {
+    @apply box-border h-11 w-full max-w-full cursor-pointer rounded-xl border border-input bg-background px-3.5 text-sm leading-normal text-foreground shadow-sm transition-[border-color,box-shadow] focus-visible:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15;
+  }
+
+  .diako-checkout-page .form-row .select2-container {
+    @apply block max-w-full;
+    width: 100% !important;
+  }
+
+  .diako-checkout-page .form-row .select2-container .select2-selection--single {
+    @apply m-0 h-11 max-w-full rounded-xl border border-input bg-background shadow-sm transition-[border-color,box-shadow];
+  }
+
+  .diako-checkout-page .form-row .select2-container--default .select2-selection--single .select2-selection__rendered {
+    @apply max-w-full truncate px-3.5 text-sm leading-[2.75rem] text-foreground;
+    padding-inline-end: 2.5rem !important;
+  }
+
+  .diako-checkout-page .form-row .select2-container--open .select2-selection--single,
+  .diako-checkout-page .form-row .select2-container--focus .select2-selection--single {
+    @apply border-primary/40 ring-2 ring-primary/15;
+  }
+
+  .diako-checkout-page .form-row .required {
+    @apply text-destructive no-underline;
+  }
+
+  .diako-checkout-page textarea.input-text,
+  .diako-checkout-page .woocommerce-checkout textarea {
+    @apply min-h-[7rem] h-auto resize-y py-3;
+  }
+
+  .diako-checkout-page .woocommerce-form__label-for-checkbox input,
+  .diako-checkout-page #ship-to-different-address-checkbox {
+    @apply size-4 shrink-0 rounded border-input text-primary accent-primary;
+  }
+
+  .diako-checkout-page .woocommerce-form-login-toggle,
+  .diako-checkout-page .woocommerce-form-coupon-toggle {
+    @apply mb-4;
+  }
+
+  .diako-checkout-page .woocommerce-form-login {
+    @apply mb-6 rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-checkout-page .woocommerce-form-login .form-row {
+    @apply mb-4;
+  }
+
+  .diako-checkout-page .woocommerce-form-login .button {
+    @apply inline-flex h-11 items-center justify-center rounded-xl border border-primary bg-primary px-5 text-sm font-semibold text-primary-foreground no-underline shadow-sm transition-colors hover:bg-primary/90;
+  }
+
+  .diako-edit-address-page .diako-account__content > h2,
+  .diako-edit-address-page .diako-account__content > h3 {
+    @apply hidden;
+  }
+
+  .diako-edit-address-page .diako-account-address-form {
+    @apply min-w-0 max-w-full overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-edit-address-page .diako-account-address-form h2 {
+    @apply mb-4 mt-0 border-b border-border pb-3 text-base font-bold tracking-tight text-foreground;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .woocommerce-address-fields__field-wrapper {
+    @apply grid min-w-0 max-w-full grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .woocommerce-address-fields__field-wrapper::before,
+  .diako-edit-address-page .diako-account-address-form .woocommerce-address-fields__field-wrapper::after {
+    @apply hidden;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row-wide,
+  .diako-edit-address-page .diako-account-address-form .diako-checkout-field.form-row-wide {
+    @apply col-span-1 m-0 w-full sm:col-span-2;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row-first,
+  .diako-edit-address-page .diako-account-address-form .form-row-last,
+  .diako-edit-address-page .diako-account-address-form .diako-checkout-field.form-row-first,
+  .diako-edit-address-page .diako-account-address-form .diako-checkout-field.form-row-last {
+    @apply col-span-1 m-0 w-full min-w-0 max-w-full;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row,
+  .diako-edit-address-page .diako-account-address-form .diako-checkout-field {
+    @apply m-0 float-none w-full min-w-0 max-w-full p-0;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row.clear,
+  .diako-edit-address-page .diako-account-address-form .clear {
+    @apply hidden;
+  }
+
+  .diako-edit-address-page #billing_country_field,
+  .diako-edit-address-page #shipping_country_field {
+    @apply hidden;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .diako-checkout-field__label,
+  .diako-edit-address-page .diako-account-address-form .form-row > label,
+  .diako-edit-address-page .diako-account-address-form .woocommerce-form__label {
+    @apply mb-1.5 block text-sm font-medium text-foreground;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .diako-checkout-field__input,
+  .diako-edit-address-page .diako-account-address-form .form-row .input-text,
+  .diako-edit-address-page .diako-account-address-form textarea.input-text {
+    @apply box-border flex h-11 w-full max-w-full rounded-xl border border-input bg-background px-3.5 text-sm leading-normal text-foreground shadow-sm transition-[border-color,box-shadow] placeholder:text-muted-foreground focus-visible:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .diako-checkout-field__select,
+  .diako-edit-address-page .diako-account-address-form .form-row select {
+    @apply box-border h-11 w-full max-w-full cursor-pointer rounded-xl border border-input bg-background px-3.5 text-sm leading-normal text-foreground shadow-sm transition-[border-color,box-shadow] focus-visible:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row .select2-container {
+    @apply block max-w-full;
+    width: 100% !important;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row .select2-container .select2-selection--single {
+    @apply m-0 h-11 max-w-full rounded-xl border border-input bg-background shadow-sm transition-[border-color,box-shadow];
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row .select2-container--default .select2-selection--single .select2-selection__rendered {
+    @apply max-w-full truncate px-3.5 text-sm leading-[2.75rem] text-foreground;
+    padding-inline-end: 2.5rem !important;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row .select2-container--open .select2-selection--single,
+  .diako-edit-address-page .diako-account-address-form .form-row .select2-container--focus .select2-selection--single {
+    @apply border-primary/40 ring-2 ring-primary/15;
+  }
+
+  .diako-edit-address-page .diako-account-address-form .form-row .required {
+    @apply text-destructive no-underline;
+  }
+
+  .diako-edit-address-page .diako-account-address-form__actions {
+    @apply mt-6 flex w-auto items-start;
+  }
+
+  .diako-edit-account-page .diako-account__content > h2,
+  .diako-edit-account-page .diako-account__content > h3 {
+    @apply hidden;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form {
+    @apply min-w-0 max-w-full overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form h2 {
+    @apply mb-4 mt-0 border-b border-border pb-3 text-base font-bold tracking-tight text-foreground;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__fields {
+    @apply space-y-6;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__row {
+    @apply grid min-w-0 max-w-full grid-cols-1 gap-x-4 gap-y-5;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__row--2 {
+    @apply sm:grid-cols-2;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__row--3 {
+    @apply md:grid-cols-3;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__row .form-row,
+  .diako-edit-account-page .diako-account-edit-form__password .form-row {
+    @apply m-0 float-none flex w-full min-w-0 max-w-full flex-col gap-2.5 p-0;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__hint {
+    @apply block text-xs leading-6 text-muted-foreground;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__password {
+    @apply m-0 space-y-5 border-0 p-0;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__password legend {
+    @apply mb-1 block w-full border-b border-border pb-3 text-base font-bold tracking-tight text-foreground;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form .form-row > label {
+    @apply mb-1.5 block text-sm font-medium text-foreground;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form .form-row .required {
+    @apply text-destructive no-underline;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form .form-row .input-text {
+    @apply box-border flex h-11 w-full max-w-full rounded-xl border border-input bg-background px-3.5 text-sm leading-normal text-foreground shadow-sm transition-[border-color,box-shadow] placeholder:text-muted-foreground focus-visible:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15;
+  }
+
+  .diako-edit-account-page .diako-account-edit-form__actions {
+    @apply mt-6 flex w-auto items-start;
+  }
+
+  .diako-checkout-review {
+    @apply min-w-0 max-w-full rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6 lg:sticky lg:top-24 lg:self-start;
+  }
+
+  .diako-checkout-review__title {
+    @apply mb-5 mt-0 border-b border-border pb-4 text-lg font-bold tracking-tight text-foreground;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table {
+    @apply mb-5 w-full max-w-full table-fixed border-collapse border-0 text-sm;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table.shop_table {
+    @apply border-0;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody {
+    @apply block max-h-56 overflow-y-auto pe-2;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.35) transparent;
+    scrollbar-width: thin;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background-color: hsl(var(--muted-foreground) / 0.28);
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody:hover::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.45);
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody tr {
+    @apply table w-full table-fixed;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody tr:last-child td {
+    @apply border-0;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table thead {
+    @apply sr-only;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot {
+    @apply block border-0 pt-1;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot tr {
+    @apply table w-full table-fixed;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody td,
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot th,
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot td {
+    @apply border-0 px-0 py-3 align-top;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot tr:not(.woocommerce-shipping-totals) th,
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot tr:not(.woocommerce-shipping-totals) td {
+    @apply border-0;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody .product-name {
+    @apply min-w-0 break-words pe-3 text-sm text-foreground;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody .product-quantity {
+    @apply font-normal text-muted-foreground;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody .product-total {
+    @apply w-[34%] max-w-[42%] text-end text-sm font-semibold text-foreground;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody .product-name dl,
+  .diako-checkout-review .woocommerce-checkout-review-order-table tbody .product-name .variation {
+    @apply min-w-0 break-words;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot th {
+    @apply min-w-0 pe-3 font-medium text-muted-foreground sm:w-[38%];
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot td {
+    @apply font-medium text-foreground;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot .cart-subtotal td,
+  .diako-checkout-review .woocommerce-checkout-review-order-table tfoot .order-total td {
+    @apply min-w-0 text-end sm:whitespace-nowrap;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tr.cart-discount .diako-coupon-totals-cell {
+    @apply border-0 px-0 py-2.5;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tr.cart-discount .diako-coupon-totals-cell::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals th,
+  .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals td,
+  .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals .diako-shipping-totals-cell {
+    @apply border-0 px-0 py-2.5;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals .diako-shipping-totals-cell::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals .diako-shipping-methods {
+    @apply w-full max-w-full;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table .order-total th,
+  .diako-checkout-review .woocommerce-checkout-review-order-table .order-total td {
+    @apply border-0 pt-4 text-lg font-bold text-foreground;
+  }
+
+  .diako-checkout-review .woocommerce-checkout-review-order-table .order-total td {
+    @apply text-primary;
+  }
+
+  .diako-checkout-review .woocommerce-shipping-methods,
+  .diako-checkout-review .diako-shipping-methods {
+    @apply m-0 w-full list-none space-y-2.5 p-0 text-sm;
+  }
+
+  .diako-checkout-review .diako-shipping-method {
+    @apply m-0 flex w-full items-start gap-3 rounded-xl border border-border bg-background p-3.5 transition-colors;
+  }
+
+  .diako-checkout-review .woocommerce-shipping-methods li:has(input:checked),
+  .diako-checkout-review .diako-shipping-method:has(input:checked) {
+    @apply border-primary/40 bg-primary/5;
+  }
+
+  .diako-checkout-review .diako-shipping-method__label {
+    @apply min-w-0 flex-1 cursor-pointer text-start;
+  }
+
+  .diako-checkout-review .diako-shipping-method__label--single {
+    @apply w-full cursor-default;
+  }
+
+  .diako-checkout-review .diako-shipping-method__content {
+    @apply flex min-w-0 flex-1 flex-col gap-1;
+  }
+
+  .diako-checkout-review .diako-shipping-method__content--split {
+    @apply flex-col items-stretch gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3;
+  }
+
+  .diako-checkout-review .diako-shipping-method__name {
+    @apply min-w-0 break-words text-sm font-medium leading-snug text-foreground;
+  }
+
+  .diako-checkout-review .diako-shipping-method__price {
+    @apply shrink-0 text-sm font-semibold leading-snug text-primary sm:whitespace-nowrap;
+  }
+
+  .diako-checkout-review .diako-shipping-method__label .shipping_method,
+  .diako-checkout-review .woocommerce-shipping-methods input.shipping_method {
+    @apply mt-1 size-4 shrink-0 accent-primary;
+  }
+
+  .diako-cart-totals .diako-shipping-methods {
+    @apply m-0 w-full list-none space-y-2 p-0 text-sm;
+  }
+
+  .diako-cart-totals .diako-shipping-method {
+    @apply flex w-full items-start gap-3 rounded-xl border border-border/70 bg-background p-3;
+  }
+
+  .diako-cart-totals .diako-shipping-method:has(input:checked) {
+    @apply border-primary/40 bg-primary/5;
+  }
+
+  .diako-cart-totals .diako-shipping-method__label {
+    @apply min-w-0 flex-1 cursor-pointer text-start;
+  }
+
+  .diako-cart-totals .diako-shipping-method__content {
+    @apply flex min-w-0 flex-1 flex-col gap-1;
+  }
+
+  .diako-cart-totals .diako-shipping-method__content--split {
+    @apply flex-row items-center justify-between gap-3;
+  }
+
+  .diako-cart-totals .diako-shipping-method__name {
+    @apply text-sm font-medium leading-snug text-foreground;
+  }
+
+  .diako-cart-totals .diako-shipping-method__price {
+    @apply text-sm font-semibold text-primary;
+  }
+
+  .diako-checkout-payment {
+    @apply border-t border-border pt-4;
+  }
+
+  .diako-checkout-payment__title {
+    @apply mb-3 mt-0 text-sm font-semibold text-foreground;
+  }
+
+  .diako-checkout-payment__methods {
+    @apply m-0 mb-4 list-none space-y-2.5 p-0;
+  }
+
+  .diako-checkout-payment__methods > li {
+    @apply m-0 rounded-xl border border-border bg-background p-3.5 transition-colors;
+  }
+
+  .diako-checkout-payment__methods > li:has(input:checked) {
+    @apply border-primary/40 bg-primary/5;
+  }
+
+  .diako-checkout-payment__methods label {
+    @apply flex cursor-pointer items-center gap-3 text-sm font-medium text-foreground;
+  }
+
+  .diako-checkout-payment__methods .input-radio {
+    @apply size-4 shrink-0 border-input text-primary accent-primary;
+  }
+
+  .diako-checkout-payment__methods .payment_box {
+    @apply mt-2.5 rounded-lg border border-border/60 bg-muted/30 p-3 text-xs leading-relaxed text-muted-foreground;
+  }
+
+  .diako-checkout-payment__methods .payment_box img {
+    @apply h-auto max-w-full;
+  }
+
+  .diako-checkout-place-order {
+    @apply m-0 space-y-3 p-0;
+  }
+
+  .diako-checkout-place-order .woocommerce-terms-and-conditions-wrapper {
+    @apply text-xs leading-relaxed text-muted-foreground;
+  }
+
+  .diako-checkout-place-order__button {
+    @apply w-full;
+  }
+
+  .diako-checkout-place-order__button svg {
+    @apply rotate-180;
+  }
+
+  .diako-checkout-page .col2-set:not(.diako-checkout-customer__grid) {
+    @apply grid gap-6;
+  }
+
+  .diako-checkout-page .col2-set:not(.diako-checkout-customer__grid) .col-1,
+  .diako-checkout-page .col2-set:not(.diako-checkout-customer__grid) .col-2 {
+    @apply float-none w-full;
+  }
+
+  .diako-checkout-page #order_review:not(.diako-checkout-review) {
+    @apply rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-checkout-page #order_review_heading:not(.diako-checkout-review__title) {
+    @apply mb-4 mt-0 text-base font-bold tracking-tight text-foreground;
+  }
+
+  .diako-checkout-page .woocommerce-checkout .shop_table {
+    @apply mb-4 w-full border-collapse border-0 text-sm;
+  }
+
+  .diako-checkout-page .woocommerce-checkout-payment:not(.diako-checkout-payment) {
+    @apply border-t border-border pt-4;
+  }
+
+  .diako-checkout-page .woocommerce-checkout-payment .payment_methods {
+    @apply m-0 mb-4 list-none space-y-2.5 p-0;
+  }
+
+  .diako-checkout-page .woocommerce-checkout-payment .payment_methods > li {
+    @apply m-0 rounded-xl border border-border bg-background p-3.5;
+  }
+
+  .diako-checkout-page .woocommerce-checkout-payment .place-order .button {
+    @apply inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90;
+  }
+
+  .diako-checkout-form.processing,
+  .diako-checkout-review.processing,
+  .diako-checkout-page .woocommerce-checkout.processing {
+    @apply relative min-h-[4rem];
+  }
+
+  .diako-checkout-thankyou {
+    @apply mx-auto max-w-4xl space-y-6;
+  }
+
+  .diako-checkout-thankyou__hero {
+    @apply mb-2 flex flex-col items-center rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-emerald-500/10 to-card px-6 py-10 text-center shadow-sm md:px-10;
+  }
+
+  .diako-checkout-thankyou__icon {
+    @apply mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400;
+  }
+
+  .diako-checkout-thankyou__message {
+    @apply m-0 max-w-2xl border-0 bg-transparent p-0 text-lg font-semibold leading-8 text-foreground shadow-none;
+  }
+
+  .diako-checkout-thankyou__hint {
+    @apply m-0 mt-3 max-w-xl text-sm leading-6 text-muted-foreground;
+  }
+
+  .diako-checkout-thankyou__details {
+    @apply m-0 grid list-none gap-3 rounded-3xl border border-border bg-card p-4 shadow-sm sm:grid-cols-2 md:grid-cols-3 md:p-5;
+  }
+
+  .diako-checkout-thankyou__details li {
+    @apply flex flex-col gap-1 rounded-2xl border border-border/60 bg-background px-4 py-3;
+  }
+
+  .diako-checkout-thankyou__detail-label {
+    @apply text-[11px] font-medium text-muted-foreground;
+  }
+
+  .diako-checkout-thankyou__details strong {
+    @apply text-sm font-semibold text-foreground md:text-base;
+  }
+
+  .diako-checkout-thankyou__status-badge {
+    @apply inline-flex w-fit rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .diako-checkout-thankyou__status-badge--processing,
+  .diako-checkout-thankyou__status-badge--on-hold {
+    @apply bg-brand-orange/10 text-brand-orange;
+  }
+
+  .diako-checkout-thankyou__status-badge--completed {
+    @apply bg-emerald-500/10 text-emerald-700 dark:text-emerald-400;
+  }
+
+  .diako-checkout-thankyou__status-badge--pending,
+  .diako-checkout-thankyou__status-badge--failed,
+  .diako-checkout-thankyou__status-badge--cancelled {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .diako-checkout-thankyou__sections {
+    @apply space-y-6;
+  }
+
+  .diako-checkout-thankyou__actions {
+    @apply flex flex-wrap justify-center gap-3 border-t border-border pt-6;
+  }
+
+  .diako-checkout-thankyou__status--failed {
+    @apply rounded-3xl border border-destructive/30 bg-destructive/5 p-6 text-center;
+  }
+
+  .diako-order-details {
+    @apply rounded-3xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-order-details__title {
+    @apply mb-4 flex items-center gap-2 text-lg font-semibold text-foreground;
+  }
+
+  .diako-order-details__table-wrap {
+    @apply overflow-hidden rounded-2xl border border-border;
+  }
+
+  .diako-order-details__table {
+    @apply m-0 w-full border-0 text-sm;
+  }
+
+  .diako-order-details__table thead th {
+    @apply border-b border-border bg-muted/40 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wide text-muted-foreground;
+  }
+
+  .diako-order-details__table tbody td {
+    @apply border-b border-border/70 px-4 py-4 align-top;
+  }
+
+  .diako-order-details__table tbody .product-name {
+    @apply font-medium text-foreground;
+  }
+
+  .diako-order-details__table tbody .product-quantity {
+    @apply ms-1 font-normal text-muted-foreground;
+  }
+
+  .diako-order-details__table tbody .product-total {
+    @apply whitespace-nowrap font-semibold text-foreground;
+  }
+
+  .diako-order-details__table tbody .product-quantity {
+    @apply whitespace-nowrap text-muted-foreground;
+  }
+
+  .diako-order-details__table tfoot th,
+  .diako-order-details__table tfoot td {
+    @apply border-b border-border/70 px-4 py-3 text-start;
+  }
+
+  .diako-order-details__table tfoot th {
+    @apply bg-muted/20 font-medium text-muted-foreground;
+  }
+
+  .diako-order-details__table tfoot td {
+    @apply font-semibold text-foreground;
+  }
+
+  .diako-order-details__table tfoot tr.order-total-row th,
+  .diako-order-details__table tfoot tr.order-total-row td {
+    @apply border-b-0 bg-primary/5 text-base font-bold text-foreground;
+  }
+
+  .diako-order-customer-details {
+    @apply mt-0;
+  }
+
+  .diako-order-customer-details__grid {
+    @apply grid gap-4;
+  }
+
+  .diako-order-customer-details__grid--split {
+    @apply md:grid-cols-2;
+  }
+
+  .diako-order-address-card {
+    @apply rounded-3xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-order-address-card__title {
+    @apply mb-4 flex items-center gap-2 text-base font-semibold text-foreground;
+  }
+
+  .diako-order-address-card__title svg {
+    @apply text-primary;
+  }
+
+  .diako-order-address-card__body {
+    @apply rounded-2xl border border-border/70 bg-background p-4;
+  }
+
+  .diako-order-address-card__name {
+    @apply mb-3 text-base font-semibold text-foreground;
+  }
+
+  .diako-order-address-card__lines {
+    @apply space-y-2.5;
+  }
+
+  .diako-order-address-card__line {
+    @apply flex items-start gap-2 text-sm leading-7 text-muted-foreground;
+  }
+
+  .diako-order-address-card__line svg {
+    @apply mt-1 shrink-0 text-primary/80;
+  }
+
+  .diako-order-address-card__line a {
+    @apply text-foreground no-underline transition-colors hover:text-primary;
+  }
+
+  .diako-order-address-card__line--muted {
+    @apply ps-6 text-xs;
+  }
+
+  .diako-order-address-card__empty {
+    @apply m-0 text-sm text-muted-foreground;
+  }
+
+  .diako-checkout-page--thankyou .diako-page-header {
+    @apply mb-6;
+  }
+
+  .diako-checkout-page--order-pay .diako-page-header {
+    @apply mb-6;
+  }
+
+  .diako-order-pay__form {
+    @apply mx-auto max-w-5xl space-y-6;
+  }
+
+  .diako-order-pay__summary {
+    @apply mb-0;
+  }
+
+  .diako-order-pay__layout {
+    @apply grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)] lg:items-start;
+  }
+
+  .diako-order-pay__review {
+    @apply m-0;
+  }
+
+  .diako-order-pay__sidebar {
+    @apply lg:sticky lg:top-24;
+  }
+
+  .diako-order-pay__payment {
+    @apply rounded-3xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-order-pay-auth {
+    @apply mx-auto max-w-xl space-y-4 rounded-3xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-info,
+  .diako-checkout-page--order-pay .woocommerce-message,
+  .diako-checkout-page--order-pay .woocommerce-error {
+    @apply mb-0 rounded-2xl border px-4 py-3 text-sm;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-login {
+    @apply m-0 space-y-4;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-login .form-row-first,
+  .diako-checkout-page--order-pay .woocommerce-form-login .form-row-last {
+    @apply float-none w-full;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-login label {
+    @apply mb-1.5 block text-sm font-medium text-foreground;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-login .input-text {
+    @apply h-11 w-full rounded-xl border border-input bg-background px-3 text-sm shadow-sm;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-login .woocommerce-form-login__submit,
+  .diako-checkout-page--order-pay .woocommerce-form-login .button {
+    @apply inline-flex h-11 w-full items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-login .lost_password {
+    @apply m-0 text-center text-sm;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-login .lost_password a {
+    @apply text-primary no-underline hover:underline;
+  }
+
+  .diako-checkout-page--order-pay .woocommerce-form-verify-email {
+    @apply mx-auto max-w-xl rounded-3xl border border-border bg-card p-5 shadow-sm md:p-6;
+  }
+
+  @media (max-width: 767px) {
+    .diako-checkout-place-order__button {
+      @apply w-full;
+    }
+
+    .diako-checkout-review .diako-shipping-method {
+      @apply min-w-0;
+    }
+
+    .diako-checkout-review .diako-shipping-method__label {
+      @apply min-w-0 max-w-full;
+    }
+
+    .diako-checkout-page .woocommerce-message,
+    .diako-checkout-page .woocommerce-error,
+    .diako-checkout-page .woocommerce-info {
+      @apply max-w-full break-words;
+    }
+  }
+}
