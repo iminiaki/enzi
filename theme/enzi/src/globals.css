@@ -2613,6 +2613,18 @@ html.dark {
     @apply text-2xl font-bold text-primary;
   }
 
+  .woocommerce div.product .diako-add-to-cart-form__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale) {
+    @apply inline-flex flex-row flex-wrap items-baseline gap-x-1 text-2xl font-bold leading-tight text-primary;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form__price .price.diako-product-card__price--from-sale {
+    @apply inline-flex flex-col items-start gap-0.5 text-2xl font-bold leading-tight text-primary;
+  }
+
+  .woocommerce div.product .diako-add-to-cart-form__price .price.diako-product-card__price--from-sale ins {
+    @apply inline-flex flex-wrap items-baseline gap-x-1 no-underline;
+  }
+
   .woocommerce div.product .summary p.price del,
   .woocommerce div.product .diako-add-to-cart-form__price .price del {
     @apply text-base font-normal text-muted-foreground;
@@ -2886,13 +2898,46 @@ html.dark {
   }
 
   .diako-variation-modal__price {
-    @apply mt-2 text-base font-semibold text-primary;
+    @apply mt-2 flex flex-col items-start gap-0.5 text-base font-bold leading-tight text-foreground;
   }
 
-  .diako-variation-modal__price .price,
-  .diako-variation-modal__price del,
+  .diako-variation-modal__price .price {
+    @apply flex flex-col items-start gap-0.5 text-base font-bold leading-tight text-foreground;
+  }
+
+  .diako-variation-modal__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale) {
+    @apply flex-row flex-wrap items-baseline gap-x-1;
+  }
+
+  .diako-variation-modal__price .price.diako-product-card__price--from-sale,
+  .diako-variation-modal__price .price:has(del):has(ins) {
+    @apply flex-col items-start gap-0.5;
+  }
+
+  .diako-variation-modal__price .price.diako-product-card__price--from-sale ins,
+  .diako-variation-modal__price .price:has(del) ins {
+    @apply inline-flex flex-wrap items-baseline gap-x-1;
+  }
+
+  .diako-variation-modal__price .woocommerce-Price-amount {
+    @apply text-base font-bold text-foreground;
+  }
+
+  .diako-variation-modal__price del {
+    @apply order-1 text-xs font-medium leading-none text-muted-foreground line-through;
+  }
+
+  .diako-variation-modal__price del .woocommerce-Price-amount {
+    @apply text-xs font-medium text-muted-foreground;
+  }
+
   .diako-variation-modal__price ins {
-    @apply text-base;
+    @apply order-2 text-base font-bold text-foreground no-underline;
+    text-decoration: none !important;
+  }
+
+  .diako-variation-modal__price .screen-reader-text {
+    @apply sr-only;
   }
 
   .diako-variation-modal .diako-variations {
@@ -3760,10 +3805,6 @@ html.dark {
     @apply text-xs font-bold leading-none tracking-wide tabular-nums text-brand-orange;
   }
 
-  .diako-product-card__price-from-line {
-    @apply inline-flex flex-wrap items-baseline gap-x-1 text-base font-bold leading-tight text-foreground;
-  }
-
   .diako-product-card__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale),
   .woocommerce ul.products li.product .diako-product-card__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale),
   .product-track > li.product .diako-product-card__price .price.diako-product-card__price--from:not(.diako-product-card__price--from-sale) {
@@ -3774,6 +3815,12 @@ html.dark {
   .woocommerce ul.products li.product .diako-product-card__price .price.diako-product-card__price--from-sale,
   .product-track > li.product .diako-product-card__price .price.diako-product-card__price--from-sale {
     @apply flex-col items-start gap-0.5 text-base font-bold leading-tight text-foreground;
+  }
+
+  .diako-product-card__price .price.diako-product-card__price--from-sale ins,
+  .woocommerce ul.products li.product .diako-product-card__price .price.diako-product-card__price--from-sale ins,
+  .product-track > li.product .diako-product-card__price .price.diako-product-card__price--from-sale ins {
+    @apply inline-flex flex-wrap items-baseline gap-x-1 no-underline;
   }
 
   .diako-product-card__price,
@@ -3804,6 +3851,15 @@ html.dark {
   .woocommerce ul.products li.product .diako-product-card__price del,
   .product-track > li.product .diako-product-card__price del {
     @apply order-1 text-xs font-medium leading-none text-muted-foreground line-through;
+  }
+
+  .diako-product-card__price del .woocommerce-Price-amount,
+  .diako-product-card__price .price del .woocommerce-Price-amount,
+  .woocommerce ul.products li.product .diako-product-card__price del .woocommerce-Price-amount,
+  .woocommerce ul.products li.product .diako-product-card__price .price del .woocommerce-Price-amount,
+  .product-track > li.product .diako-product-card__price del .woocommerce-Price-amount,
+  .product-track > li.product .diako-product-card__price .price del .woocommerce-Price-amount {
+    @apply text-xs font-medium text-muted-foreground;
   }
 
   .diako-product-card__price ins,

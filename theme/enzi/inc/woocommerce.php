@@ -674,10 +674,13 @@ function diako_render_product_category_sidebar_icon( $term ) {
  * @return string
  */
 function diako_get_shop_sidebar_banner_url() {
-	return (string) apply_filters(
-		'diako_shop_sidebar_banner_url',
-		diako_get_media_image_url( 'Frame-1984077835.webp', '2025/11/Frame-1984077835.webp' )
-	);
+	$default = '';
+
+	if ( is_readable( DIAKO_DIR . '/assets/images/snapppay-banner.jpg' ) ) {
+		$default = DIAKO_URI . '/assets/images/snapppay-banner.jpg';
+	}
+
+	return (string) apply_filters( 'diako_shop_sidebar_banner_url', $default );
 }
 
 /**
@@ -696,9 +699,9 @@ function diako_render_shop_sidebar_banner() {
 		<img
 			class="diako-shop-sidebar__banner-image"
 			src="<?php echo esc_url( $banner_url ); ?>"
-			alt="<?php esc_attr_e( 'بنر فروشگاه', 'diako' ); ?>"
+			alt="<?php esc_attr_e( 'اسنپ‌پی — خرید اعتباری', 'diako' ); ?>"
 			width="280"
-			height="160"
+			height="281"
 			loading="lazy"
 			decoding="async"
 		/>
@@ -1116,12 +1119,27 @@ function diako_get_product_card_price_html( WC_Product $product ): string {
 	if ( $min_price < $min_regular ) {
 		$classes .= ' diako-product-card__price--from-sale';
 
+		// Same order as simple products: regular (del) on top, sale (ins) below.
 		return sprintf(
-			'<span class="%1$s"><del>%2$s</del><span class="diako-product-card__price-from-line">%3$s <ins>%4$s</ins></span></span>',
+			'<span class="%1$s"><del aria-hidden="true">%2$s</del> <span class="screen-reader-text">%3$s</span><ins aria-hidden="true">%4$s %5$s</ins><span class="screen-reader-text">%6$s</span></span>',
 			esc_attr( $classes ),
 			wp_kses_post( wc_price( $min_regular ) ),
+			esc_html(
+				sprintf(
+					/* translators: %s: original price */
+					__( 'قیمت اصلی: %s بود.', 'diako' ),
+					wp_strip_all_tags( wc_price( $min_regular ) )
+				)
+			),
 			esc_html__( 'از', 'diako' ),
-			wp_kses_post( wc_price( $min_price ) )
+			wp_kses_post( wc_price( $min_price ) ),
+			esc_html(
+				sprintf(
+					/* translators: %s: current price */
+					__( 'قیمت فعلی: %s.', 'diako' ),
+					wp_strip_all_tags( wc_price( $min_price ) )
+				)
+			)
 		);
 	}
 
@@ -1693,7 +1711,10 @@ function diako_render_single_product_cart_price( $product = null ): void {
 		return;
 	}
 
-	$price_html = $product->get_price_html();
+	$is_variable = $product->is_type( 'variable' );
+	$price_html  = $is_variable
+		? diako_get_product_card_price_html( $product )
+		: $product->get_price_html();
 
 	if ( ! $price_html ) {
 		return;
@@ -1701,20 +1722,30 @@ function diako_render_single_product_cart_price( $product = null ): void {
 
 	$classes = 'diako-add-to-cart-form__price';
 
-	if ( $product->is_type( 'variable' ) ) {
+	if ( $is_variable ) {
 		$classes .= ' diako-add-to-cart-form__price--range';
 	}
 
-	$data_attr = $product->is_type( 'variable' )
+	$data_attr = $is_variable
 		? sprintf( ' data-diako-default-price-html="%s"', esc_attr( $price_html ) )
 		: '';
 
-	printf(
-		'<div class="%1$s"%2$s><p class="price">%3$s</p></div>',
-		esc_attr( $classes ),
-		$data_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		wp_kses_post( $price_html )
-	);
+	// Variable "از" markup already includes a .price wrapper; simple prices need one.
+	if ( $is_variable ) {
+		printf(
+			'<div class="%1$s"%2$s>%3$s</div>',
+			esc_attr( $classes ),
+			$data_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_kses_post( $price_html )
+		);
+	} else {
+		printf(
+			'<div class="%1$s"%2$s><p class="price">%3$s</p></div>',
+			esc_attr( $classes ),
+			$data_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_kses_post( $price_html )
+		);
+	}
 
 	diako_render_product_sale_countdown( $product, 'single' );
 }

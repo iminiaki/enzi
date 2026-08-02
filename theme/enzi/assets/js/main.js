@@ -2317,8 +2317,9 @@
 		};
 
 		const priceBlock = form.querySelector('.diako-add-to-cart-form__price');
-		const priceNode = priceBlock?.querySelector('.price');
-		const defaultPriceHtml = priceBlock?.dataset.diakoDefaultPriceHtml || priceNode?.innerHTML || '';
+		const getPriceNode = () => priceBlock?.querySelector('.price');
+		const defaultPriceHtml =
+			priceBlock?.dataset.diakoDefaultPriceHtml || getPriceNode()?.outerHTML || getPriceNode()?.innerHTML || '';
 
 		const getVariations = () => {
 			const fromData = $form.data('product_variations');
@@ -2475,13 +2476,31 @@
 			return minVariation.price_html || '';
 		};
 
+		const setPriceDisplayHtml = (html) => {
+			const priceNode = getPriceNode();
+
+			if (!priceNode || !html) {
+				return;
+			}
+
+			const trimmed = String(html).trim();
+			const isFullPriceMarkup = /^<(?:span|p)\b[^>]*\bprice\b/i.test(trimmed);
+
+			if (isFullPriceMarkup) {
+				priceNode.outerHTML = trimmed;
+				return;
+			}
+
+			priceNode.innerHTML = trimmed;
+		};
+
 		const updateVariablePriceDisplay = (explicitPriceHtml = '') => {
-			if (!priceBlock || !priceNode) {
+			if (!priceBlock || !getPriceNode()) {
 				return;
 			}
 
 			if (explicitPriceHtml) {
-				priceNode.innerHTML = explicitPriceHtml;
+				setPriceDisplayHtml(explicitPriceHtml);
 				priceBlock.classList.remove('diako-add-to-cart-form__price--range');
 				return;
 			}
@@ -2489,7 +2508,7 @@
 			const selected = getSelectedAttributes();
 
 			if (!Object.keys(selected).length) {
-				priceNode.innerHTML = defaultPriceHtml;
+				setPriceDisplayHtml(defaultPriceHtml);
 				priceBlock.classList.add('diako-add-to-cart-form__price--range');
 				return;
 			}
@@ -2497,12 +2516,12 @@
 			const resolvedPriceHtml = resolvePriceHtml(getMatchingVariations(getVariations(), selected));
 
 			if (resolvedPriceHtml) {
-				priceNode.innerHTML = resolvedPriceHtml;
+				setPriceDisplayHtml(resolvedPriceHtml);
 				priceBlock.classList.remove('diako-add-to-cart-form__price--range');
 				return;
 			}
 
-			priceNode.innerHTML = defaultPriceHtml;
+			setPriceDisplayHtml(defaultPriceHtml);
 			priceBlock.classList.add('diako-add-to-cart-form__price--range');
 		};
 
