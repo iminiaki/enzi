@@ -70,6 +70,8 @@ $card_classes    = diako_card_classes(
 
 			<?php diako_render_product_card_rating( $product ); ?>
 
+			<?php diako_render_product_card_color_swatches( $product ); ?>
+
 			<div class="diako-product-card__footer">
 				<?php if ( ! $is_out_of_stock ) : ?>
 					<div class="diako-product-card__price-block">

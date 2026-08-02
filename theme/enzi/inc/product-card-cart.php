@@ -135,7 +135,7 @@ function diako_render_variation_modal_content( WC_Product_Variable $product ): s
 	$variations_json      = wp_json_encode( $available_variations );
 	$variations_attr      = function_exists( 'wc_esc_json' ) ? wc_esc_json( $variations_json ) : _wp_specialchars( $variations_json, ENT_QUOTES, 'UTF-8', true );
 	$price_html           = diako_get_product_card_price_html( $product );
-	$image_html           = $product->get_image(
+	$image_html = $product->get_image(
 		'woocommerce_thumbnail',
 		array(
 			'class' => 'diako-variation-modal__image',
@@ -151,7 +151,7 @@ function diako_render_variation_modal_content( WC_Product_Variable $product ): s
 		data-product_variations="<?php echo $variations_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"
 	>
 		<div class="diako-variation-modal__product">
-			<div class="diako-variation-modal__media">
+			<div class="diako-variation-modal__media" data-diako-variation-modal-media>
 				<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 			<div class="diako-variation-modal__meta">

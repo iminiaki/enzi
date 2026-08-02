@@ -37,6 +37,7 @@ require_once DIAKO_DIR . '/inc/stock-notify.php';
 require_once DIAKO_DIR . '/inc/favorites.php';
 require_once DIAKO_DIR . '/inc/compare.php';
 require_once DIAKO_DIR . '/inc/woocommerce.php';
+require_once DIAKO_DIR . '/inc/attribute-color.php';
 require_once DIAKO_DIR . '/inc/product-variations.php';
 require_once DIAKO_DIR . '/inc/product-card-cart.php';
 require_once DIAKO_DIR . '/inc/used-categories.php';

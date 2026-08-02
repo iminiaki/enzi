@@ -53,11 +53,34 @@ function diako_variable_add_to_cart_starts_disabled( WC_Product $product ): bool
  * @param string $value       Option value.
  * @param string $label       Option label.
  * @param bool   $is_selected Whether selected.
+ * @param string $attribute   Attribute taxonomy/key (e.g. pa_color).
  * @return string
  */
-function diako_render_variation_radio_option( string $select_name, string $select_id, string $value, string $label, bool $is_selected ): string {
+function diako_render_variation_radio_option( string $select_name, string $select_id, string $value, string $label, bool $is_selected, string $attribute = '' ): string {
 	$input_id   = $select_id . '-v-' . sanitize_title( $value );
-	$check_icon = diako_lucide_icon_svg( 'check', 'h-4 w-4' );
+	$check_icon = diako_lucide_icon_svg( 'check', 'h-3.5 w-3.5' );
+	$is_color   = $attribute && function_exists( 'diako_is_color_attribute' ) && diako_is_color_attribute( $attribute );
+	$color      = $is_color && function_exists( 'diako_get_attribute_color' )
+		? diako_get_attribute_color( $value, taxonomy_exists( $attribute ) ? $attribute : DIAKO_COLOR_ATTRIBUTE_TAXONOMY )
+		: '';
+
+	if ( $is_color && '' !== $color ) {
+		$is_light = function_exists( 'diako_is_light_attribute_color' ) && diako_is_light_attribute_color( $color );
+		$classes  = 'diako-variation-option diako-variation-option--swatch' . ( $is_selected ? ' is-selected' : '' ) . ( $is_light ? ' is-light' : '' );
+
+		return sprintf(
+			'<label class="%1$s" for="%2$s" title="%3$s"><input class="diako-variation-option__input" type="radio" id="%2$s" name="%4$s-radio" value="%5$s" data-diako-variation-radio data-target-select="%6$s" %7$s /><span class="diako-variation-option__swatch" style="background-color:%8$s" aria-hidden="true"><span class="diako-variation-option__check">%9$s</span></span><span class="sr-only">%3$s</span></label>',
+			esc_attr( $classes ),
+			esc_attr( $input_id ),
+			esc_attr( $label ),
+			esc_attr( $select_id ),
+			esc_attr( $value ),
+			esc_attr( $select_name ),
+			checked( $is_selected, true, false ),
+			esc_attr( $color ),
+			$check_icon // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		);
+	}
 
 	return sprintf(
 		'<label class="diako-variation-option%1$s" for="%2$s"><input class="diako-variation-option__input" type="radio" id="%2$s" name="%3$s-radio" value="%4$s" data-diako-variation-radio data-target-select="%5$s" %6$s /><span class="diako-variation-option__label"><span class="diako-variation-option__check" aria-hidden="true">%8$s</span><span class="diako-variation-option__text">%7$s</span></span></label>',
@@ -131,8 +154,15 @@ function diako_variation_attribute_options_radio_html( string $html, array $args
 	);
 	$select_html .= '<option value="">' . esc_html( $none ) . '</option>';
 
+	$options_class = 'diako-variation-options';
+
+	if ( function_exists( 'diako_is_color_attribute' ) && diako_is_color_attribute( (string) $attribute ) ) {
+		$options_class .= ' diako-variation-options--swatches';
+	}
+
 	$radios_html = sprintf(
-		'<div class="diako-variation-options" role="radiogroup" aria-labelledby="%1$s-label" data-diako-variation-radios>',
+		'<div class="%1$s" role="radiogroup" aria-labelledby="%2$s-label" data-diako-variation-radios>',
+		esc_attr( $options_class ),
 		esc_attr( $id )
 	);
 
@@ -159,7 +189,7 @@ function diako_variation_attribute_options_radio_html( string $html, array $args
 				selected( $is_selected, true, false ),
 				esc_html( $term->name )
 			);
-			$radios_html .= diako_render_variation_radio_option( $name, $id, $term->slug, $term->name, $is_selected );
+			$radios_html .= diako_render_variation_radio_option( $name, $id, $term->slug, $term->name, $is_selected, (string) $attribute );
 			++$rendered_options;
 		}
 
@@ -180,7 +210,7 @@ function diako_variation_attribute_options_radio_html( string $html, array $args
 					selected( $is_selected, true, false ),
 					esc_html( $term->name )
 				);
-				$radios_html .= diako_render_variation_radio_option( $name, $id, $term->slug, $term->name, $is_selected );
+				$radios_html .= diako_render_variation_radio_option( $name, $id, $term->slug, $term->name, $is_selected, (string) $attribute );
 				++$rendered_options;
 			}
 		}
@@ -196,7 +226,7 @@ function diako_variation_attribute_options_radio_html( string $html, array $args
 				selected( $is_selected, true, false ),
 				esc_html( $option )
 			);
-			$radios_html .= diako_render_variation_radio_option( $name, $id, $option, $option, $is_selected );
+			$radios_html .= diako_render_variation_radio_option( $name, $id, $option, $option, $is_selected, (string) $attribute );
 			++$rendered_options;
 		}
 	}

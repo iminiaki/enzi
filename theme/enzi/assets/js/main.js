@@ -418,6 +418,17 @@
 			const priceBlock = form.querySelector('[data-diako-variation-modal-price]');
 			const defaultPriceHtml = priceBlock?.dataset.diakoDefaultPriceHtml || priceBlock?.innerHTML || '';
 			const feedback = form.querySelector('[data-diako-variation-modal-feedback]');
+			const modalImage = form.querySelector('[data-diako-variation-modal-media] img');
+			const defaultModalImage = modalImage
+				? {
+						src: modalImage.getAttribute('src') || '',
+						srcset: modalImage.getAttribute('srcset') || '',
+						sizes: modalImage.getAttribute('sizes') || '',
+						alt: modalImage.getAttribute('alt') || '',
+						width: modalImage.getAttribute('width') || '',
+						height: modalImage.getAttribute('height') || '',
+					}
+				: null;
 
 			const getVariations = () => {
 				const raw = form.getAttribute('data-product_variations');
@@ -499,6 +510,44 @@
 				priceBlock.innerHTML = priceHtml || defaultPriceHtml;
 			};
 
+			const updateModalImage = (variation = null) => {
+				if (!modalImage || !defaultModalImage) {
+					return;
+				}
+
+				const image = variation?.image;
+				const next =
+					image && image.src
+						? {
+								src: image.src,
+								srcset: image.srcset || '',
+								sizes: image.sizes || '',
+								alt: image.alt || defaultModalImage.alt,
+								width: image.src_w ? String(image.src_w) : defaultModalImage.width,
+								height: image.src_h ? String(image.src_h) : defaultModalImage.height,
+							}
+						: defaultModalImage;
+
+				modalImage.setAttribute('src', next.src);
+				if (next.srcset) {
+					modalImage.setAttribute('srcset', next.srcset);
+				} else {
+					modalImage.removeAttribute('srcset');
+				}
+				if (next.sizes) {
+					modalImage.setAttribute('sizes', next.sizes);
+				} else {
+					modalImage.removeAttribute('sizes');
+				}
+				modalImage.setAttribute('alt', next.alt || '');
+				if (next.width) {
+					modalImage.setAttribute('width', next.width);
+				}
+				if (next.height) {
+					modalImage.setAttribute('height', next.height);
+				}
+			};
+
 			const syncVariationState = () => {
 				const variation = findMatchingVariation();
 
@@ -507,6 +556,7 @@
 					const canPurchase = Boolean(variation.is_purchasable && variation.is_in_stock);
 					setButtonNeedsSelection(!canPurchase);
 					updatePriceDisplay(variation.price_html || '');
+					updateModalImage(variation);
 
 					if (feedback) {
 						feedback.hidden = true;
@@ -531,6 +581,14 @@
 					: '';
 
 				updatePriceDisplay(priceHtml);
+
+				const previewVariation = matches.length
+					? matches.reduce((lowest, current) =>
+							parseFloat(current.display_price) < parseFloat(lowest.display_price) ? current : lowest
+						)
+					: null;
+
+				updateModalImage(matches.length === 1 ? previewVariation : null);
 			};
 
 			form.querySelectorAll('[data-diako-variation-radio]').forEach((radio) => {
@@ -1684,6 +1742,25 @@
 			showSlide(0);
 		} else if (gallery) {
 			gallery.style.opacity = '1';
+		}
+
+		// Variation image swaps mutate the first gallery slide — keep it visible.
+		if (window.jQuery && gallery) {
+			const showMainSlide = () => {
+				if (slides.length) {
+					showSlide(0);
+				}
+
+				const thumbs = thumbsRoot
+					? [...thumbsRoot.querySelectorAll('.diako-gallery-thumbs__item')]
+					: [];
+				thumbs.forEach((item, index) => {
+					item.classList.toggle('is-active', index === 0);
+				});
+			};
+
+			window.jQuery(document.body).on('found_variation', 'form.variations_form', showMainSlide);
+			window.jQuery(document.body).on('reset_image reset_data', 'form.variations_form', showMainSlide);
 		}
 
 		if (!gallery || !thumbsRoot) {

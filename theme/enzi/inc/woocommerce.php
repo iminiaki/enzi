@@ -938,10 +938,14 @@ add_filter(
 
 add_filter(
 	'woocommerce_gallery_image_html_attachment_image_params',
-	function ( $params ) {
-		if ( is_product() ) {
-			$params['class'] = 'diako-product-gallery__img';
+	static function ( $params ) {
+		if ( ! is_product() ) {
+			return $params;
 		}
+
+		// Keep WooCommerce's `wp-post-image` so variation image swaps can find the main image.
+		$existing         = isset( $params['class'] ) ? (string) $params['class'] : '';
+		$params['class']  = trim( $existing . ' diako-product-gallery__img' );
 
 		return $params;
 	}

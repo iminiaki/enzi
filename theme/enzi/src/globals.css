@@ -2760,6 +2760,61 @@ html.dark {
     @apply ring-2 ring-primary/15;
   }
 
+  .woocommerce div.product form.variations_form .variations .diako-variation-options--swatches,
+  .diako-variation-modal .diako-variation-options--swatches {
+    @apply items-center gap-2.5;
+  }
+
+  .diako-variation-option--swatch {
+    @apply relative m-0 inline-flex cursor-pointer;
+  }
+
+  .diako-variation-option__swatch {
+    @apply relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] transition-[transform,box-shadow,border-color];
+  }
+
+  .diako-variation-option--swatch:hover .diako-variation-option__swatch {
+    @apply -translate-y-px border-black/20;
+  }
+
+  .diako-variation-option--swatch .diako-variation-option__check {
+    @apply hidden h-3.5 w-3.5 text-white drop-shadow-sm;
+  }
+
+  .diako-variation-option--swatch.is-light .diako-variation-option__check {
+    @apply text-foreground;
+  }
+
+  .diako-variation-option--swatch.is-selected .diako-variation-option__check,
+  .diako-variation-option--swatch:has(.diako-variation-option__input:checked) .diako-variation-option__check {
+    @apply inline-flex;
+  }
+
+  .diako-variation-option--swatch.is-selected .diako-variation-option__swatch,
+  .diako-variation-option--swatch:has(.diako-variation-option__input:checked) .diako-variation-option__swatch {
+    @apply scale-105 border-primary ring-2 ring-primary/25;
+  }
+
+  .diako-variation-option--swatch:has(.diako-variation-option__input:focus-visible) .diako-variation-option__swatch {
+    @apply ring-2 ring-primary/30;
+  }
+
+  .diako-product-card__swatches {
+    @apply m-0 mt-2 flex list-none flex-wrap items-center gap-1.5 p-0;
+  }
+
+  .diako-product-card__swatch {
+    @apply block h-4 w-4 rounded-full border border-black/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)];
+  }
+
+  .diako-product-card__swatch.is-light {
+    @apply border-black/20;
+  }
+
+  .diako-product-card__swatch-more {
+    @apply text-[11px] font-semibold leading-none text-muted-foreground;
+  }
+
   .woocommerce div.product form.variations_form .single_variation_wrap.diako-variation-wrap--visible {
     display: block;
   }
