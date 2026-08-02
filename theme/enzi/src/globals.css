@@ -8,7 +8,7 @@
 
 /* Theme tokens must live outside @tailwind layers so Tailwind doesn't strip them. */
 :root {
-  /* Enzi brand: #641F8C → #F5ED77 → #FBEAFE (background unchanged) */
+  /* Enzi brand: #641F8C -> #A16207/#FACC15 -> #FBEAFE (background unchanged) */
   --background: 0 0% 100%;
   --foreground: 222 22% 12%;
   --card: 0 0% 100%;
@@ -17,7 +17,8 @@
   --popover-foreground: 222 22% 12%;
   --primary: 278 64% 34%;
   --primary-foreground: 0 0% 100%;
-  --brand-orange: 56 86% 71%;
+  --brand-orange: 38 92% 33%;
+  --brand-orange-foreground: 0 0% 100%;
   --secondary: 291 91% 96%;
   --secondary-foreground: 222 22% 12%;
   --muted: 220 14% 96%;
@@ -43,7 +44,8 @@ html.dark {
   --popover-foreground: 210 20% 96%;
   --primary: 278 70% 52%;
   --primary-foreground: 0 0% 100%;
-  --brand-orange: 56 86% 65%;
+  --brand-orange: 48 96% 53%;
+  --brand-orange-foreground: 222 22% 12%;
   --secondary: 220 14% 16%;
   --secondary-foreground: 210 20% 96%;
   --muted: 220 14% 16%;
@@ -1829,7 +1831,7 @@ html.dark {
   }
 
   .diako-post-single__category {
-    @apply inline-flex rounded-full border border-brand-orange/25 bg-brand-orange/10 px-3 py-1 text-xs font-semibold text-brand-orange no-underline transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-white;
+    @apply inline-flex rounded-full border border-brand-orange/25 bg-brand-orange/10 px-3 py-1 text-xs font-semibold text-brand-orange no-underline transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-brand-orange-foreground;
   }
 
   .diako-post-share {
@@ -2519,7 +2521,7 @@ html.dark {
 
   .woocommerce div.product .woocommerce-product-gallery .sale-badge,
   .woocommerce div.product .woocommerce-product-gallery .onsale {
-    @apply pointer-events-none absolute start-3 top-3 z-30 inline-flex rounded-full bg-brand-orange px-2.5 py-1.5 text-xs font-semibold leading-none text-white shadow-sm;
+    @apply pointer-events-none absolute start-3 top-3 z-30 inline-flex rounded-full bg-brand-orange px-2.5 py-1.5 text-xs font-semibold leading-none text-brand-orange-foreground shadow-sm;
   }
 
   .woocommerce div.product .woocommerce-product-gallery .woocommerce-product-gallery__wrapper {
@@ -2640,7 +2642,7 @@ html.dark {
   }
 
   .diako-product-tag {
-    @apply inline-flex max-w-full items-center truncate rounded-full border border-brand-orange/25 bg-brand-orange/10 px-2.5 py-1 text-xs font-semibold leading-none text-brand-orange no-underline shadow-sm backdrop-blur-[16px] transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-white;
+    @apply inline-flex max-w-full items-center truncate rounded-full border border-brand-orange/25 bg-brand-orange/10 px-2.5 py-1 text-xs font-semibold leading-none text-brand-orange no-underline shadow-sm backdrop-blur-[16px] transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-brand-orange-foreground;
   }
 
   .diako-single-product-actions {
@@ -3754,21 +3756,22 @@ html.dark {
   }
 
   .diako-product-card__media .diako-product-tag {
-    @apply pointer-events-auto backdrop-blur-[16px] border-brand-orange/25 bg-brand-orange/10 text-brand-orange hover:border-brand-orange hover:bg-brand-orange hover:text-white;
+    @apply pointer-events-auto backdrop-blur-[16px] border-brand-orange/25 bg-brand-orange/10 text-brand-orange hover:border-brand-orange hover:bg-brand-orange hover:text-brand-orange-foreground;
   }
 
   .diako-product-card__media .diako-favorite-button--card {
-    @apply absolute left-3 top-3 z-30 size-10 bg-transparent;
+    @apply absolute left-3 top-3 z-30 size-10;
   }
 
   .diako-product-card__media .diako-compare-button--card {
-    @apply absolute left-3 top-[3.75rem] z-30 size-10 bg-transparent;
-    border-color: hsl(220 13% 91% / 0.8);
+    @apply absolute left-3 top-[3.75rem] z-30 size-10;
   }
 
-  html.dark .diako-product-card__media .diako-compare-button--card:not(:hover):not(.is-active) {
-    @apply bg-transparent text-muted-foreground shadow-sm;
-    border-color: hsl(220 13% 91% / 0.8);
+  /* Solid theme-aware chip so icons stay readable over any product image. */
+  .diako-product-card__media .diako-favorite-button--card,
+  .diako-product-card__media .diako-compare-button--card {
+    @apply bg-card/95 text-foreground shadow-md backdrop-blur-md;
+    border-color: hsl(var(--border));
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -3787,21 +3790,24 @@ html.dark {
 
   .diako-product-card__media .diako-favorite-button--card:hover,
   .diako-product-card__media .diako-favorite-button--card.is-active:hover {
-    @apply bg-transparent;
+    @apply bg-card text-destructive;
+    border-color: hsl(var(--destructive) / 0.4);
   }
 
   .diako-product-card__media .diako-favorite-button--card.is-active {
-    @apply bg-transparent;
+    @apply bg-card text-destructive;
+    border-color: hsl(var(--destructive) / 0.35);
   }
 
   .diako-product-card__media .diako-compare-button--card:hover,
   .diako-product-card__media .diako-compare-button--card.is-active:hover {
-    @apply bg-transparent;
-    border-color: hsl(220 13% 91% / 0.8);
+    @apply bg-card text-primary;
+    border-color: hsl(var(--primary) / 0.4);
   }
 
   .diako-product-card__media .diako-compare-button--card.is-active {
-    @apply bg-transparent;
+    @apply bg-card text-primary;
+    border-color: hsl(var(--primary) / 0.35);
   }
 
   .diako-product-card__rating {
@@ -4038,7 +4044,7 @@ html.dark {
   .dark .group:hover .diako-product-card__cta--notify,
   .dark .woocommerce ul.products li.product .group:hover .diako-product-card__cta--notify,
   .dark .product-track > li.product .group:hover .diako-product-card__cta--notify {
-    @apply -translate-y-0.5 border-brand-orange bg-brand-orange text-white shadow-md;
+    @apply -translate-y-0.5 border-brand-orange bg-brand-orange text-brand-orange-foreground shadow-md;
   }
 
   .woocommerce ul.products li.product .onsale,

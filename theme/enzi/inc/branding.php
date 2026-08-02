@@ -24,12 +24,27 @@ function diako_get_default_branding_settings() {
 		'favicon_id'     => 0,
 		'favicon_url'    => $default_logo,
 		'footer_text'    => '',
+		'contact'        => array(
+			'phone_display' => '0912-777 22 97',
+			'phone_tel'     => '+989127772297',
+			'email'         => 'web@diakoo.shop',
+			'address'       => 'تهران، بلوار میرداماد، پاساژ پایتخت، طبقه منفی ۱، پلاک ۱۲',
+			'hours'         => __( 'شنبه تا پنج‌شنبه: ۱۰:۰۰ تا ۲۰:۰۰', 'diako' ),
+			'response_time' => __( 'معمولاً در کمتر از ۲۴ ساعت پاسخ می‌دهیم.', 'diako' ),
+			'map_url'       => 'https://maps.google.com/?q=' . rawurlencode( 'تهران، بلوار میرداماد، پاساژ پایتخت' ),
+		),
+		'social_links'   => array(
+			'instagram' => 'https://instagram.com/diako',
+			'telegram'  => 'https://t.me/diako',
+			'whatsapp'  => '',
+		),
 		'colors'         => array(
-			// Priority: #641F8C (primary) → #F5ED77 (brand second) → #FBEAFE (accent).
+			// Priority: #641F8C (primary) -> #A16207/#FACC15 (brand second) -> #FBEAFE (accent).
 			'light' => array(
 				'primary'      => '278 64% 34%',
 				'accent'       => '291 91% 96%',
-				'brand_orange' => '56 86% 71%',
+				'brand_orange'            => '38 92% 33%',
+				'brand_orange_foreground' => '0 0% 100%',
 				'background'   => '0 0% 100%',
 				'foreground'   => '222 22% 12%',
 				'border'       => '220 13% 91%',
@@ -39,7 +54,8 @@ function diako_get_default_branding_settings() {
 			'dark'  => array(
 				'primary'      => '278 70% 52%',
 				'accent'       => '278 28% 18%',
-				'brand_orange' => '56 86% 65%',
+				'brand_orange'            => '48 96% 53%',
+				'brand_orange_foreground' => '222 22% 12%',
 				'background'   => '222 22% 6%',
 				'foreground'   => '210 20% 96%',
 				'border'       => '220 14% 18%',
@@ -409,6 +425,20 @@ function diako_sanitize_branding_settings( array $input ) {
 		'favicon_id'     => $favicon['id'],
 		'favicon_url'    => $favicon['url'],
 		'footer_text'    => sanitize_textarea_field( $input['footer_text'] ?? '' ),
+		'contact'        => array(
+			'phone_display' => sanitize_text_field( $input['contact']['phone_display'] ?? $defaults['contact']['phone_display'] ),
+			'phone_tel'     => sanitize_text_field( $input['contact']['phone_tel'] ?? $defaults['contact']['phone_tel'] ),
+			'email'         => sanitize_email( $input['contact']['email'] ?? $defaults['contact']['email'] ),
+			'address'       => sanitize_text_field( $input['contact']['address'] ?? $defaults['contact']['address'] ),
+			'hours'         => sanitize_text_field( $input['contact']['hours'] ?? $defaults['contact']['hours'] ),
+			'response_time' => sanitize_text_field( $input['contact']['response_time'] ?? $defaults['contact']['response_time'] ),
+			'map_url'       => esc_url_raw( $input['contact']['map_url'] ?? $defaults['contact']['map_url'] ),
+		),
+		'social_links'   => array(
+			'instagram' => esc_url_raw( $input['social_links']['instagram'] ?? $defaults['social_links']['instagram'] ),
+			'telegram'  => esc_url_raw( $input['social_links']['telegram'] ?? $defaults['social_links']['telegram'] ),
+			'whatsapp'  => esc_url_raw( $input['social_links']['whatsapp'] ?? $defaults['social_links']['whatsapp'] ),
+		),
 		'colors'         => array(
 			'light' => array(),
 			'dark'  => array(),
@@ -470,7 +500,7 @@ function diako_build_branding_css_vars( array $colors ) {
 			continue;
 		}
 
-		$var_name = 'brand_orange' === $token ? 'brand-orange' : $token;
+		$var_name = str_replace( '_', '-', $token );
 		$css     .= '--' . $var_name . ':' . $value . ';';
 
 		if ( 'primary' === $token && empty( $colors['ring'] ) ) {
@@ -706,6 +736,34 @@ function diako_render_branding_general_fields( array $settings ) {
 		</tr>
 		<?php diako_render_settings_field( 'lastify_settings[branding][logo_alt]', __( 'متن جایگزین لوگو', 'diako' ), $branding['logo_alt'] ); ?>
 		<?php diako_render_settings_textarea( 'lastify_settings[branding][footer_text]', __( 'متن کپی‌رایت فوتر', 'diako' ), $branding['footer_text'] ); ?>
+	</table>
+
+	<h2><?php esc_html_e( 'اطلاعات تماس', 'diako' ); ?></h2>
+	<table class="form-table" role="presentation">
+		<?php
+		$contact = wp_parse_args( $branding['contact'] ?? array(), diako_get_default_branding_settings()['contact'] );
+		diako_render_settings_field( 'lastify_settings[branding][contact][phone_display]', __( 'شماره تلفن نمایشی', 'diako' ), $contact['phone_display'] );
+		diako_render_settings_field( 'lastify_settings[branding][contact][phone_tel]', __( 'شماره تلفن لینک تماس', 'diako' ), $contact['phone_tel'] );
+		diako_render_settings_field( 'lastify_settings[branding][contact][email]', __( 'ایمیل', 'diako' ), $contact['email'], 'email' );
+		diako_render_settings_textarea( 'lastify_settings[branding][contact][address]', __( 'آدرس', 'diako' ), $contact['address'] );
+		diako_render_settings_field( 'lastify_settings[branding][contact][hours]', __( 'ساعات پاسخ‌گویی', 'diako' ), $contact['hours'] );
+		diako_render_settings_field( 'lastify_settings[branding][contact][response_time]', __( 'زمان پاسخ‌گویی', 'diako' ), $contact['response_time'] );
+		diako_render_settings_field( 'lastify_settings[branding][contact][map_url]', __( 'لینک نقشه', 'diako' ), $contact['map_url'], 'url' );
+		?>
+	</table>
+
+	<h2><?php esc_html_e( 'شبکه‌های اجتماعی', 'diako' ); ?></h2>
+	<table class="form-table" role="presentation">
+		<?php
+		$social_links = wp_parse_args( $branding['social_links'] ?? array(), diako_get_default_branding_settings()['social_links'] );
+		diako_render_settings_field( 'lastify_settings[branding][social_links][instagram]', __( 'اینستاگرام', 'diako' ), $social_links['instagram'], 'url' );
+		diako_render_settings_field( 'lastify_settings[branding][social_links][telegram]', __( 'تلگرام', 'diako' ), $social_links['telegram'], 'url' );
+		diako_render_settings_field( 'lastify_settings[branding][social_links][whatsapp]', __( 'واتساپ (اختیاری)', 'diako' ), $social_links['whatsapp'], 'url' );
+		?>
+		<tr>
+			<th scope="row"></th>
+			<td><p class="description"><?php esc_html_e( 'اگر واتساپ خالی باشد، لینک واتساپ از شماره تلفن ساخته می‌شود.', 'diako' ); ?></p></td>
+		</tr>
 	</table>
 
 	<h2><?php esc_html_e( 'لوگو', 'diako' ); ?></h2>

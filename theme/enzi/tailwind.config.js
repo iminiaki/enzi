@@ -21,7 +21,10 @@ module.exports = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         steel: 'hsl(var(--steel))',
-        'brand-orange': 'hsl(var(--brand-orange))',
+        'brand-orange': {
+          DEFAULT: 'hsl(var(--brand-orange))',
+          foreground: 'hsl(var(--brand-orange-foreground))',
+        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

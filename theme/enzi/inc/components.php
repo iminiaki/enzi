@@ -559,15 +559,27 @@ function diako_label_classes( $extra = '' ) {
 /**
  * Company contact details used across the theme.
  *
- * @return array{phone_display: string, phone_tel: string, email: string, address: string}
+ * @return array{phone_display: string, phone_tel: string, email: string, address: string, hours: string, response_time: string, map_url: string}
  */
 function diako_get_company_contact_details() {
-	return array(
+	$defaults = array(
 		'phone_display' => '0912-777 22 97',
 		'phone_tel'     => '+989127772297',
 		'email'         => 'web@diakoo.shop',
 		'address'       => 'تهران، بلوار میرداماد، پاساژ پایتخت، طبقه منفی ۱، پلاک ۱۲',
+		'hours'         => __( 'شنبه تا پنج‌شنبه: ۱۰:۰۰ تا ۲۰:۰۰', 'diako' ),
+		'response_time' => __( 'معمولاً در کمتر از ۲۴ ساعت پاسخ می‌دهیم.', 'diako' ),
+		'map_url'       => 'https://maps.google.com/?q=' . rawurlencode( 'تهران، بلوار میرداماد، پاساژ پایتخت' ),
 	);
+
+	if ( ! function_exists( 'diako_get_branding_settings' ) ) {
+		return $defaults;
+	}
+
+	$branding = diako_get_branding_settings();
+	$contact  = isset( $branding['contact'] ) && is_array( $branding['contact'] ) ? $branding['contact'] : array();
+
+	return wp_parse_args( $contact, $defaults );
 }
 
 /**
@@ -781,27 +793,41 @@ function diako_render_header_login_link() {
 function diako_get_social_links() {
 	$contact      = diako_get_company_contact_details();
 	$whatsapp_url = 'https://wa.me/' . preg_replace( '/\D+/', '', $contact['phone_tel'] );
+	$stored       = array();
 
-	return apply_filters(
-		'diako_social_links',
+	if ( function_exists( 'diako_get_branding_settings' ) ) {
+		$branding = diako_get_branding_settings();
+		$stored   = isset( $branding['social_links'] ) && is_array( $branding['social_links'] ) ? $branding['social_links'] : array();
+	}
+
+	$links = array(
 		array(
-			array(
-				'icon'  => 'instagram',
-				'label' => __( 'اینستاگرام', 'diako' ),
-				'url'   => 'https://instagram.com/diako',
-			),
-			array(
-				'icon'  => 'telegram',
-				'label' => __( 'تلگرام', 'diako' ),
-				'url'   => 'https://t.me/diako',
-			),
-			array(
-				'icon'  => 'whatsapp',
-				'label' => __( 'واتساپ', 'diako' ),
-				'url'   => $whatsapp_url,
-			),
+			'icon'  => 'instagram',
+			'label' => __( 'اینستاگرام', 'diako' ),
+			'url'   => (string) ( $stored['instagram'] ?? 'https://instagram.com/diako' ),
+		),
+		array(
+			'icon'  => 'telegram',
+			'label' => __( 'تلگرام', 'diako' ),
+			'url'   => (string) ( $stored['telegram'] ?? 'https://t.me/diako' ),
+		),
+		array(
+			'icon'  => 'whatsapp',
+			'label' => __( 'واتساپ', 'diako' ),
+			'url'   => '' !== ( $stored['whatsapp'] ?? '' ) ? (string) $stored['whatsapp'] : $whatsapp_url,
+		),
+	);
+
+	$links = array_values(
+		array_filter(
+			$links,
+			static function ( $link ) {
+				return ! empty( $link['url'] );
+			}
 		)
 	);
+
+	return apply_filters( 'diako_social_links', $links );
 }
 
 /**

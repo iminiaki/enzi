@@ -77,10 +77,11 @@ function diako_is_contact_page(): bool {
  * @return array<string, string>
  */
 function diako_get_contact_page_info(): array {
+	$contact = function_exists( 'diako_get_company_contact_details' ) ? diako_get_company_contact_details() : array();
 	$defaults = array(
-		'hours'         => __( 'شنبه تا پنج‌شنبه: ۱۰:۰۰ تا ۲۰:۰۰', 'diako' ),
-		'response_time' => __( 'معمولاً در کمتر از ۲۴ ساعت پاسخ می‌دهیم.', 'diako' ),
-		'map_url'       => 'https://maps.google.com/?q=' . rawurlencode( 'تهران، بلوار میرداماد، پاساژ پایتخت' ),
+		'hours'         => (string) ( $contact['hours'] ?? __( 'شنبه تا پنج‌شنبه: ۱۰:۰۰ تا ۲۰:۰۰', 'diako' ) ),
+		'response_time' => (string) ( $contact['response_time'] ?? __( 'معمولاً در کمتر از ۲۴ ساعت پاسخ می‌دهیم.', 'diako' ) ),
+		'map_url'       => (string) ( $contact['map_url'] ?? ( 'https://maps.google.com/?q=' . rawurlencode( 'تهران، بلوار میرداماد، پاساژ پایتخت' ) ) ),
 	);
 
 	return apply_filters( 'diako_contact_page_info', $defaults );
