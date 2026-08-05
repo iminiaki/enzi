@@ -10,6 +10,201 @@ defined( 'ABSPATH' ) || exit;
 const DIAKO_COLOR_ATTRIBUTE_SLUG = 'color';
 const DIAKO_COLOR_ATTRIBUTE_TAXONOMY = 'pa_color';
 const DIAKO_COLOR_TERM_META_KEY = 'diako_attribute_color';
+const DIAKO_COLOR_ATTRIBUTE_SETTINGS_OPTION = 'diako_color_attribute_settings';
+
+/**
+ * Default settings for the global color attribute.
+ *
+ * @return array<string, string>
+ */
+function diako_get_default_color_attribute_settings(): array {
+	return array(
+		'filter_display' => 'both',
+	);
+}
+
+/**
+ * Saved settings for the global color attribute.
+ *
+ * @return array<string, string>
+ */
+function diako_get_color_attribute_settings(): array {
+	$saved = get_option( DIAKO_COLOR_ATTRIBUTE_SETTINGS_OPTION, array() );
+
+	return wp_parse_args(
+		is_array( $saved ) ? $saved : array(),
+		diako_get_default_color_attribute_settings()
+	);
+}
+
+/**
+ * Sanitize sidebar filter display mode for pa_color.
+ *
+ * @param string $mode Raw mode.
+ * @return string color|name|both
+ */
+function diako_sanitize_color_filter_display_mode( string $mode ): string {
+	$mode = sanitize_key( $mode );
+
+	if ( ! in_array( $mode, array( 'color', 'name', 'both' ), true ) ) {
+		return diako_get_default_color_attribute_settings()['filter_display'];
+	}
+
+	return $mode;
+}
+
+/**
+ * Migrate legacy theme-settings value into the color attribute settings option.
+ *
+ * @return void
+ */
+function diako_maybe_migrate_color_filter_display_setting(): void {
+	if ( get_option( 'diako_color_filter_display_migrated' ) ) {
+		return;
+	}
+
+	$theme_settings = get_option( DIAKO_THEME_SETTINGS_OPTION, array() );
+
+	if ( is_array( $theme_settings ) && ! empty( $theme_settings['shop']['color_filter_display'] ) ) {
+		$mode = diako_sanitize_color_filter_display_mode( (string) $theme_settings['shop']['color_filter_display'] );
+
+		update_option(
+			DIAKO_COLOR_ATTRIBUTE_SETTINGS_OPTION,
+			array(
+				'filter_display' => $mode,
+			),
+			false
+		);
+	}
+
+	update_option( 'diako_color_filter_display_migrated', 1, false );
+}
+add_action( 'init', 'diako_maybe_migrate_color_filter_display_setting', 5 );
+
+/**
+ * How color attribute terms render in the shop sidebar filter.
+ *
+ * @return string color|name|both
+ */
+function diako_get_color_filter_display_mode(): string {
+	diako_maybe_migrate_color_filter_display_setting();
+
+	return diako_sanitize_color_filter_display_mode(
+		(string) ( diako_get_color_attribute_settings()['filter_display'] ?? 'both' )
+	);
+}
+
+/**
+ * Whether the current WooCommerce attribute admin screen is editing pa_color.
+ *
+ * @return bool
+ */
+function diako_is_color_attribute_admin_screen(): bool {
+	if ( ! is_admin() || ! isset( $_GET['edit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return false;
+	}
+
+	$attribute_id = absint( wp_unslash( $_GET['edit'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+	if ( $attribute_id <= 0 ) {
+		return false;
+	}
+
+	if ( function_exists( 'diako_get_attribute_slug_by_id' ) ) {
+		return DIAKO_COLOR_ATTRIBUTE_SLUG === diako_get_attribute_slug_by_id( $attribute_id );
+	}
+
+	if ( ! function_exists( 'wc_get_attribute_taxonomies' ) ) {
+		return false;
+	}
+
+	foreach ( wc_get_attribute_taxonomies() as $attribute ) {
+		if ( (int) $attribute->attribute_id === $attribute_id ) {
+			return DIAKO_COLOR_ATTRIBUTE_SLUG === (string) $attribute->attribute_name;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Render sidebar filter display options on the color attribute edit screen.
+ *
+ * @return void
+ */
+function diako_render_color_attribute_filter_display_field(): void {
+	if ( ! diako_is_color_attribute_admin_screen() ) {
+		return;
+	}
+
+	$current = diako_get_color_filter_display_mode();
+	?>
+	<tr class="form-field">
+		<th scope="row" valign="top">
+			<label><?php esc_html_e( 'نمایش در فیلتر فروشگاه', 'diako' ); ?></label>
+		</th>
+		<td>
+			<fieldset>
+				<legend class="screen-reader-text"><?php esc_html_e( 'نمایش در فیلتر فروشگاه', 'diako' ); ?></legend>
+				<label>
+					<input type="radio" name="diako_color_filter_display" value="both" <?php checked( $current, 'both' ); ?> />
+					<?php esc_html_e( 'رنگ و نام', 'diako' ); ?>
+				</label>
+				<br />
+				<label>
+					<input type="radio" name="diako_color_filter_display" value="color" <?php checked( $current, 'color' ); ?> />
+					<?php esc_html_e( 'فقط دایره رنگ', 'diako' ); ?>
+				</label>
+				<br />
+				<label>
+					<input type="radio" name="diako_color_filter_display" value="name" <?php checked( $current, 'name' ); ?> />
+					<?php esc_html_e( 'فقط نام رنگ', 'diako' ); ?>
+				</label>
+				<p class="description">
+					<?php esc_html_e( 'نحوه نمایش گزینه‌های رنگ در فیلتر کناری صفحات فروشگاه و دسته‌بندی.', 'diako' ); ?>
+				</p>
+			</fieldset>
+		</td>
+	</tr>
+	<?php
+}
+add_action( 'woocommerce_after_edit_attribute_fields', 'diako_render_color_attribute_filter_display_field', 15 );
+
+/**
+ * Persist sidebar filter display mode when the color attribute is saved.
+ *
+ * @param int                  $attribute_id Attribute ID.
+ * @param array<string, mixed> $data         Attribute data.
+ * @return void
+ */
+function diako_save_color_attribute_filter_display_setting( int $attribute_id, array $data ): void {
+	if ( ! current_user_can( 'manage_product_terms' ) ) {
+		return;
+	}
+
+	if ( ! function_exists( 'diako_is_attribute_admin_form_save' ) || ! diako_is_attribute_admin_form_save( $attribute_id ) ) {
+		return;
+	}
+
+	$slug = function_exists( 'diako_get_attribute_slug_from_save' )
+		? diako_get_attribute_slug_from_save( $attribute_id, $data )
+		: '';
+
+	if ( DIAKO_COLOR_ATTRIBUTE_SLUG !== $slug || ! isset( $_POST['diako_color_filter_display'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		return;
+	}
+
+	update_option(
+		DIAKO_COLOR_ATTRIBUTE_SETTINGS_OPTION,
+		array(
+			'filter_display' => diako_sanitize_color_filter_display_mode(
+				sanitize_text_field( wp_unslash( (string) $_POST['diako_color_filter_display'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			),
+		),
+		false
+	);
+}
+add_action( 'woocommerce_attribute_updated', 'diako_save_color_attribute_filter_display_setting', 10, 2 );
 
 /**
  * Whether a taxonomy/attribute key is the theme color attribute.
