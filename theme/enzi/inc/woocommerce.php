@@ -1434,6 +1434,10 @@ function diako_get_product_discount_badge_label( $product = null ) {
 		return '';
 	}
 
+	if ( diako_product_card_is_out_of_stock( $product ) ) {
+		return '';
+	}
+
 	$percentage = diako_get_product_discount_percentage( $product );
 
 	if ( $percentage <= 0 ) {

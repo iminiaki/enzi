@@ -31,7 +31,7 @@ $wrapper_classes   = apply_filters(
 ?>
 <div class="diako-product-media">
 	<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
-		<?php if ( $product->is_on_sale() ) : ?>
+		<?php if ( $product->is_on_sale() && $product->is_in_stock() ) : ?>
 			<span class="sale-badge"><?php esc_html_e( 'تخفیف', 'diako' ); ?></span>
 		<?php endif; ?>
 		<div class="woocommerce-product-gallery__wrapper">

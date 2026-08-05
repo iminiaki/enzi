@@ -45,7 +45,6 @@ function diako_replace_legacy_brand_strings( $value ) {
 		$replacements = array(
 			'Lastify'                              => diako_get_default_brand_name(),
 			'لستیفای'                              => diako_get_default_brand_name(),
-			'انزی'                                 => diako_get_default_brand_name(),
 			'Enzi shop'                            => diako_get_default_brand_name(),
 			'فروشگاه تخصصی مراقبت پوست و زیبایی'   => sprintf(
 				/* translators: %s: store brand name */
@@ -74,11 +73,16 @@ function diako_replace_legacy_brand_strings( $value ) {
 			),
 		);
 
-		return str_replace(
+		$value = str_replace(
 			array_keys( $replacements ),
 			array_values( $replacements ),
 			$value
 		);
+
+		// Legacy bare "انزی" only — must not match the start of "انزی‌شاپ".
+		$replaced = preg_replace( '/انزی(?![\x{200C}-]شاپ)/u', diako_get_default_brand_name(), $value );
+
+		return is_string( $replaced ) ? $replaced : $value;
 	}
 
 	if ( is_array( $value ) ) {
