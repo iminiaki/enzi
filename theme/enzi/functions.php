@@ -1,8 +1,8 @@
 <?php
 /**
- * Lastify theme functions.
+ * Enzi shop theme functions.
  *
- * @package Lastify
+ * @package Enzi
  */
 
 defined( 'ABSPATH' ) || exit;

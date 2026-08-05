@@ -67,9 +67,8 @@
 					<?php endforeach;
 				else :
 					?>
-					<li><a class="text-muted-foreground hover:text-foreground" href="<?php echo esc_url( home_url( '/product-category/skincare/' ) ); ?>"><?php esc_html_e( 'مراقبت پوست', 'diako' ); ?></a></li>
-					<li><a class="text-muted-foreground hover:text-foreground" href="<?php echo esc_url( home_url( '/product-category/makeup/' ) ); ?>"><?php esc_html_e( 'آرایش', 'diako' ); ?></a></li>
-					<li><a class="text-muted-foreground hover:text-foreground" href="<?php echo esc_url( home_url( '/product-category/beauty-tools/' ) ); ?>"><?php esc_html_e( 'ابزار زیبایی', 'diako' ); ?></a></li>
+					<li><a class="text-muted-foreground hover:text-foreground" href="<?php echo esc_url( home_url( '/shop/' ) ); ?>"><?php esc_html_e( 'همه محصولات', 'diako' ); ?></a></li>
+					<li><a class="text-muted-foreground hover:text-foreground" href="<?php echo esc_url( home_url( '/discount/' ) ); ?>"><?php esc_html_e( 'تخفیف‌ها', 'diako' ); ?></a></li>
 				<?php endif; ?>
 			</ul>
 		</div>

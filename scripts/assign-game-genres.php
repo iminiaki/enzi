@@ -1,6 +1,6 @@
 <?php
 /**
- * LEGACY (gaming) — not used by Enzi cosmetics shop.
+ * LEGACY (gaming) — not used by Enzi shop.
  * Kept only for reference; do not run on this project.
  *
  * Create the global "ژانر بازی" attribute and assign genres to game products.

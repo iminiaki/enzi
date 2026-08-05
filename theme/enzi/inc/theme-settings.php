@@ -1,8 +1,8 @@
 <?php
 /**
- * Lastify theme settings (homepage & branding).
+ * Enzi shop theme settings (homepage & branding).
  *
- * @package Lastify
+ * @package Enzi
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ define( 'DIAKO_THEME_SETTINGS_OPTION', 'lastify_theme_settings' );
  * @return string
  */
 function diako_get_default_brand_name() {
-	return 'انزی';
+	return 'انزی‌شاپ';
 }
 
 /**
@@ -27,7 +27,7 @@ function diako_get_brand_name() {
 	$settings = diako_get_theme_settings();
 	$brand    = trim( (string) ( $settings['brand_name'] ?? '' ) );
 
-	if ( '' === $brand || in_array( $brand, array( 'Lastify', 'لستیفای' ), true ) ) {
+	if ( '' === $brand || in_array( $brand, array( 'Lastify', 'لستیفای', 'انزی', 'Enzi shop' ), true ) ) {
 		return diako_get_default_brand_name();
 	}
 
@@ -42,9 +42,41 @@ function diako_get_brand_name() {
  */
 function diako_replace_legacy_brand_strings( $value ) {
 	if ( is_string( $value ) ) {
+		$replacements = array(
+			'Lastify'                              => diako_get_default_brand_name(),
+			'لستیفای'                              => diako_get_default_brand_name(),
+			'انزی'                                 => diako_get_default_brand_name(),
+			'Enzi shop'                            => diako_get_default_brand_name(),
+			'فروشگاه تخصصی مراقبت پوست و زیبایی'   => sprintf(
+				/* translators: %s: store brand name */
+				__( 'فروشگاه آنلاین %s', 'diako' ),
+				diako_get_default_brand_name()
+			),
+			'مراقبت پوست و آرایش را از'            => __( 'خرید مطمئن را از', 'diako' ),
+			'مراقبت پوست و زیبایی'                 => diako_get_default_brand_name(),
+			'راهنما و مقالات مراقبت پوست، آرایش و زیبایی' => sprintf(
+				/* translators: %s: store brand name */
+				__( 'راهنماها، نکات خرید و مقالات %s', 'diako' ),
+				diako_get_default_brand_name()
+			),
+			'روتین زیبایی'                         => __( 'خرید شما', 'diako' ),
+			'جدیدترین مراقبت پوست'                 => sprintf(
+				/* translators: %s: store brand name */
+				__( 'جدیدترین محصولات %s', 'diako' ),
+				diako_get_default_brand_name()
+			),
+			'جدیدترین محصولات مراقبت پوست'        => __( 'جدیدترین محصولات', 'diako' ),
+			'محصولات مراقبت پوست و آرایش'          => __( 'جدیدترین محصولات', 'diako' ),
+			'مجله انزی'                            => sprintf(
+				/* translators: %s: store brand name */
+				__( 'مجله %s', 'diako' ),
+				diako_get_default_brand_name()
+			),
+		);
+
 		return str_replace(
-			array( 'Lastify', 'لستیفای' ),
-			diako_get_default_brand_name(),
+			array_keys( $replacements ),
+			array_values( $replacements ),
 			$value
 		);
 	}
@@ -72,13 +104,17 @@ function diako_get_default_theme_settings() {
 		'branding'   => diako_get_default_branding_settings(),
 		'hero'       => array(
 			'enabled'              => true,
-			'badge'                => __( 'فروشگاه تخصصی مراقبت پوست و زیبایی', 'diako' ),
-			'title'                => sprintf(
+			'badge'                => sprintf(
 				/* translators: %s: store brand name */
-				__( 'مراقبت پوست و آرایش را از %s بخواهید', 'diako' ),
+				__( 'فروشگاه آنلاین %s', 'diako' ),
 				$brand
 			),
-			'description'          => __( 'خرید مطمئن محصولات اورجینال مراقبت پوست و آرایشی، ارسال سریع و پشتیبانی واقعی برای روتین زیبایی شما.', 'diako' ),
+			'title'                => sprintf(
+				/* translators: %s: store brand name */
+				__( 'خرید مطمئن را از %s تجربه کنید', 'diako' ),
+				$brand
+			),
+			'description'          => __( 'محصولات متنوع با ارسال سریع، پرداخت امن و پشتیبانی واقعی در تمام مراحل خرید.', 'diako' ),
 			'cta_primary_label'    => __( 'مشاهده فروشگاه', 'diako' ),
 			'cta_primary_url'      => '/shop/',
 			'cta_secondary_label'  => __( 'تخفیف‌های امروز', 'diako' ),
@@ -87,26 +123,34 @@ function diako_get_default_theme_settings() {
 		'categories' => array(
 			'enabled'      => true,
 			'title'        => __( 'دسته‌بندی محصولات', 'diako' ),
-			'description'  => __( 'هر آنچه برای مراقبت پوست و زیبایی نیاز دارید', 'diako' ),
+			'description'  => sprintf(
+				/* translators: %s: store brand name */
+				__( 'انواع محصولات را در %s کشف کنید', 'diako' ),
+				$brand
+			),
 			'button_text'  => __( 'همه محصولات', 'diako' ),
 			'button_url'   => '/shop/',
 			'items'        => array(
 				array(
-					'title' => __( 'مراقبت پوست', 'diako' ),
-					'desc'  => __( 'سرم، کرم و روتین روزانه پوست', 'diako' ),
-					'link'  => '/product-category/skincare/',
+					'title' => __( 'محصولات جدید', 'diako' ),
+					'desc'  => __( 'تازه‌ترین کالاهای اضافه‌شده به فروشگاه', 'diako' ),
+					'link'  => '/shop/',
 					'icon'  => 'sparkles',
 				),
 				array(
-					'title' => __( 'آرایش', 'diako' ),
-					'desc'  => __( 'آرایشی اورجینال و باکیفیت', 'diako' ),
-					'link'  => '/product-category/makeup/',
+					'title' => __( 'پیشنهاد ویژه', 'diako' ),
+					'desc'  => __( 'تخفیف‌ها و فرصت‌های خرید امروز', 'diako' ),
+					'link'  => '/discount/',
 					'icon'  => 'heart',
 				),
 				array(
-					'title' => __( 'ابزار زیبایی', 'diako' ),
-					'desc'  => __( 'براش، اسفنج و ابزار حرفه‌ای', 'diako' ),
-					'link'  => '/product-category/beauty-tools/',
+					'title' => __( 'همه دسته‌ها', 'diako' ),
+					'desc'  => sprintf(
+						/* translators: %s: store brand name */
+						__( 'مرور کامل محصولات %s', 'diako' ),
+						$brand
+					),
+					'link'  => '/shop/',
 					'icon'  => 'package',
 				),
 			),
@@ -134,7 +178,7 @@ function diako_get_default_theme_settings() {
 			'title'            => __( 'به زودی برمی‌گردیم', 'diako' ),
 			'description'      => sprintf(
 				/* translators: %s: store brand name */
-				__( 'فروشگاه %s در حال آماده‌سازی است. به زودی با جدیدترین محصولات مراقبت پوست و زیبایی در خدمت شما هستیم.', 'diako' ),
+				__( 'فروشگاه %s در حال آماده‌سازی است. به زودی با جدیدترین محصولات در خدمت شما هستیم.', 'diako' ),
 				$brand
 			),
 			'show_countdown'   => true,
@@ -145,17 +189,19 @@ function diako_get_default_theme_settings() {
 		),
 		'product_sections' => array(
 			array(
-				'enabled'       => true,
-				'title'         => __( 'جدیدترین مراقبت پوست', 'diako' ),
-				'description'   => sprintf(
+				'enabled'     => true,
+				'title'       => sprintf(
 					/* translators: %s: store brand name */
-					__( 'جدیدترین محصولات مراقبت پوست را از %s بخواهید', 'diako' ),
+					__( 'محصولات برجسته %s', 'diako' ),
 					$brand
 				),
-				'button_url'    => '/product-category/skincare/',
-				'query_type'    => 'category_slug',
-				'category_slug' => 'skincare',
-				'category_id'   => 0,
+				'description' => sprintf(
+					/* translators: %s: store brand name */
+					__( 'منتخب محصولات %s', 'diako' ),
+					$brand
+				),
+				'button_url'  => '/shop/',
+				'query_type'  => 'featured',
 			),
 			array(
 				'enabled'     => true,
@@ -176,31 +222,29 @@ function diako_get_default_theme_settings() {
 				'enabled'       => true,
 				'title'         => sprintf(
 					/* translators: %s: store brand name */
-					__( 'ابزار زیبایی در %s', 'diako' ),
-					$brand
-				),
-				'description'   => __( 'براش، اسفنج و ابزار حرفه‌ای مراقبت و آرایش', 'diako' ),
-				'button_url'    => '/product-category/beauty-tools/',
-				'query_type'    => 'category_slug',
-				'category_slug' => 'beauty-tools',
-				'category_id'   => 0,
-			),
-			array(
-				'enabled'       => true,
-				'title'         => sprintf(
-					/* translators: %s: store brand name */
-					__( 'محصولات آرایشی را از %s بخواهید', 'diako' ),
+					__( 'جدیدترین محصولات %s', 'diako' ),
 					$brand
 				),
 				'description'   => sprintf(
 					/* translators: %s: store brand name */
-					__( 'جدیدترین محصولات آرایشی را از %s بخواهید', 'diako' ),
+					__( 'تازه‌ترین کالاهای اضافه‌شده به %s', 'diako' ),
 					$brand
 				),
-				'button_url'    => '/product-category/makeup/',
-				'query_type'    => 'category_slug',
-				'category_slug' => 'makeup',
+				'button_url'    => '/shop/',
+				'query_type'    => 'category_id',
+				'category_slug' => '',
 				'category_id'   => 0,
+			),
+			array(
+				'enabled'     => true,
+				'title'       => sprintf(
+					/* translators: %s: store brand name */
+					__( 'خرید از %s', 'diako' ),
+					$brand
+				),
+				'description' => __( 'محصولات متنوع با ارسال سریع به سراسر کشور', 'diako' ),
+				'button_url'  => '/shop/',
+				'query_type'  => 'featured',
 			),
 		),
 		'promo_banner' => array(
@@ -209,8 +253,8 @@ function diako_get_default_theme_settings() {
 			'image_url' => '',
 			'filename'  => '',
 			'fallback'  => '',
-			'url'       => '/product-category/skincare/',
-			'alt'       => __( 'مراقبت پوست و زیبایی', 'diako' ),
+			'url'       => '/shop/',
+			'alt'       => $brand,
 		),
 		'banners'      => array(
 			'enabled' => true,
@@ -218,14 +262,22 @@ function diako_get_default_theme_settings() {
 				array(
 					'image_id'  => 0,
 					'image_url' => '',
-					'url'       => '/product-category/skincare/',
-					'alt'       => __( 'مراقبت پوست', 'diako' ),
+					'url'       => '/shop/',
+					'alt'       => sprintf(
+						/* translators: %s: store brand name */
+						__( 'محصولات %s', 'diako' ),
+						$brand
+					),
 				),
 				array(
 					'image_id'  => 0,
 					'image_url' => '',
-					'url'       => '/product-category/makeup/',
-					'alt'       => __( 'آرایش', 'diako' ),
+					'url'       => '/discount/',
+					'alt'       => sprintf(
+						/* translators: %s: store brand name */
+						__( 'تخفیف‌های %s', 'diako' ),
+						$brand
+					),
 				),
 			),
 		),
@@ -236,7 +288,11 @@ function diako_get_default_theme_settings() {
 				__( 'مجله %s', 'diako' ),
 				$brand
 			),
-			'description' => __( 'راهنما و مقالات مراقبت پوست، آرایش و زیبایی', 'diako' ),
+			'description' => sprintf(
+				/* translators: %s: store brand name */
+				__( 'راهنماها، نکات خرید و مقالات %s', 'diako' ),
+				$brand
+			),
 			'button_text' => __( 'مشاهده همه', 'diako' ),
 			'button_url'  => '/mag/',
 			'post_count'  => 4,
@@ -554,14 +610,14 @@ function diako_merge_tab_settings( array $existing, array $submitted, $active_ta
 }
 
 /**
- * Register Lastify admin menu.
+ * Register Enzi shop admin menu.
  *
  * @return void
  */
 function diako_register_theme_settings_menu() {
 	add_menu_page(
-		__( 'Lastify', 'diako' ),
-		__( 'Lastify', 'diako' ),
+		__( 'انزی‌شاپ', 'diako' ),
+		__( 'انزی‌شاپ', 'diako' ),
 		'manage_options',
 		'lastify',
 		'diako_render_theme_settings_page',
@@ -790,7 +846,7 @@ function diako_sanitize_theme_settings( array $input ) {
 }
 
 /**
- * Render Lastify theme settings admin page.
+ * Render Enzi shop theme settings admin page.
  *
  * @return void
  */
@@ -837,7 +893,7 @@ function diako_render_theme_settings_page() {
 	$settings = diako_get_theme_settings();
 	?>
 	<div class="wrap lastify-settings">
-		<h1><?php esc_html_e( 'تنظیمات Lastify', 'diako' ); ?></h1>
+		<h1><?php esc_html_e( 'تنظیمات انزی‌شاپ', 'diako' ); ?></h1>
 		<p class="description">
 			<?php esc_html_e( 'محتوای صفحه اصلی و نام برند فروشگاه را از اینجا مدیریت کنید.', 'diako' ); ?>
 		</p>

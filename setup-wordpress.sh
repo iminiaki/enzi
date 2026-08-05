@@ -97,7 +97,8 @@ echo "Activating Enzi theme..."
 docker compose run --rm wpcli theme activate enzi
 docker compose run --rm wpcli eval-file /scripts/activate-enzi-theme.php || true
 docker compose run --rm wpcli eval-file /scripts/bootstrap-beauty-categories.php || true
-docker compose run --rm wpcli option update blogdescription 'فروشگاه تخصصی مراقبت پوست و زیبایی' || true
+docker compose run --rm wpcli option update blogdescription 'فروشگاه آنلاین انزی‌شاپ' || true
+docker compose run --rm wpcli option update blogname 'انزی‌شاپ' || true
 
 # Remove default Hello World / Sample Page so the site starts empty of demo content
 echo "Removing default WordPress demo content..."

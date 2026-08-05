@@ -130,7 +130,7 @@ $sidebar_label = __( 'ابزارهای مقاله', 'diako' );
 					<h2 class="diako-post-sidebar__panel-title"><?php esc_html_e( 'عضویت در خبرنامه', 'diako' ); ?></h2>
 				</div>
 				<p class="diako-post-subscribe__desc">
-					<?php esc_html_e( 'جدیدترین مقالات مجله انزی را در ایمیل خود دریافت کنید.', 'diako' ); ?>
+					<?php echo esc_html( sprintf( __( 'جدیدترین مقالات مجله %s را در ایمیل خود دریافت کنید.', 'diako' ), diako_get_brand_name() ) ); ?>
 				</p>
 				<form class="diako-post-subscribe__form" data-blog-subscribe-form novalidate>
 					<label class="sr-only" for="diako-blog-subscribe-email"><?php esc_html_e( 'ایمیل', 'diako' ); ?></label>

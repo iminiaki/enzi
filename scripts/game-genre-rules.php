@@ -1,6 +1,6 @@
 <?php
 /**
- * LEGACY (gaming) — not used by Enzi cosmetics shop. Do not run.
+ * LEGACY (gaming) — not used by Enzi shop. Do not run.
  */
 /**
  * Game title / keyword → Persian genre rules for assign-game-genres.php.

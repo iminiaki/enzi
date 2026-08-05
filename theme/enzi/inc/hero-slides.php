@@ -134,15 +134,15 @@ function diako_get_default_hero_slides() {
 	$defaults = array(
 		array(
 			'file'  => 'enzi-skincare.png',
-			'title' => 'مراقبت پوست',
+			'title' => diako_get_brand_name(),
 		),
 		array(
 			'file'  => 'enzi-makeup.png',
-			'title' => 'آرایش',
+			'title' => __( 'محصولات جدید', 'diako' ),
 		),
 		array(
 			'file'  => 'enzi-haircare.png',
-			'title' => 'مراقبت مو',
+			'title' => __( 'تخفیف‌های ویژه', 'diako' ),
 		),
 	);
 
@@ -268,17 +268,17 @@ function diako_bootstrap_hero_slides() {
 	$defaults = array(
 		array(
 			'file'  => 'enzi-skincare.png',
-			'title' => 'مراقبت پوست',
+			'title' => diako_get_brand_name(),
 			'order' => 1,
 		),
 		array(
 			'file'  => 'enzi-makeup.png',
-			'title' => 'آرایش',
+			'title' => __( 'محصولات جدید', 'diako' ),
 			'order' => 2,
 		),
 		array(
 			'file'  => 'enzi-haircare.png',
-			'title' => 'مراقبت مو',
+			'title' => __( 'تخفیف‌های ویژه', 'diako' ),
 			'order' => 3,
 		),
 	);
@@ -320,7 +320,7 @@ function diako_bootstrap_hero_slides() {
 add_action( 'after_setup_theme', 'diako_bootstrap_hero_slides', 100 );
 
 /**
- * Redirect legacy hero slide list screen to Lastify settings.
+ * Redirect legacy hero slide list screen to Enzi shop settings.
  *
  * @return void
  */
@@ -337,7 +337,7 @@ function diako_redirect_hero_slides_list_screen() {
 add_action( 'load-edit.php', 'diako_redirect_hero_slides_list_screen' );
 
 /**
- * Redirect legacy hero slide edit screens to Lastify settings.
+ * Redirect legacy hero slide edit screens to Enzi shop settings.
  *
  * @return void
  */
@@ -403,7 +403,7 @@ function diako_get_hero_slides_admin_items() {
 }
 
 /**
- * Save hero slides submitted from the Lastify settings tab.
+ * Save hero slides submitted from the Enzi shop settings tab.
  *
  * @param array<int, array<string, mixed>> $rows Submitted slide rows.
  * @return void
@@ -560,7 +560,7 @@ function diako_render_hero_slide_settings_row( $index, array $slide = array() ) 
 }
 
 /**
- * Render hero slides tab in Lastify settings.
+ * Render hero slides tab in Enzi shop settings.
  *
  * @return void
  */

@@ -18,15 +18,11 @@ define( 'DIAKO_ATTRIBUTE_ARCHIVE_FILTERS_OPTION', 'diako_attribute_archive_filte
  */
 function diako_get_default_shop_filter_attribute_slugs() {
 	$slugs = array(
-		'skin-type',
-		'skin-concern',
-		'product-form',
-		'spf',
-		'volume',
 		'brand',
 		'manufacturer',
 		'product-type',
 		'color',
+		'volume',
 	);
 
 	return apply_filters( 'diako_default_shop_filter_attribute_slugs', $slugs );

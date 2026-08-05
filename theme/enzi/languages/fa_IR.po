@@ -1,8 +1,8 @@
-# Translation of Lastify in Persian (Iran)
+# Translation of انزی‌شاپ in Persian (Iran)
 # Copyright (C) 2026 Lastaar
 msgid ""
 msgstr ""
-"Project-Id-Version: Lastify 1.2.0\n"
+"Project-Id-Version: انزی‌شاپ 1.2.0\n"
 "Report-Msgid-Bugs-To: https://lastaar.com\n"
 "Last-Translator: Lastaar <info@lastaar.com>\n"
 "Language-Team: Persian\n"
@@ -25,8 +25,8 @@ msgstr "%d محصول در سبد خرید شماست."
 msgid "%s دقیقه"
 msgstr "%s دقیقه"
 
-msgid "Lastify"
-msgstr "Lastify"
+msgid "انزی‌شاپ"
+msgstr "انزی‌شاپ"
 
 msgid "Next images"
 msgstr "Next images"
@@ -337,8 +337,8 @@ msgstr "تماس با پشتیبانی"
 msgid "تمامی حقوق این وب‌سایت متعلق به فروشگاه %s می‌باشد."
 msgstr "تمامی حقوق این وب‌سایت متعلق به فروشگاه %s می‌باشد."
 
-msgid "تنظیمات Lastify"
-msgstr "تنظیمات Lastify"
+msgid "تنظیمات انزی‌شاپ"
+msgstr "تنظیمات انزی‌شاپ"
 
 msgid "تنظیمات اسلاید"
 msgstr "تنظیمات اسلاید"

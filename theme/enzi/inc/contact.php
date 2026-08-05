@@ -464,7 +464,15 @@ function diako_render_contact_page(): void {
 			<div class="diako-contact-page__hero-content">
 				<h1 class="diako-page-title"><?php esc_html_e( 'تماس با ما', 'diako' ); ?></h1>
 				<p class="diako-page-desc">
-					<?php esc_html_e( 'سؤالی درباره سفارش، محصول یا همکاری دارید؟ تیم پشتیبانی انزی آماده کمک به شماست.', 'diako' ); ?>
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %s: store brand name */
+							__( 'سؤالی درباره سفارش، محصول یا همکاری دارید؟ تیم پشتیبانی %s آماده کمک به شماست.', 'diako' ),
+							diako_get_brand_name()
+						)
+					);
+					?>
 				</p>
 				<p class="diako-contact-page__response"><?php echo esc_html( $info['response_time'] ); ?></p>
 			</div>
@@ -630,7 +638,7 @@ function diako_render_contact_page(): void {
 				<a class="<?php echo esc_attr( diako_card_classes( 'diako-contact-faq-card' ) ); ?>" href="<?php echo esc_url( $shop_url ); ?>">
 					<span class="diako-contact-faq-card__icon" aria-hidden="true"><?php echo diako_lucide_icon_svg( 'shopping-bag', 'h-5 w-5' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<h3 class="diako-contact-faq-card__title"><?php esc_html_e( 'مشاهده فروشگاه', 'diako' ); ?></h3>
-					<p class="diako-contact-faq-card__desc"><?php esc_html_e( 'جدیدترین محصولات مراقبت پوست و آرایش را ببینید.', 'diako' ); ?></p>
+					<p class="diako-contact-faq-card__desc"><?php echo esc_html( sprintf( __( 'جدیدترین محصولات %s را ببینید.', 'diako' ), diako_get_brand_name() ) ); ?></p>
 				</a>
 				<a class="<?php echo esc_attr( diako_card_classes( 'diako-contact-faq-card' ) ); ?>" href="<?php echo esc_url( $terms_url ); ?>">
 					<span class="diako-contact-faq-card__icon" aria-hidden="true"><?php echo diako_lucide_icon_svg( 'scale', 'h-5 w-5' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
@@ -639,8 +647,8 @@ function diako_render_contact_page(): void {
 				</a>
 				<a class="<?php echo esc_attr( diako_card_classes( 'diako-contact-faq-card' ) ); ?>" href="<?php echo esc_url( $mag_url ); ?>">
 					<span class="diako-contact-faq-card__icon" aria-hidden="true"><?php echo diako_lucide_icon_svg( 'book-open', 'h-5 w-5' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-					<h3 class="diako-contact-faq-card__title"><?php esc_html_e( 'مجله انزی', 'diako' ); ?></h3>
-					<p class="diako-contact-faq-card__desc"><?php esc_html_e( 'راهنماها و مقالات مراقبت پوست و زیبایی را بخوانید.', 'diako' ); ?></p>
+					<h3 class="diako-contact-faq-card__title"><?php echo esc_html( sprintf( __( 'مجله %s', 'diako' ), diako_get_brand_name() ) ); ?></h3>
+					<p class="diako-contact-faq-card__desc"><?php echo esc_html( sprintf( __( 'راهنماها و مقالات %s را بخوانید.', 'diako' ), diako_get_brand_name() ) ); ?></p>
 				</a>
 			</div>
 		</section>

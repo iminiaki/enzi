@@ -1,6 +1,6 @@
 <?php
 /**
- * Legacy second-hand category helpers (disabled for Enzi cosmetics shop).
+ * Legacy second-hand category helpers (disabled for Enzi shop).
  *
  * Gaming "used games / consoles" trees were removed. Use
  * /scripts/bootstrap-beauty-categories.php for the beauty catalogue instead.
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'DIAKO_USED_CATEGORIES_VERSION', 3 );
 
 /**
- * No second-hand category tree for the cosmetics shop.
+ * No second-hand category tree for Enzi shop.
  *
  * @return array<string, mixed>
  */

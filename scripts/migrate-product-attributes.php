@@ -1,6 +1,6 @@
 <?php
 /**
- * LEGACY (gaming catalogue) — not used by Enzi cosmetics shop.
+ * LEGACY (gaming catalogue) — not used by Enzi shop.
  *
  * Migrate per-product custom WooCommerce attributes to global attributes.
  *

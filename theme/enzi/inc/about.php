@@ -93,7 +93,7 @@ function diako_get_about_stats(): array {
 		array(
 			array(
 				'value' => diako_format_about_stat( 8, '+' ),
-				'label' => __( 'سال تجربه در زیبایی و مراقبت پوست', 'diako' ),
+				'label' => __( 'سال تجربه در فروش آنلاین', 'diako' ),
 			),
 			array(
 				'value' => diako_format_about_stat( 2000, '+' ),
@@ -123,17 +123,21 @@ function diako_get_about_pillars(): array {
 			array(
 				'icon'  => 'target',
 				'title' => __( 'ماموریت ما', 'diako' ),
-				'text'  => __( 'فراهم کردن تجربه‌ای مطمئن و لذت‌بخش برای خرید محصولات مراقبت پوست و آرایشی — با اصالت کالا، مشاوره واقعی و پشتیبانی در دسترس.', 'diako' ),
+				'text'  => __( 'فراهم کردن تجربه‌ای مطمئن و لذت‌بخش برای خرید آنلاین — با اصالت کالا، قیمت شفاف و پشتیبانی در دسترس.', 'diako' ),
 			),
 			array(
 				'icon'  => 'sparkles',
 				'title' => __( 'چشم‌انداز', 'diako' ),
-				'text'  => __( 'تبدیل شدن به مرجع قابل‌اعتماد زیبایی در ایران؛ جایی که کیفیت محصول، شفافیت ترکیبات و رضایت مشتری در اولویت مطلق قرار دارد.', 'diako' ),
+				'text'  => __( 'تبدیل شدن به فروشگاه آنلاین قابل‌اعتماد در ایران؛ جایی که کیفیت محصول، شفافیت و رضایت مشتری در اولویت مطلق قرار دارد.', 'diako' ),
 			),
 			array(
 				'icon'  => 'heart',
 				'title' => __( 'ارزش‌های ما', 'diako' ),
-				'text'  => __( 'صداقت در معرفی محصول، احترام به پوست و سلیقه مشتری، پاسخگویی مسئولانه و ایجاد جامعه‌ای از علاقه‌مندان به مراقبت پوست که به انزی اعتماد دارند.', 'diako' ),
+				'text'  => sprintf(
+					/* translators: %s: store brand name */
+					__( 'صداقت در معرفی محصول، احترام به مشتری، پاسخگویی مسئولانه و ایجاد جامعه‌ای از خریداران وفادار که به %s اعتماد دارند.', 'diako' ),
+					diako_get_brand_name()
+				),
 			),
 		)
 	);
@@ -151,7 +155,7 @@ function diako_get_about_highlights(): array {
 			array(
 				'icon'  => 'shield-check',
 				'title' => __( 'اصالت کالا', 'diako' ),
-				'text'  => __( 'محصولات اورجینال مراقبت پوست و آرایشی با ضمانت اصالت و تاریخ مصرف معتبر.', 'diako' ),
+				'text'  => __( 'محصولات اصل و باکیفیت با ضمانت اصالت و اطلاعات شفاف در صفحه هر کالا.', 'diako' ),
 			),
 			array(
 				'icon'  => 'package',
@@ -160,8 +164,8 @@ function diako_get_about_highlights(): array {
 			),
 			array(
 				'icon'  => 'sparkles',
-				'title' => __( 'مشاوره تخصصی', 'diako' ),
-				'text'  => __( 'تیمی که پوست و زیبایی را می‌شناسد و در انتخاب روتین مناسب نوع پوست شما راهنمایی می‌کند.', 'diako' ),
+				'title' => __( 'پشتیبانی واقعی', 'diako' ),
+				'text'  => __( 'تیمی که در انتخاب محصول، ثبت سفارش و پیگیری تحویل همراه شماست.', 'diako' ),
 			),
 			array(
 				'icon'  => 'credit-card',
@@ -171,12 +175,20 @@ function diako_get_about_highlights(): array {
 			array(
 				'icon'  => 'refresh-cw',
 				'title' => __( 'تنوع و به‌روز بودن', 'diako' ),
-				'text'  => __( 'جدیدترین محصولات مراقبت پوست، آرایش و ابزار زیبایی با موجودی به‌روز.', 'diako' ),
+				'text'  => sprintf(
+					/* translators: %s: store brand name */
+					__( 'طیف گسترده‌ای از محصولات با موجودی به‌روز در %s.', 'diako' ),
+					diako_get_brand_name()
+				),
 			),
 			array(
 				'icon'  => 'users',
-				'title' => __( 'جامعه زیبایی', 'diako' ),
-				'text'  => __( 'مجله انزی، راهنمای روتین پوست و ارتباط نزدیک با مشتریان وفادار.', 'diako' ),
+				'title' => __( 'جامعه مشتریان', 'diako' ),
+				'text'  => sprintf(
+					/* translators: %s: store brand name */
+					__( 'مجله %s، راهنمای خرید و ارتباط نزدیک با مشتریان وفادار.', 'diako' ),
+					diako_get_brand_name()
+				),
 			),
 		)
 	);
@@ -188,26 +200,33 @@ function diako_get_about_highlights(): array {
  * @return array<int, array{icon: string, title: string, text: string, url: string}>
  */
 function diako_get_about_categories(): array {
+	$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+	$discount = home_url( '/discount/' );
+
 	return apply_filters(
 		'diako_about_categories',
 		array(
 			array(
 				'icon'  => 'sparkles',
-				'title' => __( 'مراقبت پوست', 'diako' ),
-				'text'  => __( 'پاک‌کننده، سرم، مرطوب‌کننده و ضدآفتاب برای انواع پوست.', 'diako' ),
-				'url'   => home_url( '/product-category/skincare/' ),
+				'title' => __( 'محصولات جدید', 'diako' ),
+				'text'  => __( 'تازه‌ترین کالاهای اضافه‌شده به فروشگاه.', 'diako' ),
+				'url'   => $shop_url,
 			),
 			array(
 				'icon'  => 'heart',
-				'title' => __( 'آرایش', 'diako' ),
-				'text'  => __( 'آرایش صورت، چشم و لب از برندهای معتبر و اورجینال.', 'diako' ),
-				'url'   => home_url( '/product-category/makeup/' ),
+				'title' => __( 'پیشنهاد ویژه', 'diako' ),
+				'text'  => __( 'تخفیف‌ها و فرصت‌های خرید امروز.', 'diako' ),
+				'url'   => $discount,
 			),
 			array(
 				'icon'  => 'package',
-				'title' => __( 'ابزار زیبایی', 'diako' ),
-				'text'  => __( 'براش، اسفنج، آینه و ابزار حرفه‌ای مراقبت و آرایش.', 'diako' ),
-				'url'   => home_url( '/product-category/beauty-tools/' ),
+				'title' => __( 'همه محصولات', 'diako' ),
+				'text'  => sprintf(
+					/* translators: %s: store brand name */
+					__( 'مرور کامل %s در یک جا.', 'diako' ),
+					diako_get_brand_name()
+				),
+				'url'   => $shop_url,
 			),
 		)
 	);
@@ -225,12 +244,16 @@ function diako_get_about_timeline(): array {
 			array(
 				'year'  => diako_format_about_stat( 1396 ),
 				'title' => __( 'شروع فعالیت', 'diako' ),
-				'text'  => __( 'آغاز فعالیت انزی با تمرکز بر محصولات مراقبت پوست و زیبایی.', 'diako' ),
+				'text'  => sprintf(
+					/* translators: %s: store brand name */
+					__( 'آغاز فعالیت %s با تمرکز بر فروش آنلاین محصولات متنوع.', 'diako' ),
+					diako_get_brand_name()
+				),
 			),
 			array(
 				'year'  => diako_format_about_stat( 1399 ),
 				'title' => __( 'گسترش سبد محصولات', 'diako' ),
-				'text'  => __( 'افزایش تنوع برندهای آرایشی و مراقبت پوست متناسب با نیاز بازار ایران.', 'diako' ),
+				'text'  => __( 'افزایش تنوع کالا و برندها متناسب با نیاز بازار ایران.', 'diako' ),
 			),
 			array(
 				'year'  => diako_format_about_stat( 1401 ),
@@ -239,8 +262,16 @@ function diako_get_about_timeline(): array {
 			),
 			array(
 				'year'  => diako_format_about_stat( 1404 ),
-				'title' => __( 'امروز انزی', 'diako' ),
-				'text'  => __( 'ترکیب مشاوره تخصصی زیبایی، مجله مراقبت پوست و تجربه خرید آنلاین مطمئن.', 'diako' ),
+				'title' => sprintf(
+					/* translators: %s: store brand name */
+					__( 'امروز %s', 'diako' ),
+					diako_get_brand_name()
+				),
+				'text'  => sprintf(
+					/* translators: %s: store brand name */
+					__( 'ترکیب فروشگاه آنلاین، مجله %s و پشتیبانی واقعی برای تجربه خرید مطمئن.', 'diako' ),
+					diako_get_brand_name()
+				),
 			),
 		)
 	);
@@ -309,7 +340,7 @@ add_action(
  * Render the about page.
  */
 function diako_render_about_page(): void {
-	$shop_name   = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+	$shop_name   = diako_get_brand_name();
 	$stats       = diako_get_about_stats();
 	$pillars     = diako_get_about_pillars();
 	$highlights  = diako_get_about_highlights();
@@ -328,13 +359,13 @@ function diako_render_about_page(): void {
 				</div>
 				<div class="diako-about-page__hero-content">
 					<p class="diako-about-page__eyebrow"><?php esc_html_e( 'داستان ما', 'diako' ); ?></p>
-					<h1 class="diako-page-title"><?php esc_html_e( 'درباره انزی', 'diako' ); ?></h1>
+					<h1 class="diako-page-title"><?php echo esc_html( sprintf( __( 'درباره %s', 'diako' ), $shop_name ) ); ?></h1>
 					<p class="diako-page-desc diako-about-page__intro">
 						<?php
 						echo esc_html(
 							sprintf(
 								/* translators: %s: shop name */
-								__( '%s فروشگاه تخصصی مراقبت پوست، آرایش و زیبایی است که با تمرکز بر اصالت کالا و مشاوره واقعی، تجربه خرید آنلاین مطمئن را برای شما فراهم می‌کند.', 'diako' ),
+								__( '%s فروشگاه آنلاین محصولات متنوع است که با تمرکز بر اصالت کالا و پشتیبانی واقعی، تجربه خرید مطمئن را برای شما فراهم می‌کند.', 'diako' ),
 								$shop_name
 							)
 						);
@@ -387,14 +418,14 @@ function diako_render_about_page(): void {
 							echo esc_html(
 								sprintf(
 									/* translators: %s: shop name */
-									__( '«%s» با عشق به مراقبت پوست و زیبایی شکل گرفت. از همان روز اول، هدف ما فقط فروش محصول نبود؛ می‌خواستیم فضایی بسازیم که در آن بتوانید با خیال راحت خرید کنید، سوال بپرسید و به پیشنهادهای واقعی برای نوع پوست خود تکیه کنید.', 'diako' ),
+									__( '«%s» با هدف ساده‌سازی خرید آنلاین شکل گرفت. از همان روز اول، می‌خواستیم فضایی بسازیم که در آن بتوانید با خیال راحت خرید کنید، سوال بپرسید و به پشتیبانی واقعی تکیه کنید.', 'diako' ),
 									$shop_name
 								)
 							);
 							?>
 						</p>
 						<p>
-							<?php esc_html_e( 'امروز از طریق فروشگاه آنلاین، محصولات متنوع مراقبت پوست، آرایش و ابزار زیبایی را با ضمانت اصالت در اختیار شما قرار می‌دهیم. تیم ما روتین‌های پوستی را می‌شناسد، برندها را دنبال می‌کند و در هر مرحله از خرید — از انتخاب تا تحویل — همراهتان است.', 'diako' ); ?>
+							<?php esc_html_e( 'امروز از طریق فروشگاه آنلاین، طیف گسترده‌ای از محصولات را با ضمانت اصالت در اختیار شما قرار می‌دهیم. تیم ما در هر مرحله از خرید — از انتخاب تا تحویل — همراهتان است.', 'diako' ); ?>
 						</p>
 					</div>
 					<ul class="diako-about-story__points">
@@ -408,7 +439,7 @@ function diako_render_about_page(): void {
 						</li>
 						<li>
 							<span class="diako-about-story__point-icon" aria-hidden="true"><?php echo diako_lucide_icon_svg( 'check-circle', 'h-4 w-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-							<span><?php esc_html_e( 'مجله تخصصی برای راهنمای روتین پوست و زیبایی', 'diako' ); ?></span>
+							<span><?php echo esc_html( sprintf( __( 'مجله %s برای راهنمای خرید و مقالات', 'diako' ), diako_get_brand_name() ) ); ?></span>
 						</li>
 					</ul>
 				</div>
@@ -451,8 +482,8 @@ function diako_render_about_page(): void {
 
 		<section class="diako-about-page__highlights">
 			<div class="diako-about-page__section-head">
-				<h2 class="diako-about-section-title"><?php esc_html_e( 'چرا انزی؟', 'diako' ); ?></h2>
-				<p class="diako-about-section-desc"><?php esc_html_e( 'دلایلی که مشتریان بارها به ما اعتماد می‌کنند و خرید بعدی‌شان را هم از انزی انجام می‌دهند.', 'diako' ); ?></p>
+				<h2 class="diako-about-section-title"><?php echo esc_html( sprintf( __( 'چرا %s؟', 'diako' ), $shop_name ) ); ?></h2>
+				<p class="diako-about-section-desc"><?php echo esc_html( sprintf( __( 'دلایلی که مشتریان بارها به ما اعتماد می‌کنند و خرید بعدی‌شان را هم از %s انجام می‌دهند.', 'diako' ), $shop_name ) ); ?></p>
 			</div>
 			<div class="diako-about-highlights-grid">
 				<?php foreach ( $highlights as $item ) : ?>
@@ -470,7 +501,7 @@ function diako_render_about_page(): void {
 		<section class="diako-about-page__categories" aria-label="<?php esc_attr_e( 'دسته‌بندی محصولات', 'diako' ); ?>">
 			<div class="diako-about-page__section-head">
 				<h2 class="diako-about-section-title"><?php esc_html_e( 'چه چیزهایی پیدا می‌کنید؟', 'diako' ); ?></h2>
-				<p class="diako-about-section-desc"><?php esc_html_e( 'از مراقبت پوست تا آرایش و ابزار زیبایی — همه در یک فروشگاه.', 'diako' ); ?></p>
+				<p class="diako-about-section-desc"><?php esc_html_e( 'محصولات متنوع در یک فروشگاه آنلاین.', 'diako' ); ?></p>
 			</div>
 			<div class="diako-about-categories-grid">
 				<?php foreach ( $categories as $category ) : ?>
@@ -489,10 +520,10 @@ function diako_render_about_page(): void {
 			</div>
 		</section>
 
-		<section class="diako-about-page__timeline" aria-label="<?php esc_attr_e( 'مسیر رشد انزی', 'diako' ); ?>">
+		<section class="diako-about-page__timeline" aria-label="<?php echo esc_attr( sprintf( __( 'مسیر رشد %s', 'diako' ), $shop_name ) ); ?>">
 			<div class="diako-about-page__section-head">
 				<h2 class="diako-about-section-title"><?php esc_html_e( 'مسیر ما', 'diako' ); ?></h2>
-				<p class="diako-about-section-desc"><?php esc_html_e( 'از یک فروشگاه تخصصی زیبایی تا تجربه‌ای کامل خرید آنلاین مراقبت پوست.', 'diako' ); ?></p>
+				<p class="diako-about-section-desc"><?php esc_html_e( 'از یک فروشگاه کوچک تا تجربه‌ای کامل خرید آنلاین.', 'diako' ); ?></p>
 			</div>
 			<ol class="diako-about-timeline">
 				<?php foreach ( $timeline as $item ) : ?>
@@ -511,8 +542,8 @@ function diako_render_about_page(): void {
 		<section class="diako-about-page__cta">
 			<div class="diako-about-cta">
 				<div class="diako-about-cta__content">
-					<h2 class="diako-about-cta__title"><?php esc_html_e( 'آماده ساخت روتین زیبایی خود هستید؟', 'diako' ); ?></h2>
-					<p class="diako-about-cta__desc"><?php esc_html_e( 'همین حالا فروشگاه را ببینید، از مجله انزی مطالعه کنید یا با تیم ما در تماس باشید.', 'diako' ); ?></p>
+					<h2 class="diako-about-cta__title"><?php echo esc_html( sprintf( __( 'آماده خرید از %s هستید؟', 'diako' ), $shop_name ) ); ?></h2>
+					<p class="diako-about-cta__desc"><?php echo esc_html( sprintf( __( 'همین حالا فروشگاه را ببینید، از مجله %s مطالعه کنید یا با تیم ما در تماس باشید.', 'diako' ), $shop_name ) ); ?></p>
 				</div>
 				<div class="diako-about-cta__actions">
 					<?php
@@ -528,7 +559,7 @@ function diako_render_about_page(): void {
 					diako_button(
 						array(
 							'href'       => $mag_url,
-							'label'      => __( 'مجله انزی', 'diako' ),
+							'label'      => sprintf( __( 'مجله %s', 'diako' ), $shop_name ),
 							'variant'    => 'outline',
 							'icon'       => 'book-open',
 							'icon_class' => 'h-4 w-4',

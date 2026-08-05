@@ -148,7 +148,11 @@ function diako_ensure_mag_page() {
 
 	$page_id = wp_insert_post(
 		array(
-			'post_title'   => __( 'مجله انزی', 'diako' ),
+			'post_title'   => sprintf(
+				/* translators: %s: store brand name */
+				__( 'مجله %s', 'diako' ),
+				diako_get_brand_name()
+			),
 			'post_name'    => 'mag',
 			'post_status'  => 'publish',
 			'post_type'    => 'page',
@@ -398,7 +402,11 @@ function diako_get_blog_archive_title() {
 			return get_the_title( $blog_page_id );
 		}
 
-		return __( 'مجله انزی', 'diako' );
+		return sprintf(
+			/* translators: %s: store brand name */
+			__( 'مجله %s', 'diako' ),
+			diako_get_brand_name()
+		);
 	}
 
 	if ( is_category() ) {
@@ -421,7 +429,11 @@ function diako_get_blog_archive_title() {
 		return wp_strip_all_tags( get_the_archive_title() );
 	}
 
-	return __( 'مجله انزی', 'diako' );
+	return sprintf(
+		/* translators: %s: store brand name */
+		__( 'مجله %s', 'diako' ),
+		diako_get_brand_name()
+	);
 }
 
 /**
@@ -441,7 +453,13 @@ function diako_get_blog_archive_description() {
 			}
 		}
 
-		return '<p>' . esc_html__( 'راهنما و مقالات مراقبت پوست، آرایش و زیبایی', 'diako' ) . '</p>';
+		return '<p>' . esc_html(
+			sprintf(
+				/* translators: %s: store brand name */
+				__( 'راهنماها، نکات خرید و مقالات %s', 'diako' ),
+				diako_get_brand_name()
+			)
+		) . '</p>';
 	}
 
 	if ( is_category() || is_tag() ) {

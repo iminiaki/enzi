@@ -83,7 +83,7 @@ $mag_url  = function_exists( 'diako_get_mag_url' ) ? diako_get_mag_url() : home_
 			<nav class="diako-error-page__links" aria-label="<?php esc_attr_e( 'مسیرهای پیشنهادی', 'diako' ); ?>">
 				<a class="diako-error-page__link" href="<?php echo esc_url( $mag_url ); ?>">
 					<?php echo diako_lucide_icon_svg( 'book-open', 'h-4 w-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					<span><?php esc_html_e( 'مجله انزی', 'diako' ); ?></span>
+					<span><?php echo esc_html( sprintf( __( 'مجله %s', 'diako' ), diako_get_brand_name() ) ); ?></span>
 				</a>
 				<?php if ( function_exists( 'diako_get_discount_page_id' ) && diako_get_discount_page_id() ) : ?>
 					<a class="diako-error-page__link" href="<?php echo esc_url( get_permalink( diako_get_discount_page_id() ) ); ?>">

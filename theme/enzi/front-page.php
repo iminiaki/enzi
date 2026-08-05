@@ -3,7 +3,7 @@
 /**
  * Front page template.
  *
- * @package Lastify
+ * @package Enzi
  */
 
 get_header();

@@ -43,4 +43,4 @@ if ( is_readable( '/scripts/bootstrap-beauty-categories.php' ) ) {
 
 flush_rewrite_rules();
 
-WP_CLI::success( 'Enzi theme activated on a clean cosmetics site (no imported content).' );
+WP_CLI::success( 'Enzi theme activated on a clean shop site (no imported content).' );

@@ -3,7 +3,7 @@
 /**
  * Homepage hero carousel.
  *
- * @package Lastify
+ * @package Enzi
  */
 
 $slides   = diako_get_hero_slides();

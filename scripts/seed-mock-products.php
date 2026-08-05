@@ -1,6 +1,6 @@
 <?php
 /**
- * Seed 4 mock Enzi beauty products with images.
+ * Seed 4 mock Enzi shop products with images.
  *
  * Usage: wp eval-file /scripts/seed-mock-products.php
  */
@@ -80,52 +80,52 @@ function enzi_seed_import_attachment( $file_path, $title ) {
 
 $products = array(
 	array(
-		'title'       => 'سرم ویتامین C روشن‌کننده',
-		'slug'        => 'vitamin-c-brightening-serum',
+		'title'       => 'ماگ سرامیکی انزی‌شاپ',
+		'slug'        => 'enzi-ceramic-mug',
 		'price'       => '890000',
 		'regular'     => '1090000',
-		'sku'         => 'ENZI-SK-001',
+		'sku'         => 'ENZI-001',
 		'stock'       => 24,
-		'category'    => 'skincare',
+		'category'    => '',
 		'image'       => 'mock-product-serum.png',
-		'description' => 'سرم روشن‌کننده با ویتامین C برای یکنواخت‌کردن رنگ پوست، افزایش درخشندگی و بهبود بافت. مناسب استفاده روزانه در روتین مراقبت پوست.',
-		'short'       => 'روشن‌کننده، آنتی‌اکسیدان، مناسب انواع پوست',
+		'description' => 'ماگ سرامیکی با طراحی مینیمال، مناسب استفاده روزانه در خانه یا محل کار.',
+		'short'       => 'سرامیک باکیفیت، طراحی ساده',
 	),
 	array(
-		'title'       => 'رژلب مات مخملی',
-		'slug'        => 'velvet-matte-lipstick',
+		'title'       => 'دفتر یادداشت A5',
+		'slug'        => 'enzi-a5-notebook',
 		'price'       => '450000',
 		'regular'     => '520000',
-		'sku'         => 'ENZI-MK-001',
+		'sku'         => 'ENZI-002',
 		'stock'       => 40,
-		'category'    => 'makeup',
+		'category'    => '',
 		'image'       => 'mock-product-lipstick.png',
-		'description' => 'رژلب مات با بافت مخملی و ماندگاری بالا. پوشش یکنواخت بدون خشکی لب، مناسب استفاده روزانه و مجلسی.',
-		'short'       => 'مات مخملی، ماندگار، رنگ غنی',
+		'description' => 'دفتر یادداشت A5 با جلد سخت و کاغذ مناسب نوشتن روزانه.',
+		'short'       => 'جلد سخت، کاغذ مرغوب',
 	),
 	array(
-		'title'       => 'روغن آرگان مراقبت مو',
-		'slug'        => 'argan-hair-care-oil',
+		'title'       => 'قمقمه استیل ضدزنگ',
+		'slug'        => 'enzi-steel-bottle',
 		'price'       => '620000',
 		'regular'     => '750000',
-		'sku'         => 'ENZI-HC-001',
+		'sku'         => 'ENZI-003',
 		'stock'       => 18,
-		'category'    => 'hair-care',
+		'category'    => '',
 		'image'       => 'mock-product-hair-oil.png',
-		'description' => 'روغن آرگان مغذی برای ترمیم موهای خشک و آسیب‌دیده، افزایش نرمی و درخشش بدون سنگینی.',
-		'short'       => 'تغذیه و ترمیم، درخشش طبیعی',
+		'description' => 'قمقمه استیل با عایق حرارتی برای نگهداری نوشیدنی سرد یا گرم.',
+		'short'       => 'استیل ضدزنگ، عایق حرارتی',
 	),
 	array(
-		'title'       => 'ست براش آرایشی حرفه‌ای',
-		'slug'        => 'pro-makeup-brush-set',
+		'title'       => 'ست خودکار و مداد',
+		'slug'        => 'enzi-pen-pencil-set',
 		'price'       => '780000',
 		'regular'     => '890000',
-		'sku'         => 'ENZI-BT-001',
+		'sku'         => 'ENZI-004',
 		'stock'       => 15,
-		'category'    => 'beauty-tools',
+		'category'    => '',
 		'image'       => 'mock-product-brushes.png',
-		'description' => 'ست براش حرفه‌ای برای پخش یکنواخت کرم پودر، پودر، سایه و گونه‌نما. الیاف نرم مناسب پوست حساس.',
-		'short'       => 'الیاف نرم، کاربرد چندمنظوره',
+		'description' => 'ست خودکار و مداد با کیفیت نوشتاری مناسب برای استفاده روزمره.',
+		'short'       => 'نوشتار روان، طراحی ارگونومیک',
 	),
 );
 
@@ -156,7 +156,7 @@ foreach ( $products as $item ) {
 	$product->set_stock_status( 'instock' );
 	$product->set_sold_individually( false );
 
-	$term = get_term_by( 'slug', $item['category'], 'product_cat' );
+	$term = ! empty( $item['category'] ) ? get_term_by( 'slug', $item['category'], 'product_cat' ) : false;
 
 	if ( $term instanceof WP_Term ) {
 		$product->set_category_ids( array( (int) $term->term_id ) );

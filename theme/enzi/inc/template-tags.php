@@ -55,8 +55,8 @@ function diako_home_promo_banner( array $args = array() ): void {
 		'image_url' => '',
 		'filename'  => '',
 		'fallback'  => '',
-		'url'       => '/product-category/skincare/',
-		'alt'       => __( 'مراقبت پوست و زیبایی', 'diako' ),
+		'url'       => '/shop/',
+		'alt'       => diako_get_brand_name(),
 	);
 
 	$args = wp_parse_args( $args, $defaults );

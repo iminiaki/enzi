@@ -1,10 +1,10 @@
 <?php
 /**
- * Lastify child theme — site-specific customizations.
+ * Enzi child theme — site-specific customizations.
  *
- * Parent theme (enzi / Lastify) loads first; add overrides here only.
+ * Parent theme (enzi) loads first; add overrides here only.
  *
- * @package Lastify_Child
+ * @package Enzi_Child
  */
 
 defined( 'ABSPATH' ) || exit;

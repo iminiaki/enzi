@@ -2,7 +2,7 @@
 /**
  * Theme branding (logos, colors, favicon).
  *
- * @package Lastify
+ * @package Enzi
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -731,7 +731,7 @@ function diako_render_branding_general_fields( array $settings ) {
 			<th scope="row"><label for="lastify_brand_name"><?php esc_html_e( 'نام برند', 'diako' ); ?></label></th>
 			<td>
 				<input id="lastify_brand_name" class="regular-text" type="text" name="lastify_settings[brand_name]" value="<?php echo esc_attr( $settings['brand_name'] ); ?>">
-				<p class="description"><?php esc_html_e( 'نام فروشگاه در متن‌های قالب (مثلاً انزی).', 'diako' ); ?></p>
+				<p class="description"><?php esc_html_e( 'نام فروشگاه در متن‌های قالب (مثلاً انزی‌شاپ).', 'diako' ); ?></p>
 			</td>
 		</tr>
 		<?php diako_render_settings_field( 'lastify_settings[branding][logo_alt]', __( 'متن جایگزین لوگو', 'diako' ), $branding['logo_alt'] ); ?>

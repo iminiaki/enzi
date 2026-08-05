@@ -15,7 +15,11 @@ function diako_get_footer_quick_access_links() {
 	$links = array();
 
 	if ( function_exists( 'diako_get_mag_url' ) ) {
-		$links[ diako_get_mag_url() ] = __( 'مجله انزی', 'diako' );
+		$links[ diako_get_mag_url() ] = sprintf(
+			/* translators: %s: store brand name */
+			__( 'مجله %s', 'diako' ),
+			diako_get_brand_name()
+		);
 	}
 
 	if ( function_exists( 'diako_get_track_order_url' ) ) {
@@ -70,11 +74,9 @@ function diako_create_footer_menu_item( $url, $title, $id ) {
 
 function diako_fallback_menu() {
 	$items = array(
-		home_url( '/' )                            => __( 'خانه', 'diako' ),
-		home_url( '/shop/' )                       => __( 'فروشگاه', 'diako' ),
-		home_url( '/product-category/skincare/' )  => __( 'مراقبت پوست', 'diako' ),
-		home_url( '/product-category/makeup/' )    => __( 'آرایش', 'diako' ),
-		home_url( '/discount/' )                   => __( 'تخفیف‌ها', 'diako' ),
+		home_url( '/' )      => __( 'خانه', 'diako' ),
+		home_url( '/shop/' ) => __( 'فروشگاه', 'diako' ),
+		home_url( '/discount/' ) => __( 'تخفیف‌ها', 'diako' ),
 	);
 
 	if ( function_exists( 'diako_get_track_order_url' ) ) {
@@ -94,11 +96,9 @@ function diako_fallback_menu() {
 
 function diako_footer_fallback_menu() {
 	$items = array(
-		home_url( '/' )                            => __( 'خانه', 'diako' ),
-		home_url( '/shop/' )                       => __( 'فروشگاه', 'diako' ),
-		home_url( '/product-category/skincare/' )  => __( 'مراقبت پوست', 'diako' ),
-		home_url( '/product-category/makeup/' )    => __( 'آرایش', 'diako' ),
-		home_url( '/discount/' )                   => __( 'تخفیف‌ها', 'diako' ),
+		home_url( '/' )      => __( 'خانه', 'diako' ),
+		home_url( '/shop/' ) => __( 'فروشگاه', 'diako' ),
+		home_url( '/discount/' ) => __( 'تخفیف‌ها', 'diako' ),
 	);
 
 	$items = array_merge( $items, diako_get_footer_quick_access_links() );

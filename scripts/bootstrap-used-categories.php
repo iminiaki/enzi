@@ -1,6 +1,6 @@
 <?php
 /**
- * LEGACY (gaming) — disabled for Enzi cosmetics shop.
+ * LEGACY (gaming) — disabled for Enzi shop.
  * Use bootstrap-beauty-categories.php instead.
  *
  * Create used product categories and sync them into theme menus.

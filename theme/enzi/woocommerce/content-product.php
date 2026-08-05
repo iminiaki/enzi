@@ -21,7 +21,7 @@ $hover_image_id  = ! empty( $gallery_ids ) ? (int) $gallery_ids[0] : 0;
 $is_out_of_stock = diako_product_card_is_out_of_stock( $product );
 $card_classes    = diako_card_classes(
 	diako_cn(
-		'diako-product-card group flex h-full flex-col overflow-hidden rounded-3xl p-3 shadow-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-lg',
+		'diako-product-card group flex h-full flex-col overflow-hidden rounded-3xl p-3 shadow-sm',
 		$is_out_of_stock ? 'diako-product-card--out-of-stock' : ''
 	)
 );

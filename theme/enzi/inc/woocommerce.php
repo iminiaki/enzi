@@ -303,7 +303,11 @@ function diako_ensure_coming_soon_category() {
 		'product_cat',
 		array(
 			'slug'        => 'coming-soon',
-			'description' => __( 'محصولات جدید زیبایی به زودی در فروشگاه انزی.', 'diako' ),
+			'description' => sprintf(
+				/* translators: %s: store brand name */
+				__( 'محصولات جدید به زودی در %s.', 'diako' ),
+				diako_get_brand_name()
+			),
 		)
 	);
 
@@ -735,18 +739,33 @@ function diako_get_shop_archive_description() {
 		$term = get_queried_object();
 
 		if ( $term instanceof WP_Term ) {
+			$brand     = diako_get_brand_name();
 			$fallbacks = array(
-				'skincare'     => __( 'جدیدترین محصولات مراقبت پوست را از انزی بخواهید.', 'diako' ),
-				'makeup'       => __( 'محصولات آرایشی اورجینال با تضمین اصالت.', 'diako' ),
-				'beauty-tools' => __( 'ابزار حرفه‌ای مراقبت پوست و آرایش.', 'diako' ),
-				'hair-care'    => __( 'مراقبت مو و محصولات تخصصی مو.', 'diako' ),
-				'body-care'    => __( 'مراقبت بدن برای نرمی و طراوت پوست.', 'diako' ),
-				'coming-soon'  => __( 'محصولات جدید زیبایی به زودی در فروشگاه انزی.', 'diako' ),
+				'coming-soon' => sprintf(
+					/* translators: %s: store brand name */
+					__( 'محصولات جدید به زودی در %s.', 'diako' ),
+					$brand
+				),
 			);
 
 			if ( isset( $fallbacks[ $term->slug ] ) ) {
 				return '<p>' . esc_html( $fallbacks[ $term->slug ] ) . '</p>';
 			}
+
+			$description = term_description( $term, 'product_cat' );
+
+			if ( $description ) {
+				return wp_kses_post( wpautop( wp_trim_words( wp_strip_all_tags( $description ), 30, '…' ) ) );
+			}
+
+			return '<p>' . esc_html(
+				sprintf(
+					/* translators: 1: category name, 2: store brand name */
+					__( 'خرید %1$s از %2$s.', 'diako' ),
+					$term->name,
+					$brand
+				)
+			) . '</p>';
 		}
 
 		return '';
@@ -759,7 +778,13 @@ function diako_get_shop_archive_description() {
 	}
 
 	if ( ! diako_is_product_search() && is_shop() ) {
-		return '<p>' . esc_html__( 'جدیدترین محصولات مراقبت پوست، آرایش و زیبایی را از فروشگاه انزی بخواهید.', 'diako' ) . '</p>';
+		return '<p>' . esc_html(
+			sprintf(
+				/* translators: %s: store brand name */
+				__( 'جدیدترین محصولات را از %s بخواهید.', 'diako' ),
+				diako_get_brand_name()
+			)
+		) . '</p>';
 	}
 
 	if ( diako_is_discount_page() ) {

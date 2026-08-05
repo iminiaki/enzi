@@ -3,7 +3,7 @@
 /**
  * Homepage category banners.
  *
- * @package Lastify
+ * @package Enzi
  */
 
 $settings = diako_get_theme_settings();
