@@ -2263,6 +2263,43 @@ html.dark {
     @apply min-w-0 flex-1 break-words [overflow-wrap:anywhere];
   }
 
+  .diako-shop-filters .diako-shop-filter__term-main {
+    @apply flex min-w-0 flex-1 items-center gap-2;
+  }
+
+  .diako-shop-filters .diako-shop-filter__term-swatch {
+    @apply inline-flex h-5 w-5 shrink-0 rounded-full border border-black/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)];
+  }
+
+  .diako-shop-filters .diako-shop-filter__term-swatch.is-light {
+    @apply border-black/20;
+  }
+
+  .diako-shop-filters .diako-shop-filter__term--color-only {
+    @apply items-center justify-between;
+  }
+
+  .diako-shop-filters .diako-shop-filter__term--color-only .diako-shop-filter__term-main {
+    @apply flex-none;
+  }
+
+  .diako-shop-filters .diako-shop-filter--color-color .woocommerce-widget-layered-nav-list,
+  .diako-shop-filters .diako-shop-filter--color-color .widget_layered_nav ul {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .diako-shop-filters .diako-shop-filter--color-color .diako-shop-filter__term--color-only {
+    @apply w-auto shrink-0 rounded-full border-border/80 px-2 py-2 hover:border-primary/30;
+  }
+
+  .diako-shop-filters .diako-shop-filter--color-color .diako-shop-filter__term--color-only .count {
+    @apply hidden;
+  }
+
+  .diako-shop-filters .diako-shop-filter--color-both .diako-shop-filter__term-swatch {
+    @apply h-4 w-4;
+  }
+
   .diako-shop-filter__link > span,
   .diako-shop-sidebar__link > span:not(.diako-shop-sidebar__icon) {
     @apply min-w-0 break-words [overflow-wrap:anywhere];

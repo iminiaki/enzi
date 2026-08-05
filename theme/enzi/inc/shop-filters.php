@@ -701,6 +701,16 @@ function diako_render_shop_filters() {
 			continue;
 		}
 
+		$attribute_wrapper = $wrapper;
+
+		if ( function_exists( 'diako_is_color_attribute' ) && diako_is_color_attribute( $attribute_slug ) ) {
+			$attribute_wrapper['before_widget'] = str_replace(
+				'diako-shop-filter',
+				'diako-shop-filter diako-shop-filter--color diako-shop-filter--color-' . sanitize_html_class( diako_get_color_filter_display_mode() ),
+				$wrapper['before_widget']
+			);
+		}
+
 		ob_start();
 		the_widget(
 			'WC_Widget_Layered_Nav',
@@ -710,7 +720,7 @@ function diako_render_shop_filters() {
 				'display_type' => 'list',
 				'query_type'   => 'or',
 			),
-			$wrapper
+			$attribute_wrapper
 		);
 		$attribute_html = ob_get_clean();
 
@@ -758,6 +768,188 @@ function diako_enqueue_shop_filter_assets() {
 add_action( 'wp_enqueue_scripts', 'diako_enqueue_shop_filter_assets', 20 );
 
 /**
+ * Default shop archive settings.
+ *
+ * @return array<string, string>
+ */
+function diako_get_default_shop_settings() {
+	return array(
+		'color_filter_display' => 'both',
+	);
+}
+
+/**
+ * Shop settings merged with defaults.
+ *
+ * @return array<string, string>
+ */
+function diako_get_shop_settings() {
+	$settings = diako_get_theme_settings();
+	$defaults = diako_get_default_shop_settings();
+	$shop     = isset( $settings['shop'] ) && is_array( $settings['shop'] ) ? $settings['shop'] : array();
+
+	return wp_parse_args( $shop, $defaults );
+}
+
+/**
+ * How color attribute terms render in the shop sidebar filter.
+ *
+ * @return string color|name|both
+ */
+function diako_get_color_filter_display_mode() {
+	$mode = sanitize_key( (string) ( diako_get_shop_settings()['color_filter_display'] ?? 'both' ) );
+
+	if ( ! in_array( $mode, array( 'color', 'name', 'both' ), true ) ) {
+		return 'both';
+	}
+
+	return $mode;
+}
+
+/**
+ * Sanitize shop settings from the theme settings form.
+ *
+ * @param array<string, mixed> $input Raw input.
+ * @return array<string, string>
+ */
+function diako_sanitize_shop_settings( array $input ) {
+	$defaults = diako_get_default_shop_settings();
+	$mode     = sanitize_key( (string) ( $input['color_filter_display'] ?? $defaults['color_filter_display'] ) );
+
+	if ( ! in_array( $mode, array( 'color', 'name', 'both' ), true ) ) {
+		$mode = $defaults['color_filter_display'];
+	}
+
+	return array(
+		'color_filter_display' => $mode,
+	);
+}
+
+/**
+ * Render shop settings on the general theme settings tab.
+ *
+ * @param array<string, mixed> $settings Theme settings.
+ * @return void
+ */
+function diako_render_shop_general_fields( array $settings ) {
+	$shop = wp_parse_args(
+		isset( $settings['shop'] ) && is_array( $settings['shop'] ) ? $settings['shop'] : array(),
+		diako_get_default_shop_settings()
+	);
+	$current = diako_get_color_filter_display_mode();
+	?>
+	<h2><?php esc_html_e( 'فیلترهای فروشگاه', 'diako' ); ?></h2>
+	<table class="form-table" role="presentation">
+		<tr>
+			<th scope="row"><?php esc_html_e( 'نمایش فیلتر رنگ', 'diako' ); ?></th>
+			<td>
+				<fieldset>
+					<legend class="screen-reader-text"><?php esc_html_e( 'نمایش فیلتر رنگ', 'diako' ); ?></legend>
+					<label>
+						<input
+							type="radio"
+							name="lastify_settings[shop][color_filter_display]"
+							value="both"
+							<?php checked( $current, 'both' ); ?>
+						/>
+						<?php esc_html_e( 'رنگ و نام', 'diako' ); ?>
+					</label>
+					<br />
+					<label>
+						<input
+							type="radio"
+							name="lastify_settings[shop][color_filter_display]"
+							value="color"
+							<?php checked( $current, 'color' ); ?>
+						/>
+						<?php esc_html_e( 'فقط دایره رنگ', 'diako' ); ?>
+					</label>
+					<br />
+					<label>
+						<input
+							type="radio"
+							name="lastify_settings[shop][color_filter_display]"
+							value="name"
+							<?php checked( $current, 'name' ); ?>
+						/>
+						<?php esc_html_e( 'فقط نام رنگ', 'diako' ); ?>
+					</label>
+					<p class="description"><?php esc_html_e( 'نحوه نمایش گزینه‌های ویژگی رنگ (pa_color) در سایدبار فروشگاه.', 'diako' ); ?></p>
+				</fieldset>
+			</td>
+		</tr>
+	</table>
+	<?php
+}
+
+/**
+ * Build layered nav markup for a color attribute term.
+ *
+ * @param WP_Term $term  Attribute term.
+ * @param string  $link  Filter URL.
+ * @param string  $count_html Product count markup.
+ * @return string
+ */
+function diako_render_color_filter_term_html( WP_Term $term, string $link, string $count_html ): string {
+	$mode       = diako_get_color_filter_display_mode();
+	$color      = function_exists( 'diako_get_attribute_color' )
+		? diako_get_attribute_color( $term, $term->taxonomy )
+		: '';
+	$show_swatch = in_array( $mode, array( 'color', 'both' ), true ) && '' !== $color;
+	$show_name   = 'name' === $mode || 'both' === $mode || ! $show_swatch;
+
+	$term_classes = array( 'diako-shop-filter__term' );
+
+	if ( $show_swatch ) {
+		$term_classes[] = 'diako-shop-filter__term--color';
+	}
+
+	if ( 'color' === $mode && $show_swatch ) {
+		$term_classes[] = 'diako-shop-filter__term--color-only';
+	}
+
+	$label_html = '';
+
+	if ( $show_name ) {
+		$label_html = sprintf(
+			'<span class="diako-shop-filter__term-label">%s</span>',
+			esc_html( $term->name )
+		);
+	} else {
+		$label_html = sprintf(
+			'<span class="screen-reader-text">%s</span>',
+			esc_html( $term->name )
+		);
+	}
+
+	$swatch_html = '';
+
+	if ( $show_swatch ) {
+		$is_light = function_exists( 'diako_is_light_attribute_color' ) && diako_is_light_attribute_color( $color );
+
+		$swatch_html = sprintf(
+			'<span class="diako-shop-filter__term-swatch%s" style="background-color:%s" aria-hidden="true"></span>',
+			$is_light ? ' is-light' : '',
+			esc_attr( $color )
+		);
+	}
+
+	$content = sprintf(
+		'<span class="diako-shop-filter__term-main">%1$s%2$s</span>%3$s',
+		$swatch_html,
+		$label_html,
+		$count_html
+	);
+
+	return sprintf(
+		'<a class="%1$s" rel="nofollow" href="%2$s">%3$s</a>',
+		esc_attr( implode( ' ', $term_classes ) ),
+		esc_url( $link ),
+		$content
+	);
+}
+
+/**
  * Render layered nav term as a single row link (label + count inside anchor).
  *
  * @param string   $term_html Default HTML.
@@ -777,6 +969,10 @@ function diako_filter_layered_nav_term_html( $term_html, $term, $link, $count ) 
 		$count,
 		$term
 	);
+
+	if ( function_exists( 'diako_is_color_attribute' ) && diako_is_color_attribute( $term->taxonomy ) ) {
+		return diako_render_color_filter_term_html( $term, $link, $count_html );
+	}
 
 	return sprintf(
 		'<a class="diako-shop-filter__term" rel="nofollow" href="%1$s"><span class="diako-shop-filter__term-label">%2$s</span>%3$s</a>',

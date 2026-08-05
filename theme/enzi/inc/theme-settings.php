@@ -100,6 +100,7 @@ function diako_get_default_theme_settings() {
 
 	return array(
 		'brand_name' => $brand,
+		'shop'       => diako_get_default_shop_settings(),
 		'security'   => diako_get_default_security_settings(),
 		'branding'   => diako_get_default_branding_settings(),
 		'hero'       => array(
@@ -582,6 +583,7 @@ function diako_merge_tab_settings( array $existing, array $submitted, $active_ta
 		case 'general':
 			$existing['brand_name']       = $submitted['brand_name'];
 			$existing['branding']         = $submitted['branding'];
+			$existing['shop']             = $submitted['shop'];
 			$existing['coming_soon_page'] = $submitted['coming_soon_page'];
 			break;
 		case 'hero':
@@ -689,6 +691,9 @@ function diako_sanitize_theme_settings( array $input ) {
 	);
 	$output['branding']   = diako_sanitize_branding_settings(
 		isset( $input['branding'] ) && is_array( $input['branding'] ) ? $input['branding'] : array()
+	);
+	$output['shop']       = diako_sanitize_shop_settings(
+		isset( $input['shop'] ) && is_array( $input['shop'] ) ? $input['shop'] : array()
 	);
 
 	$coming_soon_page = $input['coming_soon_page'] ?? array();
@@ -921,6 +926,7 @@ function diako_render_theme_settings_page() {
 
 			<?php if ( 'general' === $active_tab ) : ?>
 				<?php diako_render_branding_general_fields( $settings ); ?>
+				<?php diako_render_shop_general_fields( $settings ); ?>
 				<?php diako_render_security_general_fields( $settings ); ?>
 				<?php diako_render_coming_soon_page_settings_fields( $settings ); ?>
 			<?php endif; ?>
